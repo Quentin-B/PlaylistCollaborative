@@ -54,7 +54,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bass.Net, Version=2.3.1.8, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
+    <Reference Include="Bass.Net, Version=2.4.10.4, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Bass.Net.dll</HintPath>
     </Reference>
@@ -132,7 +132,9 @@
     <Resource Include="Resources\stop.png" />
     <Content Include="Resources\S_ash.mp3" />
     <Resource Include="Resources\bubble.png" />
-    <Content Include="bass.dll" />
+    <Content Include="bass.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Flashlight.mp3" />
     <Content Include="Resources\Hot Hands.mp3" />
     <Content Include="Resources\icon.png">
