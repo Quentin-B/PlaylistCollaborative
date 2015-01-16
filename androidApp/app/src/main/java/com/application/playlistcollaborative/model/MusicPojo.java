@@ -15,8 +15,9 @@ public class MusicPojo {
         this.title = m_title;
         this.artist = m_artist;
         this.genre = m_genre;
-
     }
+
+
 
     public String getId() {
         return id;

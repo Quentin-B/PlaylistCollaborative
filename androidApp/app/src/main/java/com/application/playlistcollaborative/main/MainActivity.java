@@ -42,8 +42,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         socket = SocketSingleton.get(getBaseContext());
+        socket.getMusic();
+        socket.getLastresultobj();
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
+
+        socket.getMusic();
 
         // Defined Array values to show in ListView
         String[] values = new String[] { "Android List View",

@@ -25,10 +25,13 @@ public class SocketSingleton {
 
     private static SocketSingleton instance;
     //private static final String SERVER_ADDRESS = "http://nodejs-ihmdj.rhcloud.com:8000"; // ipconfig => ipv4
-    private static final String SERVER_ADDRESS = "http://134.59.215.194:8080";
+    private static final String SERVER_ADDRESS = "http://nodejs-ihmdj.rhcloud.com:8000";
+    private static final String ANDROID = "android_";
+    private static final String SURFACE = "surface_";
     private SocketIO socket;
     private Context context;
     private JSONArray lastresult;
+    private JSONObject lastresultobj;
 
     public static SocketSingleton get(Context context){
         if(instance == null){
@@ -75,6 +78,13 @@ public class SocketSingleton {
                 public void on(String event, IOAcknowledge ack, Object... args) {
                     if ("echo back".equals(event) && args.length > 0) {
 
+                    }else if((ANDROID + "sendmusic").equals(event) && args.length > 0){
+                        try{
+                            lastresultobj =  new JSONObject((String)args[0]);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
                     }
                 }
 
@@ -98,12 +108,23 @@ public class SocketSingleton {
                 public void onConnect() {
                 }
             });
-            MusicPojo m = new MusicPojo("1", "ok","ok","ok");
 
-            socket.emit("echo", JSONBuilder.MusicToJSON(m));
+
 
         }
         return socket;
 
+    }
+
+    public void getMusic(){
+        socket.emit(ANDROID+"getmusic", "need music");
+    }
+
+    public void setLastresult(JSONArray lastresult) {
+        this.lastresult = lastresult;
+    }
+
+    public JSONObject getLastresultobj() {
+        return lastresultobj;
     }
 }
