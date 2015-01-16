@@ -37,9 +37,6 @@ public class MainActivity extends Activity {
 
         socket = SocketSingleton.get(getBaseContext());
 
-        receiver = new MessageReceiver();
-        IntentFilter filter = new IntentFilter("MSG_RECEIVE");
-        this.registerReceiver(receiver, filter);
 
         tvResponse = (TextView) findViewById(R.id.tvResponse);
 
@@ -83,15 +80,4 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public class MessageReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent){
-
-            //Ici implementer l'action a effectue lors que le client recoit un message du server
-            Log.i("TEST QUENTIN :", intent.getExtras().get("message").toString());
-            tvResponse.setText(intent.getExtras().get("message").toString());
-        }
-    }
-
 }
