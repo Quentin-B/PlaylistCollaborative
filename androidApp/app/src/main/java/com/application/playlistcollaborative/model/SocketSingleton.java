@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.application.playlistcollaborative.Tool.JSONBuilder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,9 +98,9 @@ public class SocketSingleton {
                 public void onConnect() {
                 }
             });
-            MusicPojo m = new MusicPojo();
+            MusicPojo m = new MusicPojo("1", "ok","ok","ok");
 
-            socket.emit("echo", "hello");
+            socket.emit("echo", JSONBuilder.MusicToJSON(m));
 
         }
         return socket;
