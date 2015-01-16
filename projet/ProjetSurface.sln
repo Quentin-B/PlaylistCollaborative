@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetSurface", "ProjetSurface.csproj", "{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketIOClient", "SocketIO\SocketIOClient.csproj", "{352C9BC1-F74C-4741-A09D-7227BC60C057}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugILMerge|Any CPU = DebugILMerge|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseILMerge|Any CPU = ReleaseILMerge|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}.DebugILMerge|Any CPU.ActiveCfg = Debug|Any CPU
+		{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}.DebugILMerge|Any CPU.Build.0 = Debug|Any CPU
+		{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}.ReleaseILMerge|Any CPU.ActiveCfg = Release|Any CPU
+		{955F0DDA-33F0-4F2F-A974-3ABE1A4ED394}.ReleaseILMerge|Any CPU.Build.0 = Release|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.DebugILMerge|Any CPU.ActiveCfg = DebugILMerge|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.DebugILMerge|Any CPU.Build.0 = DebugILMerge|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.Release|Any CPU.Build.0 = Release|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.ReleaseILMerge|Any CPU.ActiveCfg = ReleaseILMerge|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.ReleaseILMerge|Any CPU.Build.0 = ReleaseILMerge|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
