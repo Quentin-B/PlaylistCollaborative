@@ -95,6 +95,7 @@ public class SocketSingleton {
                 public void onConnect() {
                 }
             });
+            MusicPojo m = new MusicPojo();
 
             socket.emit("echo", "hello");
 

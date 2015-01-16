@@ -10,6 +10,8 @@ public class MusicPojo {
     private String artist;
     private String genre;
 
+    public 
+
     public String getId() {
         return id;
     }

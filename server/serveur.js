@@ -7,7 +7,7 @@ var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 var musicdata;
 
 var ANDROID = "android_";
-var TABLE = "surface_"
+var TABLE = "surface_";
 
 // Setup a very simple express application.
 app = express();
