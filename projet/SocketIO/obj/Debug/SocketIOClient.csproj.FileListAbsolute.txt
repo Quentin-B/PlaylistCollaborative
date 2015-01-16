@@ -1,0 +1,16 @@
+C:\Users\AtelierIHM\Desktop\Projets_Demos\Projets\Monopolytech\monopolytech-209060985bdb\Surface\Monopolytech\bin\debug\SocketIOClient.xml
+C:\Users\AtelierIHM\Desktop\Projets_Demos\Projets\Monopolytech\monopolytech-209060985bdb\Surface\Monopolytech\bin\debug\SocketIOClient.dll
+C:\Users\AtelierIHM\Desktop\Projets_Demos\Projets\Monopolytech\monopolytech-209060985bdb\Surface\Monopolytech\bin\debug\SocketIOClient.pdb
+C:\Users\AtelierIHM\Desktop\Projets_Demos\Projets\Monopolytech\monopolytech-209060985bdb\Surface\Monopolytech\bin\debug\SocketIOClient.dll.CodeAnalysisLog.xml
+C:\Users\AtelierIHM\Desktop\Projets_Demos\Projets\Monopolytech\monopolytech-209060985bdb\Surface\Monopolytech\bin\debug\SocketIOClient.dll.lastcodeanalysissucceeded
+C:\Users\AtelierIHM\Desktop\Projets_Demos\Projets\Monopolytech\monopolytech-209060985bdb\Surface\Monopolytech\SocketIO\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\AtelierIHM\Desktop\Projets_Demos\Projets\Monopolytech\monopolytech-209060985bdb\Surface\Monopolytech\SocketIO\obj\Debug\SocketIOClient.dll
+C:\Users\AtelierIHM\Desktop\Projets_Demos\Projets\Monopolytech\monopolytech-209060985bdb\Surface\Monopolytech\SocketIO\obj\Debug\SocketIOClient.pdb
+C:\Users\AtelierIHM\Desktop\2014_2015_TD_Surface\PaintSurface\bin\debug\SocketIOClient.xml
+C:\Users\AtelierIHM\Desktop\2014_2015_TD_Surface\PaintSurface\bin\debug\SocketIOClient.dll
+C:\Users\AtelierIHM\Desktop\2014_2015_TD_Surface\PaintSurface\bin\debug\SocketIOClient.pdb
+C:\Users\AtelierIHM\Desktop\2014_2015_TD_Surface\PaintSurface\bin\debug\SocketIOClient.dll.CodeAnalysisLog.xml
+C:\Users\AtelierIHM\Desktop\2014_2015_TD_Surface\PaintSurface\bin\debug\SocketIOClient.dll.lastcodeanalysissucceeded
+C:\Users\AtelierIHM\Desktop\2014_2015_TD_Surface\PaintSurface\SocketIO\obj\Debug\SocketIOClient.csprojResolveAssemblyReference.cache
+C:\Users\AtelierIHM\Desktop\2014_2015_TD_Surface\PaintSurface\SocketIO\obj\Debug\SocketIOClient.dll
+C:\Users\AtelierIHM\Desktop\2014_2015_TD_Surface\PaintSurface\SocketIO\obj\Debug\SocketIOClient.pdb

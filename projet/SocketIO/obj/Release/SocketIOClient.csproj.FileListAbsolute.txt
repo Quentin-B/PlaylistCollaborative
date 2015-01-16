@@ -1,0 +1,6 @@
+C:\Users\user\Desktop\SI5\EVOLUTION INTERFACES\monopolytech\Surface\Monopolytech\bin\Release\SocketIOClient.XML
+C:\Users\user\Desktop\SI5\EVOLUTION INTERFACES\monopolytech\Surface\Monopolytech\bin\Release\SocketIOClient.dll
+C:\Users\user\Desktop\SI5\EVOLUTION INTERFACES\monopolytech\Surface\Monopolytech\bin\Release\SocketIOClient.pdb
+C:\Users\user\Desktop\SI5\EVOLUTION INTERFACES\monopolytech\Surface\Monopolytech\SocketIO\obj\Release\ResolveAssemblyReference.cache
+C:\Users\user\Desktop\SI5\EVOLUTION INTERFACES\monopolytech\Surface\Monopolytech\SocketIO\obj\Release\SocketIOClient.dll
+C:\Users\user\Desktop\SI5\EVOLUTION INTERFACES\monopolytech\Surface\Monopolytech\SocketIO\obj\Release\SocketIOClient.pdb

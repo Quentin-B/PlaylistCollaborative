@@ -18,3 +18,6 @@ F:\Projet Surface\projet\obj\Debug\ProjetSurface.csproj.GenerateResource.Cache
 F:\Projet Surface\projet\obj\Debug\ProjetSurface.exe
 F:\Projet Surface\projet\obj\Debug\ProjetSurface.pdb
 F:\Projet Surface\projet\obj\Debug\ProjetSurface.csprojResolveAssemblyReference.cache
+F:\Projet Surface\git\PlaylistCollaborative\projet\bin\Debug\ProjetSurface.exe.config
+F:\Projet Surface\git\PlaylistCollaborative\projet\obj\Debug\ProjetSurface.exe
+F:\Projet Surface\git\PlaylistCollaborative\projet\obj\Debug\ProjetSurface.pdb
