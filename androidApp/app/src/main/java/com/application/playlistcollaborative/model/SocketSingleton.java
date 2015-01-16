@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.application.playlistcollaborative.Tool.JSONBuilder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +24,8 @@ import io.socket.SocketIOException;
 public class SocketSingleton {
 
     private static SocketSingleton instance;
-    private static final String SERVER_ADDRESS = "http://nodejs-ihmdj.rhcloud.com:8000"; // ipconfig => ipv4
+    //private static final String SERVER_ADDRESS = "http://nodejs-ihmdj.rhcloud.com:8000"; // ipconfig => ipv4
+    private static final String SERVER_ADDRESS = "http://134.59.215.194:8080";
     private SocketIO socket;
     private Context context;
     private JSONArray lastresult;
@@ -95,9 +98,9 @@ public class SocketSingleton {
                 public void onConnect() {
                 }
             });
-            MusicPojo m = new MusicPojo();
+            MusicPojo m = new MusicPojo("1", "ok","ok","ok");
 
-            socket.emit("echo", "hello");
+            socket.emit("echo", JSONBuilder.MusicToJSON(m));
 
         }
         return socket;

@@ -2,7 +2,7 @@ var express = require('express');
 var http = require('http');
 
 var PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP ;
 
 var musicdata;
 
