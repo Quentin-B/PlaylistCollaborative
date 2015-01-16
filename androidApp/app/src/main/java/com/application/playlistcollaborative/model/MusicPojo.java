@@ -10,7 +10,13 @@ public class MusicPojo {
     private String artist;
     private String genre;
 
-    public 
+    public MusicPojo(String m_id, String m_title, String m_artist, String m_genre){
+        this.id = m_id;
+        this.title = m_title;
+        this.artist = m_artist;
+        this.genre = m_genre;
+
+    }
 
     public String getId() {
         return id;
