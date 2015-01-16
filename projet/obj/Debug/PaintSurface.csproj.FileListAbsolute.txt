@@ -1,1 +1,0 @@
-F:\Projet Surface\projet\bin\Debug\$safeprojectname$.exe.config
