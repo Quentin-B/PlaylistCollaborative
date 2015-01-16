@@ -8,10 +8,16 @@ using System.Text;
 using Newtonsoft.Json;
 using SocketIOClient;
 
+
+
+
 namespace ProjetSurface
 {
     class SocketManager
     {
+        private String ANDROID = "android_";
+        private String SURFACE = "surface_";
+
 
         private string _serverURL;
         public string ServerUrl {
@@ -55,6 +61,15 @@ namespace ProjetSurface
                 {
                     Console.WriteLine("Retour server : " + data.Json.Args[0]);
                     
+                });
+
+                socket.On(SURFACE + "getmusic", (data) =>
+                {
+
+                    Music music = new Music("Id_music", "Title_music", "Artist_music", "Genre_music");
+                    
+                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(music));
+                   
                 });
 
                 socket.On("disconnect", (data) =>

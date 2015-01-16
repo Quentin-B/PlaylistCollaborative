@@ -84,18 +84,6 @@ namespace ProjetSurface
             //player.LoadSong("../../Resources/Flashlight.mp3");
             //player.PlaySong(false);
 
-            playButton.Click += btnPlay_Click;
-            stopButton.Click += btnStop_Click;
-        }
-
-        private void btnPlay_Click(object sender, RoutedEventArgs e)
-        {
-            player.PlaySong(false);
-        }
-
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {
-            player.StopSong();
         }
 
         private void _initializeSocket()
@@ -320,7 +308,7 @@ namespace ProjetSurface
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
-                eventArgs.Handled = true;
+                //eventArgs.Handled = false;
             };
 
             target.PreviewMouseUp += (sender, eventArgs) =>
@@ -334,7 +322,6 @@ namespace ProjetSurface
                 player.StopSong();
                 player.LoadSong(song.Location);
                 player.PlaySong(false);
-                eventArgs.Handled = true;
             };
 
             target.Center = target.ActualCenter;
