@@ -50,13 +50,13 @@ io.sockets.on('connection', function (socket) {
     socket.broadcast.emit(ANDROID + 'music', musicdata);
   });
 
-  socket.on(ANDROID + 'plus',function(data)){
+  socket.on(ANDROID + 'plus',function(data){
     socket.broadcast.emit(TABLE + 'plus',data);
-  }
+  });
 
-  socket.on(ANDROID + 'moins',function(data)){
+  socket.on(ANDROID + 'moins',function(data){
     socket.broadcast.emit(TABLE + 'moins', data)
-  }
+  });
 
 });
 
