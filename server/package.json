@@ -1,0 +1,20 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "node pour ihm",
+  "main": "serveur.js",
+  "dependencies": {
+    "express": "^3.4.7",
+    "socket.io": "^0.9.16"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "sudo node serveur"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://54afd948e0b8cdce350000da@nodejs-ihmdj.rhcloud.com/~/git/nodejs.git/"
+  },
+  "author": "Hugo Martinez",
+  "license": "ISC"
+}
