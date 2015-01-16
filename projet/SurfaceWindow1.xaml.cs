@@ -32,7 +32,7 @@ namespace ProjetSurface
     {
         private Process _serverProcess;
 
-        private int _serverPort = 8080;
+        private String _serverAddress = "http://134.59.215.194:8080";
 
         private SocketManager _sm;
 
@@ -66,6 +66,8 @@ namespace ProjetSurface
             player = new Player();
             _initializeSongs();
 
+            _initializeSocket();
+
             //stopButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.stop));
             //playButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.play));
             
@@ -82,6 +84,11 @@ namespace ProjetSurface
             //player.LoadSong("../../Resources/Flashlight.mp3");
             //player.PlaySong(false);
 
+        }
+
+        private void _initializeSocket()
+        {
+            this._sm = new SocketManager(this._serverAddress);
         }
 
         private void _initializeSongs()

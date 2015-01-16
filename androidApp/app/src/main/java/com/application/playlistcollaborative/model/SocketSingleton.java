@@ -22,7 +22,8 @@ import io.socket.SocketIOException;
 public class SocketSingleton {
 
     private static SocketSingleton instance;
-    private static final String SERVER_ADDRESS = "http://nodejs-ihmdj.rhcloud.com:8000"; // ipconfig => ipv4
+    //private static final String SERVER_ADDRESS = "http://nodejs-ihmdj.rhcloud.com:8000"; // ipconfig => ipv4
+    private static final String SERVER_ADDRESS = "http://134.59.215.194:8080";
     private SocketIO socket;
     private Context context;
     private JSONArray lastresult;
