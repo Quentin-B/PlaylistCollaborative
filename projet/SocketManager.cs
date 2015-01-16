@@ -47,7 +47,14 @@ namespace ProjetSurface
                 {
                     Console.WriteLine("Connected to PaintServer.");
                     socket.Emit("isTable", null);
+                    socket.Emit("echo", "Hello World!");
                     Console.WriteLine("Emit isTable done.");
+                });
+
+                socket.On("echo back", (data) =>
+                {
+                    Console.WriteLine("Retour server : " + data.Json.Args[0]);
+                    
                 });
 
                 socket.On("disconnect", (data) =>
