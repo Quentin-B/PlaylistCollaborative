@@ -32,8 +32,8 @@ namespace ProjetSurface
     {
         private Process _serverProcess;
 
-        private String _serverAddress = "http://134.59.215.194:8080";
-
+        //private String _serverAddress = "http://134.59.215.194:8080";
+        private String _serverAddress = "http://nodejs-ihmdj.rhcloud.com:8000";
         private SocketManager _sm;
 
         //Declare a delegate for Async operation.
