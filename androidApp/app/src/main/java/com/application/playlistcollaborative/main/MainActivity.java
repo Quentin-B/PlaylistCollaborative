@@ -1,4 +1,4 @@
-package com.example.quentin_bitschene.playlistcollaborative;
+package com.application.playlistcollaborative.main;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.application.playlistcollaborative.R;
 import com.application.playlistcollaborative.model.SocketSingleton;
 
 import org.json.JSONException;

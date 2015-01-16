@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +25,7 @@ public class SocketSingleton {
     private static final String SERVER_ADDRESS = "http://nodejs-ihmdj.rhcloud.com:8000"; // ipconfig => ipv4
     private SocketIO socket;
     private Context context;
+    private JSONArray lastresult;
 
     public static SocketSingleton get(Context context){
         if(instance == null){
@@ -38,6 +40,10 @@ public class SocketSingleton {
             instance = new SocketSingleton(context);
         }
         return instance;
+    }
+
+    public JSONArray getLastresult(){
+        return this.lastresult;
     }
 
     public SocketIO getSocket(){
@@ -89,6 +95,7 @@ public class SocketSingleton {
                 public void onConnect() {
                 }
             });
+            MusicPojo m = new MusicPojo();
 
             socket.emit("echo", "hello");
 
