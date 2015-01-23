@@ -51,7 +51,7 @@ namespace ProjetSurface
 
         private Player player;
 
-        private Image image;
+        private Bubble bubble;
 
         /// <summary>
         /// Default constructor.
@@ -101,17 +101,16 @@ namespace ProjetSurface
             //player.PlaySong(false);
 
             stopButton.Click += btnStop_Click;
-            stopButton.MouseDown += btnStop_Click;
+            stopButton.TouchDown += btnStop_Click;
             playButton.Click += btnPlay_Click;
-            playButton.MouseDown += btnPlay_Click;
+            playButton.TouchDown += btnPlay_Click;
 
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             player.StopSong();
-            image.Width += 100;
-            image.Height += 100;
+            bubble.like();
             e.Handled = true;
         }
 
@@ -149,50 +148,9 @@ namespace ProjetSurface
 
         private void _newBubble(Song s)
         {
-            ScatterViewItem item = new ScatterViewItem();
-            item.Width = 200;
-            item.Height = 200;
-            //item.Content = "Object 2";
-            item.Orientation = 0;
-            item.CanScale = false;
-            item.CanMove = true;
-            item.Center = new Point(300, 100);
-            //item.ActualCenter = new Point(300, 100);
-            item.Background = new SolidColorBrush(Colors.Transparent);
-            item.ShowsActivationEffects = false;
-            Canvas canvas = new Canvas();
-            canvas.Width = 200;
-            canvas.Height = 200;
+            bubble = new Bubble(s);
 
-            image = new Image();
-            image.Width = canvas.Width;
-            image.Height = canvas.Height;
-            image.Source = new BitmapImage(
-                new Uri("Resources/bubble.png", UriKind.Relative));
-
-            canvas.Children.Add(image);
-
-            TextBlock textBlock = new TextBlock();
-            textBlock.Text = s.Name;
-            textBlock.Foreground = new SolidColorBrush(Colors.White);
-            textBlock.TextAlignment = TextAlignment.Center;
-            textBlock.TextWrapping = TextWrapping.Wrap;
-            textBlock.Margin = new Thickness(40, 0, 40, 0);
-            Canvas.SetLeft(textBlock, 0);
-            Canvas.SetTop(textBlock, 100);
-
-            canvas.Children.Add(textBlock);
-
-            //DoubleAnimation da = new DoubleAnimation();
-            //da.From = 0;
-            //da.To = 360;
-            //da.Duration = new Duration(TimeSpan.FromSeconds(5));
-            //da.RepeatBehavior = RepeatBehavior.Forever;
-            //rotateTransform.BeginAnimation(RotateTransform.AngleProperty, da);
-
-            item.Content = canvas;
-
-            test_bubble.Items.Add(item);
+            test_bubble.Items.Add(bubble.ScatterItem);
 
             /*DoubleAnimation da = new DoubleAnimation();
             da.From = 0;
@@ -206,7 +164,7 @@ namespace ProjetSurface
             // });
 
             //  t.Start();
-            startMoving(item, s, image);
+            startMoving(bubble.ScatterItem, s, bubble.Image);
             //});
             //t.Start();
         }

@@ -90,6 +90,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bubble.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="RemoveChildHelper.cs" />
     <Compile Include="SocketManager.cs" />
