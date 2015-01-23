@@ -66,7 +66,7 @@ namespace ProjetSurface
                 socket.On(SURFACE + "getmusic", (data) =>
                 {                                                     
                     Console.WriteLine("Event "+SURFACE+"getmusic received");
-                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(SurfaceWindow1.Playlist) );
+                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(SurfaceWindow1.playlistDic.Values));
                    
                 });
 
