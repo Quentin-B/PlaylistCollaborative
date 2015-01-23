@@ -32,20 +32,12 @@ namespace ProjetSurface
     public partial class SurfaceWindow1 : SurfaceWindow
     {
         private Process _serverProcess;
-        public static Dictionary<String, Song> playlistDic;
+        private PlayList playList;
 
-        public static Dictionary<String, Song> PlaylistDic
+        internal PlayList PlayList
         {
-            get { return SurfaceWindow1.playlistDic; }
-            set { SurfaceWindow1.playlistDic = value; }
-        }
-
-        private static LinkedList<Song> playlistQueue;
-
-        public static LinkedList<Song> PlaylistQueue
-        {
-            get { return playlistQueue; }
-            set { playlistQueue = value; }
+            get { return playList; }
+            set { playList = value; }
         }
 
         //private String _serverAddress = "http://134.59.215.194:8080";
@@ -82,8 +74,8 @@ namespace ProjetSurface
             this.m_Random = new Random();
 
             player = new Player();
-            playlistQueue = new LinkedList<Song>();
-            playlistDic = new Dictionary<string, Song>();
+            playList = PlayList.Instance;
+           
 
             _initializeSongs();
 
@@ -143,11 +135,11 @@ namespace ProjetSurface
             Song s4 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
             Song s5 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
 
-            playlistDic.Add(s1.Id, s1);
-            playlistDic.Add(s2.Id, s2);
-            playlistDic.Add(s3.Id, s3);
-            playlistDic.Add(s4.Id, s4);
-            playlistDic.Add(s5.Id, s5);
+            playList.Add(s1.Id, s1);
+            playList.Add(s2.Id, s2);
+            playList.Add(s3.Id, s3);
+            playList.Add(s4.Id, s4);
+            playList.Add(s5.Id, s5);
 
             _newBubble(s1);
             _newBubble(s2);
@@ -319,7 +311,7 @@ namespace ProjetSurface
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;
-                playlistQueue.AddLast(song);
+                //playlistQueue.AddLast(song);
             };
 
             //image.TouchUp += (sender, eventArgs) =>
@@ -412,27 +404,6 @@ namespace ProjetSurface
             return new Point(x,y);
         }
 
-        public static Song getSongById(String id_song)
-        {
-            return playlistDic[id_song];
-        }
-
-        public static int plusASong(String id_song)
-        {
-            Song s  = getSongById(id_song);
-            try
-            {
-                s.Like++;
-                
-            }
-            catch(NullReferenceException e)
-            {
-                Debug.WriteLine("Methode plusASong, id_song : " + id_song + " not found.");
-                Debug.WriteLine("Exception Message: " + e.Message);
-            }
-
-
-            return s.Like;
-        }
+        
     }
 }

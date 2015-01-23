@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="Bubble.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayList.cs" />
     <Compile Include="RemoveChildHelper.cs" />
     <Compile Include="SocketManager.cs" />
     <Compile Include="Song.cs" />

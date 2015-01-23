@@ -16,6 +16,7 @@ namespace ProjetSurface
     {
         private String ANDROID = "android_";
         private String SURFACE = "surface_";
+        private PlayList playList;
 
 
         private string _serverURL;
@@ -35,6 +36,7 @@ namespace ProjetSurface
         public SocketManager(string serverUrl)
         {
             this.ServerUrl = serverUrl;
+            playList = PlayList.Instance;
         }
 
         private void _connection()
@@ -66,7 +68,7 @@ namespace ProjetSurface
                 socket.On(SURFACE + "getmusic", (data) =>
                 {                                                     
                     Console.WriteLine("Event "+SURFACE+"getmusic received");
-                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(SurfaceWindow1.playlistDic.Values));
+                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(playList.PlaylistDic.Values));
                    
                 });
 
@@ -74,9 +76,9 @@ namespace ProjetSurface
                 {
                     Console.WriteLine("Event " + SURFACE + "plus received");
                     String id_song = data.Json.Args[0];
-                    SurfaceWindow1.plusASong(id_song);
+                    playList.plusASong(id_song);
 
-                    Console.WriteLine("Nouvelle valeur de like : " + SurfaceWindow1.getSongById(id_song).Like);
+                    Console.WriteLine("Nouvelle valeur de like : " + playList.getSongById(id_song).Like);
                     //TODO
                     //redraw la bulle plus grosse en fonction du nombre de like
                 });
