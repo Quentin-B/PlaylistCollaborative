@@ -318,6 +318,7 @@ namespace ProjetSurface
             stb.Begin(this, true);
 
             target.TouchDown += (sender, eventArgs) =>
+            //target.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
@@ -325,6 +326,7 @@ namespace ProjetSurface
             };
 
             target.TouchUp += (sender, eventArgs) =>
+            //target.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
