@@ -43,6 +43,8 @@ namespace ProjetSurface
 
         private Player player;
 
+        private ScatterViewItem item;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -94,6 +96,7 @@ namespace ProjetSurface
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             player.StopSong();
+            item.Width += 100;
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
@@ -123,7 +126,7 @@ namespace ProjetSurface
 
         private void _newBubble(Song s)
         {
-            ScatterViewItem item = new ScatterViewItem();
+            item = new ScatterViewItem();
             item.Width = 200;
             item.Height = 200;
             //item.Content = "Object 2";
