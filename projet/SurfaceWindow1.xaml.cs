@@ -51,6 +51,8 @@ namespace ProjetSurface
 
         private Player player;
 
+        private ScatterViewItem item;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -99,13 +101,16 @@ namespace ProjetSurface
             //player.PlaySong(false);
 
             stopButton.Click += btnStop_Click;
+            stopButton.MouseDown += btnStop_Click;
             playButton.Click += btnPlay_Click;
+            playButton.MouseDown += btnPlay_Click;
 
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             player.StopSong();
+            item.Width += 100;
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
@@ -141,7 +146,7 @@ namespace ProjetSurface
 
         private void _newBubble(Song s)
         {
-            ScatterViewItem item = new ScatterViewItem();
+            item = new ScatterViewItem();
             item.Width = 200;
             item.Height = 200;
             //item.Content = "Object 2";
@@ -337,14 +342,19 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            target.PreviewMouseDown += (sender, eventArgs) =>
+
+
+            target.TouchDown += (sender, eventArgs) =>
+            //target.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;
             };
 
-            target.PreviewMouseUp += (sender, eventArgs) =>
+
+            target.TouchUp += (sender, eventArgs) =>
+            //target.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);

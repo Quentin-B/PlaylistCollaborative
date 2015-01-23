@@ -17,6 +17,10 @@ public class MusicPojo {
         this.genre = m_genre;
     }
 
+    public MusicPojo(){
+
+    }
+
 
 
     public String getId() {
