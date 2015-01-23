@@ -10,7 +10,6 @@ using SocketIOClient;
 
 
 
-
 namespace ProjetSurface
 {
     class SocketManager
@@ -65,12 +64,9 @@ namespace ProjetSurface
                 });
 
                 socket.On(SURFACE + "getmusic", (data) =>
-                {
-
-                    
-                    Music music = new Music("Id_music", "Title_music", "Artist_music", "Genre_music");
+                {                                                     
                     Console.WriteLine("Event surface_getmusic received");
-                    socket.Emit(SURFACE + "sendmusic", "{\"id\" : \"id_music\",\"title\" : \"title_music\",\"artist\" : \"artist_music\",\"genre\" : \"genre_music\"}");
+                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(SurfaceWindow1.Playlist) );
                    
                 });
 

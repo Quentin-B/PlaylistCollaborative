@@ -8,6 +8,14 @@ namespace ProjetSurface
 {
     public class Song
     {
+        String id;
+
+        public String Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
         String location;
 
         public String Location
@@ -37,12 +45,22 @@ namespace ProjetSurface
             set { category = value; }
         }
 
+        int like;
+
+        public int Like
+        {
+            get { return like; }
+            set { like = value; }
+        }
+
         public Song(String name, String artist, String location, String category = null)
         {
+            this.id = Guid.NewGuid().ToString();
             this.name = name;
             this.artist = artist;
             this.location = location;
             this.category = category;
+            this.like = 0;
         }
 
     }
