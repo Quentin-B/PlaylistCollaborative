@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.application.playlistcollaborative.Tool.JSONBuilder;
+import com.application.playlistcollaborative.main.MyCustomAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,17 +41,17 @@ public class SocketSingleton {
     private ListView lw;
     private Activity mainthread;
 
-    public static SocketSingleton get(Context context, ListView lw, Activity a){
+    public static SocketSingleton get(Context context){
         if(instance == null){
-            instance = getSync(context,lw, a);
+            instance = getSync(context);
         }
         instance.context = context;
         return instance;
     }
 
-    public static synchronized SocketSingleton getSync(Context context, ListView lw, Activity a){
+    public static synchronized SocketSingleton getSync(Context context){
         if (instance == null) {
-            instance = new SocketSingleton(context, lw, a);
+            instance = new SocketSingleton(context);
         }
         return instance;
     }
@@ -62,11 +64,10 @@ public class SocketSingleton {
         return this.socket;
     }
 
-    private SocketSingleton(Context context, ListView lw, Activity a){
+    private SocketSingleton(Context context){
         this.context = context;
         this.socket = getServerSocket();
-        this.lw = lw;
-        this.mainthread = a;
+
     }
 
     private SocketIO getServerSocket(){
@@ -91,12 +92,17 @@ public class SocketSingleton {
                     }else if((ANDROID + "sendmusic").equals(event) && args.length > 0){
                         try{
                             JSONArray jsa = new JSONArray((String)args[0]);
-                            socket.emit(ANDROID + "plus", ((JSONObject)jsa.get(0)).getString("Id"));
-                            ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(new JSONArray());
-                            MusicPojo[] array = new MusicPojo[10];
-                            m.toArray(array);
-                            ArrayAdapter<MusicPojo> adapter = new ArrayAdapter<MusicPojo>(context,
-                                    android.R.layout.simple_list_item_1, android.R.id.text1, array);
+
+                            ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(jsa);
+                            Log.i("ANTHO", "array" + m.toString());
+                            final MyCustomAdapter adapter = new MyCustomAdapter(m, context);
+                            mainthread.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                   lw.setAdapter(adapter);
+
+                                }
+                            });
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -132,8 +138,18 @@ public class SocketSingleton {
 
     }
 
-    public void getMusic(){
+    public void getMusic(ListView lw, Activity a){
         socket.emit(ANDROID+"getmusic", "need music");
+        this.lw = lw;
+        this.mainthread = a;
+    }
+
+    public void sendplus(String id){
+        socket.emit(ANDROID + "plus", id);
+    }
+
+    public void sendmoins(String id){
+        socket.emit(ANDROID + "moins",id);
     }
 
     public void setLastresult(JSONArray lastresult) {
