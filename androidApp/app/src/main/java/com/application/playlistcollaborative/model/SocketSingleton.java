@@ -1,5 +1,6 @@
 package com.application.playlistcollaborative.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -36,18 +37,19 @@ public class SocketSingleton {
     private JSONArray lastresult;
     private JSONObject lastresultobj;
     private ListView lw;
+    private Activity mainthread;
 
-    public static SocketSingleton get(Context context, ListView lw){
+    public static SocketSingleton get(Context context, ListView lw, Activity a){
         if(instance == null){
-            instance = getSync(context,lw);
+            instance = getSync(context,lw, a);
         }
         instance.context = context;
         return instance;
     }
 
-    public static synchronized SocketSingleton getSync(Context context, ListView lw){
+    public static synchronized SocketSingleton getSync(Context context, ListView lw, Activity a){
         if (instance == null) {
-            instance = new SocketSingleton(context, lw);
+            instance = new SocketSingleton(context, lw, a);
         }
         return instance;
     }
@@ -60,10 +62,11 @@ public class SocketSingleton {
         return this.socket;
     }
 
-    private SocketSingleton(Context context, ListView lw){
+    private SocketSingleton(Context context, ListView lw, Activity a){
         this.context = context;
         this.socket = getServerSocket();
         this.lw = lw;
+        this.mainthread = a;
     }
 
     private SocketIO getServerSocket(){
@@ -88,7 +91,7 @@ public class SocketSingleton {
                     }else if((ANDROID + "sendmusic").equals(event) && args.length > 0){
                         try{
                             JSONArray jsa = new JSONArray((String)args[0]);
-                            socket.emit(ANDROID + "plus", (JSONObject)jsa.get(0));
+                            socket.emit(ANDROID + "plus", ((JSONObject)jsa.get(0)).getString("Ids"));
                             ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(new JSONArray());
                             MusicPojo[] array = new MusicPojo[10];
                             m.toArray(array);

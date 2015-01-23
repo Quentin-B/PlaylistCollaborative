@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.list);
 
-        socket = SocketSingleton.get(getBaseContext(), listView);
+        socket = SocketSingleton.get(getBaseContext(), listView, this);
 
         socket.getMusic();
 
