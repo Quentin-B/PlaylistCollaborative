@@ -12,6 +12,7 @@ namespace ProjetSurface
         private String title;
         private String artist;
         private String genre;
+       
 
         public Music()
         {
@@ -25,5 +26,30 @@ namespace ProjetSurface
             this.artist = artist;
             this.genre = genre;
         }
+
+        public String Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        public String Title
+        {
+            get { return title; }
+            set { title = value; }
+        }
+
+        public String Artist
+        {
+            get { return artist; }
+            set { artist = value; }
+        }
+
+        public String Genre
+        {
+            get { return genre; }
+            set { genre = value; }
+        }
+
     }
 }

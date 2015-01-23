@@ -81,6 +81,7 @@ public class SocketSingleton {
                     }else if((ANDROID + "sendmusic").equals(event) && args.length > 0){
                         try{
                             lastresultobj =  new JSONObject((String)args[0]);
+                            Log.i("nice",lastresultobj.toString());
                         }catch (Exception e){
                             e.printStackTrace();
                         }

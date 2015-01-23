@@ -49,6 +49,7 @@ public class MainActivity extends Activity {
 
         socket.getMusic();
 
+
         // Defined Array values to show in ListView
         String[] values = new String[] { "Android List View",
                 "Adapter implementation",
