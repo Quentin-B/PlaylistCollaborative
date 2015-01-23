@@ -32,6 +32,7 @@ namespace ProjetSurface
     public partial class SurfaceWindow1 : SurfaceWindow
     {
         private Process _serverProcess;
+        private Dictionary<String, Bubble> bubblesList;
         public static Dictionary<String, Song> playlistDic;
 
         public static Dictionary<String, Song> PlaylistDic
@@ -83,6 +84,7 @@ namespace ProjetSurface
 
             player = new Player();
             playlistQueue = new LinkedList<Song>();
+            bubblesList = new Dictionary<string, Bubble>();
             playlistDic = new Dictionary<string, Song>();
 
             _initializeSongs();
@@ -160,6 +162,7 @@ namespace ProjetSurface
         {
             bubble = new Bubble(s);
 
+            bubblesList.Add(s.Id, bubble);
             test_bubble.Items.Add(bubble.ScatterItem);
 
             /*DoubleAnimation da = new DoubleAnimation();
@@ -174,6 +177,7 @@ namespace ProjetSurface
             // });
 
             //  t.Start();
+            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, bubble.ScatterItem, false)));
             startMoving(bubble.ScatterItem, s, bubble.Image);
             //});
             //t.Start();
@@ -328,7 +332,7 @@ namespace ProjetSurface
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
                 //startMoving(target);
-                Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target)));
+                Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
                 player.StopSong();
                 player.LoadSong(song.Location);
@@ -339,7 +343,7 @@ namespace ProjetSurface
             target.Center = target.ActualCenter;
         }
 
-        private void fadeAnimation(float from, float to, float duration, ScatterViewItem target)
+        private void fadeAnimation(float from, float to, float duration, ScatterViewItem target, Boolean suppress)
         {
             #region Fade in
             // Create a storyboard to contain the animations.
@@ -358,31 +362,34 @@ namespace ProjetSurface
             // Add the animation to the storyboard
             storyboard.Children.Add(animation);
 
-            storyboard.Completed += delegate(object sender, EventArgs e)
+            if (suppress)
             {
-                // call UIElementManager to finally hide the element
-                //this.UIElementManager.GetInstance().Hide(target);
-                //target.Opacity = to; // otherwise Opacity will be reset to 1
-                //RemoveChildHelper.RemoveChild(test_bubble, target);
-                test_bubble.Items.Remove(target);
+                storyboard.Completed += delegate(object sender, EventArgs e)
+                {
+                    // call UIElementManager to finally hide the element
+                    //this.UIElementManager.GetInstance().Hide(target);
+                    //target.Opacity = to; // otherwise Opacity will be reset to 1
+                    //RemoveChildHelper.RemoveChild(test_bubble, target);
+                    test_bubble.Items.Remove(target);
 
-                Canvas canvas = new Canvas();
-                canvas.Width = 200;
-                canvas.Height = 200;
+                    Canvas canvas = new Canvas();
+                    canvas.Width = 200;
+                    canvas.Height = 200;
 
 
-                Image image = new Image();
-                image.Width = 200;
-                image.Height = 200;
-                image.Source = new BitmapImage(
-                    new Uri("Resources/bubble.png", UriKind.Relative));
+                    Image image = new Image();
+                    image.Width = 200;
+                    image.Height = 200;
+                    image.Source = new BitmapImage(
+                        new Uri("Resources/bubble.png", UriKind.Relative));
 
-                canvas.Children.Add(image);
-                //canvas.SetTop(canvas, NewBody.YPosition);
-                //canvas.SetLeft(canvas, NewBody.XPosition);
+                    canvas.Children.Add(image);
+                    //canvas.SetTop(canvas, NewBody.YPosition);
+                    //canvas.SetLeft(canvas, NewBody.XPosition);
 
-                playlistPanel.Children.Add(canvas);
-            };
+                    playlistPanel.Children.Add(canvas);
+                };
+            }
 
             // Begin the storyboard
             storyboard.Begin(this, true);
@@ -417,11 +424,25 @@ namespace ProjetSurface
             return playlistDic[id_song];
         }
 
+        public Bubble getBubbleBySong(String id_song)
+        {
+            return bubblesList[id_song];
+        }
+
         public static int plusASong(String id_song)
         {
             Song s  = getSongById(id_song);
+            //Bubble b = getBubbleBySong(id_song);
             try
             {
+                /*if (b == null)
+                {
+                    _newBubble(s);
+                }
+                else
+                {
+                    b.like();
+                }*/
                 s.Like++;
                 
             }
