@@ -85,7 +85,9 @@ namespace ProjetSurface
             //player.PlaySong(false);
 
             stopButton.Click += btnStop_Click;
+            stopButton.MouseDown += btnStop_Click;
             playButton.Click += btnPlay_Click;
+            playButton.MouseDown += btnPlay_Click;
 
         }
 
