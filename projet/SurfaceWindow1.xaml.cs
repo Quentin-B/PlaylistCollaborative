@@ -337,14 +337,14 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            target.PreviewMouseDown += (sender, eventArgs) =>
+            target.TouchDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;
             };
 
-            target.PreviewMouseUp += (sender, eventArgs) =>
+            target.TouchUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
