@@ -51,7 +51,7 @@ namespace ProjetSurface
 
         private Player player;
 
-        private ScatterViewItem item;
+        private Image image;
 
         /// <summary>
         /// Default constructor.
@@ -110,12 +110,15 @@ namespace ProjetSurface
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             player.StopSong();
-            item.Width += 100;
+            image.Width += 100;
+            image.Height += 100;
+            e.Handled = true;
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
             player.PlaySong(false);
+            e.Handled = true;
         }
 
         private void _initializeSocket()
@@ -146,7 +149,7 @@ namespace ProjetSurface
 
         private void _newBubble(Song s)
         {
-            item = new ScatterViewItem();
+            ScatterViewItem item = new ScatterViewItem();
             item.Width = 200;
             item.Height = 200;
             //item.Content = "Object 2";
@@ -161,7 +164,7 @@ namespace ProjetSurface
             canvas.Width = 200;
             canvas.Height = 200;
 
-            Image image = new Image();
+            image = new Image();
             image.Width = canvas.Width;
             image.Height = canvas.Height;
             image.Source = new BitmapImage(
@@ -203,7 +206,7 @@ namespace ProjetSurface
             // });
 
             //  t.Start();
-            startMoving(item, s);
+            startMoving(item, s, image);
             //});
             //t.Start();
         }
@@ -304,17 +307,17 @@ namespace ProjetSurface
             //TODO: disable audio, animations here
         }
 
-        private void startMoving(ScatterViewItem s, Song song)
+        private void startMoving(ScatterViewItem s, Song song, Image image)
     {
         Point newPoint;
         newPoint = GetRandomPoint();
 
         //MoveTo(test_bubble,newPoint.X, newPoint.Y);
-        Application.Current.Dispatcher.Invoke(new Action(() => MoveTo(s, newPoint.X, newPoint.Y, 7.0f, false, song)));
+        Application.Current.Dispatcher.Invoke(new Action(() => MoveTo(s, newPoint.X, newPoint.Y, 7.0f, false, song, image)));
         //startMoving();
     }
 
-        public void MoveTo(ScatterViewItem target, double newX, double newY, float duration, bool stop, Song song)
+        public void MoveTo(ScatterViewItem target, double newX, double newY, float duration, bool stop, Song song, Image image)
         {
 
             Storyboard stb = new Storyboard();
@@ -336,22 +339,22 @@ namespace ProjetSurface
                 if (!(sender is Mouse)&&(!stop))
                 {
                     target.Center = new Point(newX, newY);
-                    startMoving(target, song);
+                    startMoving(target, song, image);
                 }
             };
 
             stb.Begin(this, true);
 
-            target.TouchDown += (sender, eventArgs) =>
-            //target.MouseDown += (sender, eventArgs) =>
+            //image.TouchDown += (sender, eventArgs) =>
+            image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;
             };
 
-            target.TouchUp += (sender, eventArgs) =>
-            //target.MouseUp += (sender, eventArgs) =>
+            //image.TouchUp += (sender, eventArgs) =>
+            image.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
