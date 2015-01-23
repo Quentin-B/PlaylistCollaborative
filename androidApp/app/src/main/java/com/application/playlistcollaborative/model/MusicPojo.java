@@ -21,6 +21,11 @@ public class MusicPojo {
 
     }
 
+    @Override
+    public String toString(){
+        return this.title;
+    }
+
 
 
     public String getId() {

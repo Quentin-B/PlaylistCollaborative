@@ -47,9 +47,9 @@ public class MainActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.list);
 
-        socket = SocketSingleton.get(getBaseContext(), listView, this);
+        socket = SocketSingleton.get(getBaseContext());
 
-        socket.getMusic();
+        socket.getMusic(listView,this);
 
 
 
@@ -64,13 +64,9 @@ public class MainActivity extends Activity {
                 int itemPosition     = position;
 
                 // ListView Clicked item value
-                String  itemValue    = (String) listView.getItemAtPosition(position);
+                MusicPojo  itemValue    = (MusicPojo) listView.getItemAtPosition(position);
 
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
-
+                socket.sendplus(itemValue.getId());
             }
 
         });

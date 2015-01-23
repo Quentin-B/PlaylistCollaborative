@@ -1,5 +1,7 @@
 package com.application.playlistcollaborative.Tool;
 
+import android.util.Log;
+
 import com.application.playlistcollaborative.model.MusicPojo;
 
 import org.json.JSONArray;
