@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 
 namespace ProjetSurface
 {
-    class Bubble
+    public class Bubble
     {
         private ScatterViewItem scatterItem;
         private int defaultSize;

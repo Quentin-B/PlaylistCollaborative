@@ -7,6 +7,7 @@ using System.Text;
 //using Quobject.SocketIoClientDotNet.Client;
 using Newtonsoft.Json;
 using SocketIOClient;
+using System.Windows;
 
 
 
@@ -16,6 +17,8 @@ namespace ProjetSurface
     {
         private String ANDROID = "android_";
         private String SURFACE = "surface_";
+        private PlayList playList;
+        private SurfaceWindow1 surfaceWindow;
 
 
         private string _serverURL;
@@ -32,9 +35,11 @@ namespace ProjetSurface
         //public Client socket;
         //public Socket socket;
 
-        public SocketManager(string serverUrl)
+        public SocketManager(string serverUrl, SurfaceWindow1 surfaceWindow)
         {
             this.ServerUrl = serverUrl;
+            playList = PlayList.Instance;
+            this.surfaceWindow = surfaceWindow;
         }
 
         private void _connection()
@@ -66,7 +71,7 @@ namespace ProjetSurface
                 socket.On(SURFACE + "getmusic", (data) =>
                 {                                                     
                     Console.WriteLine("Event "+SURFACE+"getmusic received");
-                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(SurfaceWindow1.playlistDic.Values));
+                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(playList.PlaylistDic.Values));
                    
                 });
 
@@ -74,9 +79,21 @@ namespace ProjetSurface
                 {
                     Console.WriteLine("Event " + SURFACE + "plus received");
                     String id_song = data.Json.Args[0];
-                    SurfaceWindow1.plusASong(id_song);
+                    Song s = playList.getSongById(id_song);
+                    playList.plusASong(id_song);
 
-                    Console.WriteLine("Nouvelle valeur de like : " + SurfaceWindow1.getSongById(id_song).Like);
+                    Bubble b = surfaceWindow.getBubbleBySong(id_song);
+                    if (b == null)
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() => surfaceWindow._newBubble(s)));
+                    }
+                    else
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() => b.like()));
+                    }
+                    s.Like++;
+
+                    Console.WriteLine("Nouvelle valeur de like : " + playList.getSongById(id_song).Like);
                     //TODO
                     //redraw la bulle plus grosse en fonction du nombre de like
                 });
