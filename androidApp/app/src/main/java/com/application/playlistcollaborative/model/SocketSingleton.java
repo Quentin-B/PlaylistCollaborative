@@ -91,7 +91,7 @@ public class SocketSingleton {
                     }else if((ANDROID + "sendmusic").equals(event) && args.length > 0){
                         try{
                             JSONArray jsa = new JSONArray((String)args[0]);
-                            socket.emit(ANDROID + "plus", ((JSONObject)jsa.get(0)).getString("Ids"));
+                            socket.emit(ANDROID + "plus", ((JSONObject)jsa.get(0)).getString("Id"));
                             ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(new JSONArray());
                             MusicPojo[] array = new MusicPojo[10];
                             m.toArray(array);
