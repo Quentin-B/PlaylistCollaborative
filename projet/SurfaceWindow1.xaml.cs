@@ -22,6 +22,7 @@ using System.IO;
 using System.Threading;
 using Un4seen.Bass;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace ProjetSurface
 {
@@ -31,6 +32,13 @@ namespace ProjetSurface
     public partial class SurfaceWindow1 : SurfaceWindow
     {
         private Process _serverProcess;
+        private static LinkedList<Song> playlist;
+
+        public static LinkedList<Song> Playlist
+        {
+            get { return playlist; }
+            set { playlist = value; }
+        }
 
         //private String _serverAddress = "http://134.59.215.194:8080";
         private String _serverAddress = "http://nodejs-ihmdj.rhcloud.com:8000";
@@ -64,9 +72,15 @@ namespace ProjetSurface
             this.m_Random = new Random();
 
             player = new Player();
+            playlist = new LinkedList<Song>();
             _initializeSongs();
 
             _initializeSocket();
+
+            //Music music = new Music("Id_music", "Title_music", "Artist_music", "Genre_music");
+            //string json = JsonConvert.SerializeObject(employee, Formatting.Indented, new KeysJsonConverter(typeof(Employee)));
+           
+            //Console.WriteLine("valeur de music : " + JsonConvert.SerializeObject(music));
 
             //stopButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.stop));
             //playButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.play));
@@ -111,6 +125,12 @@ namespace ProjetSurface
             Song s3 = new Song("Much too", "Inconnu", "../../Resources/Much Too Much.mp3");
             Song s4 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
             Song s5 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
+
+            SurfaceWindow1.playlist.AddLast(s1);
+            SurfaceWindow1.playlist.AddLast(s2);
+            SurfaceWindow1.playlist.AddLast(s3);
+            SurfaceWindow1.playlist.AddLast(s4);
+            SurfaceWindow1.playlist.AddLast(s5);
 
             _newBubble(s1);
             _newBubble(s2);
