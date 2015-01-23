@@ -65,9 +65,19 @@ namespace ProjetSurface
 
                 socket.On(SURFACE + "getmusic", (data) =>
                 {                                                     
-                    Console.WriteLine("Event surface_getmusic received");
+                    Console.WriteLine("Event "+SURFACE+"getmusic received");
                     socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(SurfaceWindow1.Playlist) );
                    
+                });
+
+                socket.On(SURFACE + "plus", (data) =>
+                {
+                    Console.WriteLine("Event " + SURFACE + "plus received");
+                    String id_song = data.Json.Args[0];
+                    SurfaceWindow1.plusASong(id_song);
+
+                    //TODO
+                    //redraw la bulle plus grosse en fonction du nombre de like
                 });
 
                 socket.On("disconnect", (data) =>
