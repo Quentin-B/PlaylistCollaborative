@@ -442,5 +442,33 @@ namespace ProjetSurface
             }
             return new Point(x,y);
         }
+
+        public static Song getSongById(String id_song)
+        {
+            foreach (Song s in playlist)
+            {
+                if (s.Id.Equals(id_song))
+                    return s;
+            }
+            return null;
+        }
+
+        public static int plusASong(String id_song)
+        {
+            Song s  = getSongById(id_song);
+            try
+            {
+                s.Like++;
+                
+            }
+            catch(NullReferenceException e)
+            {
+                Debug.WriteLine("Methode plusASong, id_song : " + id_song + " not found.");
+                Debug.WriteLine("Exception Message: " + e.Message);
+            }
+
+
+            return s.Like;
+        }
     }
 }

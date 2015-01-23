@@ -3,6 +3,8 @@ package com.application.playlistcollaborative.model;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.application.playlistcollaborative.Tool.JSONBuilder;
 
@@ -12,6 +14,7 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
@@ -32,18 +35,19 @@ public class SocketSingleton {
     private Context context;
     private JSONArray lastresult;
     private JSONObject lastresultobj;
+    private ListView lw;
 
-    public static SocketSingleton get(Context context){
+    public static SocketSingleton get(Context context, ListView lw){
         if(instance == null){
-            instance = getSync(context);
+            instance = getSync(context,lw);
         }
         instance.context = context;
         return instance;
     }
 
-    public static synchronized SocketSingleton getSync(Context context){
+    public static synchronized SocketSingleton getSync(Context context, ListView lw){
         if (instance == null) {
-            instance = new SocketSingleton(context);
+            instance = new SocketSingleton(context, lw);
         }
         return instance;
     }
@@ -56,20 +60,23 @@ public class SocketSingleton {
         return this.socket;
     }
 
-    private SocketSingleton(Context context){
+    private SocketSingleton(Context context, ListView lw){
         this.context = context;
         this.socket = getServerSocket();
+        this.lw = lw;
     }
 
     private SocketIO getServerSocket(){
 
-        SocketIO socket = null;
+         SocketIO socketinit = null;
 
         try{
-            socket = new SocketIO(SERVER_ADDRESS);
+            socketinit = new SocketIO(SERVER_ADDRESS);
         }catch (Exception e){
             Log.i("HUGO", e.getMessage());
         }
+
+        final SocketIO socket = socketinit;
 
         if(socket != null) {
 
@@ -80,8 +87,13 @@ public class SocketSingleton {
 
                     }else if((ANDROID + "sendmusic").equals(event) && args.length > 0){
                         try{
-                            lastresultobj =  new JSONObject((String)args[0]);
-                            Log.i("nice",lastresultobj.toString());
+                            JSONArray jsa = new JSONArray((String)args[0]);
+                            socket.emit(ANDROID + "plus", (JSONObject)jsa.get(0));
+                            ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(new JSONArray());
+                            MusicPojo[] array = new MusicPojo[10];
+                            m.toArray(array);
+                            ArrayAdapter<MusicPojo> adapter = new ArrayAdapter<MusicPojo>(context,
+                                    android.R.layout.simple_list_item_1, android.R.id.text1, array);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
