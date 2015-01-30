@@ -128,26 +128,46 @@ namespace ProjetSurface
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
+            if (fileLecture.isEmpty())
+                return;
+
             Song s = fileLecture.Previous();
             player.PlaySong(false, s, true);
+
+            updateBubble();
+
+            
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
+            if (fileLecture.isEmpty())
+                return;
+
             Song s = fileLecture.Next();
             player.PlaySong(false, s, true);
+
+            updateBubble();
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
+            if (fileLecture.isEmpty())
+                return;
+
             player.StopSong();
             e.Handled = true;
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
-            player.PlaySong(false);
+            if (fileLecture.isEmpty())
+                return;
+
+            player.PlaySong(false);        
             e.Handled = true;
+
+            updateBubble();
         }
 
         private void _initializeSocket()
@@ -354,8 +374,11 @@ namespace ProjetSurface
                 //startMoving(target);
                 Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
-                player.PlaySong(false, song, true);
-                fileLecture.Add(song);
+                if (fileLecture.isEmpty())
+                    player.LoadSong(song.Location);               
+
+                fileLecture.Add(song);        
+               
                 eventArgs.Handled = true;
             };
 
@@ -395,6 +418,8 @@ namespace ProjetSurface
                     canvas.Width = 200;
                     canvas.Height = 200;
 
+                    Song song = playList.getSongById(target.Name);
+
 
                     Image image = new Image();
                     image.Width = 200;
@@ -402,7 +427,40 @@ namespace ProjetSurface
                     image.Source = new BitmapImage(
                         new Uri("Resources/bubble.png", UriKind.Relative));
 
+                    
+
                     canvas.Children.Add(image);
+                    // Debut text block
+                    TextBlock text = new TextBlock();
+                   
+                    text.Text = song.Name;
+                    text.Foreground = Brushes.Navy;
+                    text.TextAlignment = TextAlignment.Center;
+                    text.TextWrapping = TextWrapping.Wrap;
+                    text.Margin = new Thickness(40, 0, 40, 0);
+                    Canvas.SetLeft(text, 0);
+                    Canvas.SetTop(text, 100);
+                    canvas.Children.Add(text);
+                    // fin text block
+
+                    image.TouchDown += (sender2, eventArgs) =>
+                    //image.MouseDown += (sender2, eventArgs) =>
+                    {
+
+                    };
+
+                    image.TouchUp += (sender2, eventArgs) =>
+                    //image.MouseUp += (sender2, eventArgs) =>
+                    {                        
+                              
+                        player.PlaySong(false, song, true);
+                        fileLecture.Current_index = fileLecture.getIndexSong(song);
+
+                        updateBubble();
+                        //TODO 
+                        //playlistPanel.Children.
+                    };
+
                     //canvas.SetTop(canvas, NewBody.YPosition);
                     //canvas.SetLeft(canvas, NewBody.XPosition);
 
@@ -417,6 +475,19 @@ namespace ProjetSurface
 
         }
 
+        private void updateBubble()
+        {
+            foreach (Canvas c in playlistPanel.Children)
+            {
+                ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
+                ((TextBlock)c.Children[1]).FontSize = 12;
+            }
+
+            Canvas c1 = (Canvas)playlistPanel.Children[fileLecture.Current_index];
+            TextBlock text = (TextBlock)c1.Children[1];
+            text.Foreground = Brushes.DarkGray;
+            text.FontSize = 20;
+        }
 
         private Point GetRandomPoint()
         {
@@ -482,6 +553,26 @@ namespace ProjetSurface
             tv.Effect = dse;
             tv.Effect.BeginAnimation(DropShadowEffect.ShadowDepthProperty, borderAnimation);
 
+            tv.Effect = (Effect)tv.Tag;
+
+            switch (tv.VisualizedTag.Value)
+            {
+                case 0x38:
+                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+                    {
+                        // do something with entry.Value or entry.Key
+                        Bubble b = entry.Value;
+                        if (b.S._Category != Song.Category.ANNEES_70)
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                        }
+                    }
+                    break;
+                defaut:
+                    break;
+            }
+
+            
             // At this point, the TagVisualization object has a drop shadow that is getting smaller,
             // while the interior is fading (because TagRemovedBehavior == TagRemovedBehavior.Fade).
             // If the tag is put back on the Microsoft Surface screen before LostTagTimeout, the OnGotTag event (above)
@@ -503,7 +594,7 @@ namespace ProjetSurface
                         // do something with entry.Value or entry.Key
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.ANNEES_70) {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, true)));
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
                     break;

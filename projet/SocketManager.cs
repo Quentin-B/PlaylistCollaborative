@@ -59,6 +59,7 @@ namespace ProjetSurface
                     socket.Emit("isTable", null);
                     socket.Emit("echo", "Hello World!");
                     Console.WriteLine("Emit isTable done.");
+                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(playList.PlaylistDic.Values));
 
                 });
 

@@ -76,5 +76,17 @@ namespace ProjetSurface
            return fileLecture.ElementAt(current_index);
         }
 
+        public bool isEmpty()
+        {
+            return fileLecture.Count == 0;
+        }
+
+        public int getIndexSong(Song s)
+        {
+            for (int i = 0; i < fileLecture.Count; i++)
+                if (fileLecture.ElementAt(i).Id.Equals(s.Id))
+                    return i;
+            return -1;
+        }
     }
 }

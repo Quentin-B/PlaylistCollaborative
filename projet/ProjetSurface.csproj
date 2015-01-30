@@ -82,6 +82,10 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="annees_70.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SurfaceWindow1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,6 +95,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bubble.cs" />
+    <Compile Include="Annees_70.xaml.cs" />
     <Compile Include="FileDeLecture.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayList.cs" />
@@ -129,10 +134,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="annees_70.xml" />
     <Content Include="Resources\abc-jackson5.mp3" />
     <Content Include="Resources\beat_it-michael_jackson.mp3" />
     <Content Include="Resources\i_want_you_back-jackson5.mp3" />
+    <Resource Include="Resources\magicshialabeouf.jpg" />
     <Content Include="Resources\Much Too Much.mp3" />
     <Content Include="Resources\thriller-michael_jackson.mp3" />
     <Resource Include="Resources\pause.png" />
