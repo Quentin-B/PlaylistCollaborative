@@ -358,16 +358,16 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            //image.TouchDown += (sender, eventArgs) =>
-            image.MouseDown += (sender, eventArgs) =>
+            image.TouchDown += (sender, eventArgs) =>
+            //image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;           
             };
 
-            //image.TouchUp += (sender, eventArgs) =>
-            image.MouseUp += (sender, eventArgs) =>
+            image.TouchUp += (sender, eventArgs) =>
+            //image.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
@@ -443,14 +443,14 @@ namespace ProjetSurface
                     canvas.Children.Add(text);
                     // fin text block
 
-                    //image.TouchDown += (sender, eventArgs) =>
-                    image.MouseDown += (sender2, eventArgs) =>
+                    image.TouchDown += (sender2, eventArgs) =>
+                    //image.MouseDown += (sender2, eventArgs) =>
                     {
 
                     };
 
-                    //image.TouchUp += (sender, eventArgs) =>
-                    image.MouseUp += (sender2, eventArgs) =>
+                    image.TouchUp += (sender2, eventArgs) =>
+                    //image.MouseUp += (sender2, eventArgs) =>
                     {                        
                               
                         player.PlaySong(false, song, true);
