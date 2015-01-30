@@ -56,7 +56,7 @@ namespace ProjetSurface
 
         public Song(String name, String artist, String location, Category category)
         {
-            this.id = Guid.NewGuid().ToString();
+            this.id = "id"+Guid.NewGuid().ToString("N");
             this.name = name;
             this.artist = artist;
             this.location = location;

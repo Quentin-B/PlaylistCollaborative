@@ -417,6 +417,19 @@ namespace ProjetSurface
                         new Uri("Resources/bubble.png", UriKind.Relative));
 
                     canvas.Children.Add(image);
+                    // Debut text block
+                    TextBlock text = new TextBlock();
+                   
+                    text.Text = playList.getSongById(target.Name).Name;
+                    text.Foreground = new SolidColorBrush(Colors.White);
+                    text.TextAlignment = TextAlignment.Center;
+                    text.TextWrapping = TextWrapping.Wrap;
+                    text.Margin = new Thickness(40, 0, 40, 0);
+                    Canvas.SetLeft(text, 0);
+                    Canvas.SetTop(text, 100);
+                    canvas.Children.Add(text);
+                    // fin text block
+
                     //canvas.SetTop(canvas, NewBody.YPosition);
                     //canvas.SetLeft(canvas, NewBody.XPosition);
 
