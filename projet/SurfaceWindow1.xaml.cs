@@ -42,6 +42,14 @@ namespace ProjetSurface
             set { playList = value; }
         }
 
+        private FileDeLecture fileLecture;
+
+        internal FileDeLecture FileLecture
+        {
+            get { return fileLecture; }
+            set { fileLecture = value; }
+        }
+
         //private String _serverAddress = "http://134.59.215.194:8080";
         private String _serverAddress = "http://nodejs-ihmdj.rhcloud.com:8000";
         private SocketManager _sm;
@@ -79,6 +87,7 @@ namespace ProjetSurface
 
             bubblesList = new Dictionary<string, Bubble>();
             playList = PlayList.Instance;
+            fileLecture = FileDeLecture.Instance;
 
             _initializeSongs();
 
@@ -109,13 +118,26 @@ namespace ProjetSurface
             stopButton.TouchDown += btnStop_Click;
             playButton.Click += btnPlay_Click;
             playButton.TouchDown += btnPlay_Click;
+            previousButton.Click += btnPrevious_Click;
+            previousButton.TouchDown += btnPrevious_Click;
+            nextButton.Click += btnNext_Click;
+            nextButton.TouchDown += btnNext_Click;
+
+        }
+
+        private void btnPrevious_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
 
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             player.StopSong();
-            bubble.like();
             e.Handled = true;
         }
 
