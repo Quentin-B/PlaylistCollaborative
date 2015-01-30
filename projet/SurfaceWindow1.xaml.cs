@@ -32,6 +32,8 @@ namespace ProjetSurface
     public partial class SurfaceWindow1 : SurfaceWindow
     {
         private Process _serverProcess;
+        private Dictionary<String, Bubble> bubblesList;
+
         private PlayList playList;
 
         internal PlayList PlayList
@@ -74,8 +76,9 @@ namespace ProjetSurface
             this.m_Random = new Random();
 
             player = new Player();
+
+            bubblesList = new Dictionary<string, Bubble>();
             playList = PlayList.Instance;
-           
 
             _initializeSongs();
 
@@ -124,7 +127,7 @@ namespace ProjetSurface
 
         private void _initializeSocket()
         {
-            this._sm = new SocketManager(this._serverAddress);
+            this._sm = new SocketManager(this._serverAddress, this);
         }
 
         private void _initializeSongs()
@@ -141,17 +144,18 @@ namespace ProjetSurface
             playList.Add(s4.Id, s4);
             playList.Add(s5.Id, s5);
 
-            _newBubble(s1);
-            _newBubble(s2);
-            _newBubble(s3);
-            _newBubble(s4);
-            _newBubble(s5);
+            //_newBubble(s1);
+            //_newBubble(s2);
+            //_newBubble(s3);
+            //_newBubble(s4);
+            //_newBubble(s5);
         }
 
-        private void _newBubble(Song s)
+        public void _newBubble(Song s)
         {
             bubble = new Bubble(s);
 
+            bubblesList.Add(s.Id, bubble);
             test_bubble.Items.Add(bubble.ScatterItem);
 
             /*DoubleAnimation da = new DoubleAnimation();
@@ -166,6 +170,7 @@ namespace ProjetSurface
             // });
 
             //  t.Start();
+            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, bubble.ScatterItem, false)));
             startMoving(bubble.ScatterItem, s, bubble.Image);
             //});
             //t.Start();
@@ -305,8 +310,8 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            //image.TouchDown += (sender, eventArgs) =>
-            image.MouseDown += (sender, eventArgs) =>
+            image.TouchDown += (sender, eventArgs) =>
+            //image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
@@ -314,13 +319,13 @@ namespace ProjetSurface
                 //playlistQueue.AddLast(song);
             };
 
-            //image.TouchUp += (sender, eventArgs) =>
-            image.MouseUp += (sender, eventArgs) =>
+            image.TouchUp += (sender, eventArgs) =>
+            //image.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
                 //startMoving(target);
-                Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target)));
+                Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
                 player.StopSong();
                 player.LoadSong(song.Location);
@@ -331,7 +336,7 @@ namespace ProjetSurface
             target.Center = target.ActualCenter;
         }
 
-        private void fadeAnimation(float from, float to, float duration, ScatterViewItem target)
+        private void fadeAnimation(float from, float to, float duration, ScatterViewItem target, Boolean suppress)
         {
             #region Fade in
             // Create a storyboard to contain the animations.
@@ -350,31 +355,34 @@ namespace ProjetSurface
             // Add the animation to the storyboard
             storyboard.Children.Add(animation);
 
-            storyboard.Completed += delegate(object sender, EventArgs e)
+            if (suppress)
             {
-                // call UIElementManager to finally hide the element
-                //this.UIElementManager.GetInstance().Hide(target);
-                //target.Opacity = to; // otherwise Opacity will be reset to 1
-                //RemoveChildHelper.RemoveChild(test_bubble, target);
-                test_bubble.Items.Remove(target);
+                storyboard.Completed += delegate(object sender, EventArgs e)
+                {
+                    // call UIElementManager to finally hide the element
+                    //this.UIElementManager.GetInstance().Hide(target);
+                    //target.Opacity = to; // otherwise Opacity will be reset to 1
+                    //RemoveChildHelper.RemoveChild(test_bubble, target);
+                    test_bubble.Items.Remove(target);
 
-                Canvas canvas = new Canvas();
-                canvas.Width = 200;
-                canvas.Height = 200;
+                    Canvas canvas = new Canvas();
+                    canvas.Width = 200;
+                    canvas.Height = 200;
 
 
-                Image image = new Image();
-                image.Width = 200;
-                image.Height = 200;
-                image.Source = new BitmapImage(
-                    new Uri("Resources/bubble.png", UriKind.Relative));
+                    Image image = new Image();
+                    image.Width = 200;
+                    image.Height = 200;
+                    image.Source = new BitmapImage(
+                        new Uri("Resources/bubble.png", UriKind.Relative));
 
-                canvas.Children.Add(image);
-                //canvas.SetTop(canvas, NewBody.YPosition);
-                //canvas.SetLeft(canvas, NewBody.XPosition);
+                    canvas.Children.Add(image);
+                    //canvas.SetTop(canvas, NewBody.YPosition);
+                    //canvas.SetLeft(canvas, NewBody.XPosition);
 
-                playlistPanel.Children.Add(canvas);
-            };
+                    playlistPanel.Children.Add(canvas);
+                };
+            }
 
             // Begin the storyboard
             storyboard.Begin(this, true);
@@ -404,6 +412,13 @@ namespace ProjetSurface
             return new Point(x,y);
         }
 
-        
+        public Bubble getBubbleBySong(String id_song)
+        {
+            if (bubblesList.ContainsKey(id_song))
+            {
+                return bubblesList[id_song];
+            }
+            return null;
+        }
     }
 }
