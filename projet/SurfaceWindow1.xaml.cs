@@ -23,6 +23,7 @@ using System.Threading;
 using Un4seen.Bass;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using System.Windows.Media.Effects;
 
 namespace ProjetSurface
 {
@@ -132,23 +133,26 @@ namespace ProjetSurface
 
         private void _initializeSongs()
         {
-            Song s1 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
-            Song s2 = new Song("Flashlight", "Inconnu", "../../Resources/Hot Hands.mp3");
-            Song s3 = new Song("Much too", "Inconnu", "../../Resources/Much Too Much.mp3");
-            Song s4 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
-            Song s5 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
+            Song s1 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3", Song.Category.TECHNO);
+            Song s2 = new Song("Hot Hands", "Inconnu", "../../Resources/Hot Hands.mp3", Song.Category.TECHNO);
+            Song s3 = new Song("Want U Back", "Inconnu", "../../Resources/i_want_you_back-jackson5.mp3", Song.Category.ANNEES_70);
+            Song s4 = new Song("ABC", "Inconnu", "../../Resources/abc-jackson5.mp3", Song.Category.ANNEES_70);
+            Song s5 = new Song("Thriller", "Inconnu", "../../Resources/thriller-michael_jackson.mp3", Song.Category.ANNEES_80);
+            Song s6 = new Song("Beat It", "Inconnu", "../../Resources/beat_it-michael_jackson.mp3", Song.Category.ANNEES_80);
 
             playList.Add(s1.Id, s1);
             playList.Add(s2.Id, s2);
             playList.Add(s3.Id, s3);
             playList.Add(s4.Id, s4);
             playList.Add(s5.Id, s5);
+            playList.Add(s6.Id, s6);
 
-            //_newBubble(s1);
-            //_newBubble(s2);
-            //_newBubble(s3);
-            //_newBubble(s4);
-            //_newBubble(s5);
+            _newBubble(s1);
+            _newBubble(s2);
+            _newBubble(s3);
+            _newBubble(s4);
+            _newBubble(s5);
+            _newBubble(s6);
         }
 
         public void _newBubble(Song s)
@@ -310,8 +314,8 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            image.TouchDown += (sender, eventArgs) =>
-            //image.MouseDown += (sender, eventArgs) =>
+            //image.TouchDown += (sender, eventArgs) =>
+            image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
@@ -319,8 +323,8 @@ namespace ProjetSurface
                 //playlistQueue.AddLast(song);
             };
 
-            image.TouchUp += (sender, eventArgs) =>
-            //image.MouseUp += (sender, eventArgs) =>
+            //image.TouchUp += (sender, eventArgs) =>
+            image.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
@@ -420,5 +424,71 @@ namespace ProjetSurface
             }
             return null;
         }
+
+        // This event occurs when a TagVisualization object is added to the visual tree.
+        private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
+        {
+            // Get a reference to the TagVisualization object.
+            TagVisualization tv = e.TagVisualization;
+            // Add a handler for the GotTag event.
+            tv.GotTag += new RoutedEventHandler(OnGotTag);
+            // Add a handler for the LostTag event.
+            tv.LostTag += new RoutedEventHandler(OnLostTag);
+            // Keep the original effect. This effect is needed to return to the original 
+            // effect if the tag is removed and then replaced before LostTagTimeout.
+            tv.Tag = tv.Effect;
+        }
+
+        DropShadowEffect dse = new DropShadowEffect();
+
+        private void OnLostTag(object sender, RoutedEventArgs e)
+        {
+            // Get a reference to the TagVisualization object.
+            TagVisualization tv = (TagVisualization)e.Source;
+
+            // Create an animation to change the border size of the drop shadow effect.
+            DoubleAnimation borderAnimation =
+                new DoubleAnimation(42, 7, TimeSpan.FromMilliseconds(1600));
+
+            // Set the color of the drop shadow to one of the SurfaceColors.
+            dse.Color = SurfaceColors.ControlAccentColor;
+
+            // Set any of the other drop shadow properties.
+            dse.BlurRadius = 30;
+
+            // Add the effect and start the animation.
+            tv.Effect = dse;
+            tv.Effect.BeginAnimation(DropShadowEffect.ShadowDepthProperty, borderAnimation);
+
+            // At this point, the TagVisualization object has a drop shadow that is getting smaller,
+            // while the interior is fading (because TagRemovedBehavior == TagRemovedBehavior.Fade).
+            // If the tag is put back on the Microsoft Surface screen before LostTagTimeout, the OnGotTag event (above)
+            // occurs, and the TagVisualization receives its original effect.
+        }
+
+        private void OnGotTag(object sender, RoutedEventArgs e)
+        {
+            // Get a reference to the TagVisualization object.
+            TagVisualization tv = (TagVisualization)e.Source;
+            // Apply the original effect.
+            tv.Effect = (Effect)tv.Tag;
+
+            switch (tv.VisualizedTag.Value)
+            {
+                case 0x38:
+                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+                    {
+                        // do something with entry.Value or entry.Key
+                        Bubble b = entry.Value;
+                        if (b.S._Category != Song.Category.ANNEES_70) {
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, true)));
+                        }
+                    }
+                    break;
+                defaut:
+                    break;
+            }
+        }
     }
+
 }

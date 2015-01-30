@@ -9,6 +9,7 @@ namespace ProjetSurface
     public class Song
     {
         String id;
+        public enum Category { POP_ROCK, TECHNO, ANNEES_70, ANNEES_80, ANNEES_90 };
 
         public String Id
         {
@@ -37,12 +38,12 @@ namespace ProjetSurface
             get { return artist; }
             set { artist = value; }
         }
-        String category;
+        Category _category;
 
-        public String Category
+        public Category _Category
         {
-            get { return category; }
-            set { category = value; }
+            get { return _category; }
+            set { _category = value; }
         }
 
         int like;
@@ -53,13 +54,13 @@ namespace ProjetSurface
             set { like = value; }
         }
 
-        public Song(String name, String artist, String location, String category = null)
+        public Song(String name, String artist, String location, Category category)
         {
             this.id = Guid.NewGuid().ToString();
             this.name = name;
             this.artist = artist;
             this.location = location;
-            this.category = category;
+            this._category = category;
             this.like = 0;
         }
 

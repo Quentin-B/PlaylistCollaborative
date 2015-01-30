@@ -7,81 +7,94 @@
     Height="{Binding SystemParameters.PrimaryScreenHeight}" 
     Width="{Binding SystemParameters.PrimaryScreenWidth}"
     >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <s:ScatterView  
+    <StackPanel>
+        <s:TagVisualizer VisualizationAdded="OnVisualizationAdded">
+            <s:TagVisualizer.Definitions>
+                <s:TagVisualizationDefinition 
+                    Source="annees_70.xaml" 
+                    TagRemovedBehavior="Fade"
+                    Value="0x38" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
+
+            </s:TagVisualizer.Definitions>
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <s:ScatterView  
                     Grid.Column="0" Grid.Row="0"
                     x:Name="test_bubble" Cursor="Hand" Background="Transparent">
-            <s:ScatterView.ItemContainerStyle>
-                <Style TargetType="{x:Type s:ScatterViewItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type s:ScatterViewItem}">
-                                <ContentPresenter/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </s:ScatterView.ItemContainerStyle>
-        </s:ScatterView>
-        <StackPanel
+                    <s:ScatterView.ItemContainerStyle>
+                        <Style TargetType="{x:Type s:ScatterViewItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type s:ScatterViewItem}">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </s:ScatterView.ItemContainerStyle>
+                </s:ScatterView>
+                <StackPanel
             Grid.Column="1" Grid.Row="0"
             Width="200"
             Orientation="Vertical">
-            <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
-                <WrapPanel
+                    <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+                        <WrapPanel
             x:Name="playlistPanel"
             Height="800"
             Width="200"
             Background="AliceBlue"/>
-            </ScrollViewer>
-            <StackPanel
+                    </ScrollViewer>
+                    <StackPanel
             Width="200"
         Orientation="Horizontal"
                 Background="AliceBlue">
-                <Button 
+                        <Button 
                     x:Name="previousButton"
                     Height="50" Width="50">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image Source="Resources/previous.png"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Button 
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="Resources/previous.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button 
                     x:Name="playButton"
                     Height="50" Width="50">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image Source="Resources/play.png"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Button 
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="Resources/play.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button 
                     x:Name="stopButton"
                     Height="50" Width="50">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image Source="Resources/stop.png"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Button 
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="Resources/stop.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button 
                     x:Name="nextButton"
                     Height="50" Width="50">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image Source="Resources/next.png"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="Resources/next.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </s:TagVisualizer>
+    </StackPanel>
 </s:SurfaceWindow>

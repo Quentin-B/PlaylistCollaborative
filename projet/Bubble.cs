@@ -18,6 +18,12 @@ namespace ProjetSurface
         private int nbLikes;
         private Song s;
 
+        public Song S
+        {
+            get { return s; }
+            set { s = value; }
+        }
+
         public int DefaultSize
         {
             get { return defaultSize; }
