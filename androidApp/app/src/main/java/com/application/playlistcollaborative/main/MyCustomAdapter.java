@@ -54,8 +54,13 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         }
 
         //Handle TextView and display string from your list
-        TextView listItemText = (TextView) view.findViewById(R.id.list_item_string);
-        listItemText.setText(list.get(position).getTitle());
+        TextView listItemText = (TextView) view.findViewById(R.id.title_string);
+        TextView ArtistText = (TextView) view.findViewById(R.id.artist_string);
+
+        MusicPojo m = list.get(position);
+
+        listItemText.setText(m.getTitle());
+        ArtistText.setText(m.getArtist());
 
         //Handle buttons and add onClickListeners
         ImageButton up = (ImageButton) view.findViewById(R.id.up);

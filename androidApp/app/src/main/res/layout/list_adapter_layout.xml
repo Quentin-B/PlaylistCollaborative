@@ -4,22 +4,50 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/list_item_string"
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/cover"
+        android:contentDescription="cover"/>
+
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight=".8"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="8dp"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_weight="0.8"
+        android:orientation="vertical">
+
+        <TextView
+            fontPath="fonts/Elkwood.ttf"
+            android:id="@+id/title_string"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:paddingLeft="8dp"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            android:background="#3468A3"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            fontPath="fonts/Neoteric.ttf"
+            android:id="@+id/artist_string"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:paddingLeft="8dp"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:background="#3468A3"
+            android:gravity="center_vertical"/>
+
+
+
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/up" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/list_selector"
+        android:background="#F6F5DF"/>
 
 
 
