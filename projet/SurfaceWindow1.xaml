@@ -50,7 +50,7 @@
                     Height="50" Width="50">
                     <Button.Template>
                         <ControlTemplate>
-                            <Image Source="Resources/previous.png"/>
+                            <Image Source="Resources/play.png"/>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
@@ -77,7 +77,7 @@
                     Height="50" Width="50">
                     <Button.Template>
                         <ControlTemplate>
-                            <Image Source="Resources/next.png"/>
+                            <Image Source="Resources/play.png"/>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>

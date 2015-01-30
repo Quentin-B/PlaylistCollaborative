@@ -19,6 +19,9 @@ namespace ProjetSurface
                 current_index = value;
                 if (current_index < 0)
                     current_index = 0;
+                if (current_index > fileLecture.Count - 1)
+                    current_index = fileLecture.Count - 1;
+
             }
         }
 
@@ -56,19 +59,21 @@ namespace ProjetSurface
             fileLecture.Remove(s);
         }
 
-        public void Next()
+        public Song Next()
         {
-            current_index++;
+            Current_index++;
+            return getCurrentSong();
         }
 
-        public void Previous()
+        public Song Previous()
         {
-            current_index--;
+            Current_index--;
+            return getCurrentSong();
         }
 
-        public void getCurrentSong()
+        public Song getCurrentSong()
         {
-            fileLecture.ElementAt(current_index);
+           return fileLecture.ElementAt(current_index);
         }
 
     }

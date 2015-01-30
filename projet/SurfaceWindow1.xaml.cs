@@ -127,12 +127,14 @@ namespace ProjetSurface
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
-
+            Song s = fileLecture.Previous();
+            player.PlaySong(false, s, true);
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-
+            Song s = fileLecture.Next();
+            player.PlaySong(false, s, true);
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
@@ -154,11 +156,11 @@ namespace ProjetSurface
 
         private void _initializeSongs()
         {
-            Song s1 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
-            Song s2 = new Song("Flashlight", "Inconnu", "../../Resources/Hot Hands.mp3");
+            Song s1 = new Song("Flash Light", "Inconnu", "../../Resources/Flashlight.mp3");
+            Song s2 = new Song("Hot hands", "Inconnu", "../../Resources/Hot Hands.mp3");
             Song s3 = new Song("Much too", "Inconnu", "../../Resources/Much Too Much.mp3");
-            Song s4 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
-            Song s5 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3");
+            Song s4 = new Song("Flashlight 2", "Inconnu", "../../Resources/Flashlight.mp3");
+            Song s5 = new Song("Flashlight 2", "Inconnu", "../../Resources/Flashlight.mp3");
 
             playList.Add(s1.Id, s1);
             playList.Add(s2.Id, s2);
@@ -166,11 +168,11 @@ namespace ProjetSurface
             playList.Add(s4.Id, s4);
             playList.Add(s5.Id, s5);
 
-            //_newBubble(s1);
-            //_newBubble(s2);
-            //_newBubble(s3);
-            //_newBubble(s4);
-            //_newBubble(s5);
+            _newBubble(s1);
+            _newBubble(s2);
+            _newBubble(s3);
+            _newBubble(s4);
+            _newBubble(s5);
         }
 
         public void _newBubble(Song s)
@@ -332,26 +334,24 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            image.TouchDown += (sender, eventArgs) =>
-            //image.MouseDown += (sender, eventArgs) =>
+            //image.TouchDown += (sender, eventArgs) =>
+            image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
-                eventArgs.Handled = true;
-                //playlistQueue.AddLast(song);
+                eventArgs.Handled = true;           
             };
 
-            image.TouchUp += (sender, eventArgs) =>
-            //image.MouseUp += (sender, eventArgs) =>
+            //image.TouchUp += (sender, eventArgs) =>
+            image.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
                 //startMoving(target);
                 Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
-                player.StopSong();
-                player.LoadSong(song.Location);
-                player.PlaySong(false);
+                player.PlaySong(false, song, true);
+                fileLecture.Add(song);
                 eventArgs.Handled = true;
             };
 

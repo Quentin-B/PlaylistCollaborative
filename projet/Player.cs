@@ -40,6 +40,16 @@ namespace ProjetSurface
             Bass.BASS_ChannelPlay(stream, false);
         }
 
+        public void PlaySong(bool loop,Song s, bool stop)
+        {
+            if(stop)
+            {
+                StopSong();
+            }
+            LoadSong(s.Location);
+            PlaySong(loop);
+        }
+
         public void StopSong()
         {
             Bass.BASS_ChannelStop(stream);
