@@ -11,7 +11,7 @@
         <s:TagVisualizer VisualizationAdded="OnVisualizationAdded">
             <s:TagVisualizer.Definitions>
                 <s:TagVisualizationDefinition 
-                    Source="annees_70.xaml" 
+                    Source="annees_70.xml" 
                     TagRemovedBehavior="Fade"
                     Value="0x38" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
 
