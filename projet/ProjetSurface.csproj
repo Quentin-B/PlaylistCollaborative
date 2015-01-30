@@ -137,6 +137,7 @@
     <Content Include="Resources\abc-jackson5.mp3" />
     <Content Include="Resources\beat_it-michael_jackson.mp3" />
     <Content Include="Resources\i_want_you_back-jackson5.mp3" />
+    <Resource Include="Resources\magicshialabeouf.jpg" />
     <Content Include="Resources\Much Too Much.mp3" />
     <Content Include="Resources\thriller-michael_jackson.mp3" />
     <Resource Include="Resources\pause.png" />
