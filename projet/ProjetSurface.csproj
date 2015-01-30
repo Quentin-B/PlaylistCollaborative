@@ -91,6 +91,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bubble.cs" />
+    <Compile Include="FileDeLecture.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayList.cs" />
     <Compile Include="RemoveChildHelper.cs" />
@@ -128,10 +129,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="annees_70.xml" />
+    <Content Include="Resources\abc-jackson5.mp3" />
+    <Content Include="Resources\beat_it-michael_jackson.mp3" />
+    <Content Include="Resources\i_want_you_back-jackson5.mp3" />
     <Content Include="Resources\Much Too Much.mp3" />
+    <Content Include="Resources\thriller-michael_jackson.mp3" />
     <Resource Include="Resources\pause.png" />
     <Resource Include="Resources\play.png" />
     <Resource Include="Resources\stop.png" />
+    <Resource Include="Resources\next.png" />
+    <Resource Include="Resources\previous.png" />
     <Content Include="Resources\S_ash.mp3" />
     <Resource Include="Resources\bubble.png" />
     <Content Include="bass.dll">
