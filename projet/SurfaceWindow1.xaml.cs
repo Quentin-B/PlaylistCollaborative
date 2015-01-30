@@ -354,7 +354,9 @@ namespace ProjetSurface
                 //startMoving(target);
                 Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
-                player.PlaySong(false, song, true);
+                if(fileLecture.isEmpty())
+                    player.PlaySong(false, song, true);
+
                 fileLecture.Add(song);
                 eventArgs.Handled = true;
             };

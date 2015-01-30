@@ -76,5 +76,9 @@ namespace ProjetSurface
            return fileLecture.ElementAt(current_index);
         }
 
+        public bool isEmpty()
+        {
+            return fileLecture.Count == 0;
+        }
     }
 }
