@@ -134,16 +134,9 @@ namespace ProjetSurface
             Song s = fileLecture.Previous();
             player.PlaySong(false, s, true);
 
-            foreach (Canvas c in playlistPanel.Children)
-            {
-                ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
-                ((TextBlock)c.Children[1]).FontSize = 12;
-            }
+            updateBubble();
 
-            Canvas c1 = (Canvas)playlistPanel.Children[fileLecture.Current_index];
-            TextBlock text = (TextBlock)c1.Children[1];
-            text.Foreground = Brushes.DarkGray;
-            text.FontSize = 20;
+            
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
@@ -154,16 +147,7 @@ namespace ProjetSurface
             Song s = fileLecture.Next();
             player.PlaySong(false, s, true);
 
-            foreach (Canvas c in playlistPanel.Children)
-            {
-                ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
-                ((TextBlock)c.Children[1]).FontSize = 12;
-            }
-
-            Canvas c1 = (Canvas)playlistPanel.Children[fileLecture.Current_index];
-            TextBlock text = (TextBlock)c1.Children[1];
-            text.Foreground = Brushes.DarkGray;
-            text.FontSize = 20;
+            updateBubble();
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
@@ -182,6 +166,8 @@ namespace ProjetSurface
 
             player.PlaySong(false);        
             e.Handled = true;
+
+            updateBubble();
         }
 
         private void _initializeSocket()
@@ -389,7 +375,7 @@ namespace ProjetSurface
                 Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
                 if (fileLecture.isEmpty())
-                    player.PlaySong(false, song, true);                  
+                    player.LoadSong(song.Location);               
 
                 fileLecture.Add(song);        
                
@@ -465,18 +451,12 @@ namespace ProjetSurface
 
                     //image.TouchUp += (sender, eventArgs) =>
                     image.MouseUp += (sender2, eventArgs) =>
-                    {
-                        foreach (Canvas c in playlistPanel.Children)
-                        {
-                             ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
-                             ((TextBlock)c.Children[1]).FontSize = 12;
-                        }
-                               
-
+                    {                        
+                              
                         player.PlaySong(false, song, true);
                         fileLecture.Current_index = fileLecture.getIndexSong(song);
-                        text.Foreground = Brushes.DarkGray;
-                        text.FontSize = 20;
+
+                        updateBubble();
                         //TODO 
                         //playlistPanel.Children.
                     };
@@ -495,6 +475,19 @@ namespace ProjetSurface
 
         }
 
+        private void updateBubble()
+        {
+            foreach (Canvas c in playlistPanel.Children)
+            {
+                ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
+                ((TextBlock)c.Children[1]).FontSize = 12;
+            }
+
+            Canvas c1 = (Canvas)playlistPanel.Children[fileLecture.Current_index];
+            TextBlock text = (TextBlock)c1.Children[1];
+            text.Foreground = Brushes.DarkGray;
+            text.FontSize = 20;
+        }
 
         private Point GetRandomPoint()
         {
