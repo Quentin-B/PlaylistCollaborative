@@ -553,6 +553,26 @@ namespace ProjetSurface
             tv.Effect = dse;
             tv.Effect.BeginAnimation(DropShadowEffect.ShadowDepthProperty, borderAnimation);
 
+            tv.Effect = (Effect)tv.Tag;
+
+            switch (tv.VisualizedTag.Value)
+            {
+                case 0x38:
+                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+                    {
+                        // do something with entry.Value or entry.Key
+                        Bubble b = entry.Value;
+                        if (b.S._Category != Song.Category.ANNEES_70)
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                        }
+                    }
+                    break;
+                defaut:
+                    break;
+            }
+
+            
             // At this point, the TagVisualization object has a drop shadow that is getting smaller,
             // while the interior is fading (because TagRemovedBehavior == TagRemovedBehavior.Fade).
             // If the tag is put back on the Microsoft Surface screen before LostTagTimeout, the OnGotTag event (above)
