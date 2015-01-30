@@ -530,7 +530,7 @@ namespace ProjetSurface
                         // do something with entry.Value or entry.Key
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.ANNEES_70) {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, true)));
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
                     break;
