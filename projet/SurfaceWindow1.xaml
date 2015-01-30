@@ -48,7 +48,7 @@
                     <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
                         <WrapPanel
             x:Name="playlistPanel"
-            Height="1000"
+            Height="800" 
             Width="200"
             Background="AliceBlue"/>
                     </ScrollViewer>

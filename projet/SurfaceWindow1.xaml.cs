@@ -133,6 +133,17 @@ namespace ProjetSurface
 
             Song s = fileLecture.Previous();
             player.PlaySong(false, s, true);
+
+            foreach (Canvas c in playlistPanel.Children)
+            {
+                ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
+                ((TextBlock)c.Children[1]).FontSize = 12;
+            }
+
+            Canvas c1 = (Canvas)playlistPanel.Children[fileLecture.Current_index];
+            TextBlock text = (TextBlock)c1.Children[1];
+            text.Foreground = Brushes.DarkGray;
+            text.FontSize = 20;
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
@@ -142,6 +153,17 @@ namespace ProjetSurface
 
             Song s = fileLecture.Next();
             player.PlaySong(false, s, true);
+
+            foreach (Canvas c in playlistPanel.Children)
+            {
+                ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
+                ((TextBlock)c.Children[1]).FontSize = 12;
+            }
+
+            Canvas c1 = (Canvas)playlistPanel.Children[fileLecture.Current_index];
+            TextBlock text = (TextBlock)c1.Children[1];
+            text.Foreground = Brushes.DarkGray;
+            text.FontSize = 20;
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
@@ -158,7 +180,7 @@ namespace ProjetSurface
             if (fileLecture.isEmpty())
                 return;
 
-            player.PlaySong(false);
+            player.PlaySong(false);        
             e.Handled = true;
         }
 
@@ -350,26 +372,27 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            image.TouchDown += (sender, eventArgs) =>
-            //image.MouseDown += (sender, eventArgs) =>
+            //image.TouchDown += (sender, eventArgs) =>
+            image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;           
             };
 
-            image.TouchUp += (sender, eventArgs) =>
-            //image.MouseUp += (sender, eventArgs) =>
+            //image.TouchUp += (sender, eventArgs) =>
+            image.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
                 //startMoving(target);
                 Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
-                if(fileLecture.isEmpty())
-                    player.PlaySong(false, song, true);
+                if (fileLecture.isEmpty())
+                    player.PlaySong(false, song, true);                  
 
-                fileLecture.Add(song);
+                fileLecture.Add(song);        
+               
                 eventArgs.Handled = true;
             };
 
@@ -409,6 +432,8 @@ namespace ProjetSurface
                     canvas.Width = 200;
                     canvas.Height = 200;
 
+                    Song song = playList.getSongById(target.Name);
+
 
                     Image image = new Image();
                     image.Width = 200;
@@ -416,12 +441,14 @@ namespace ProjetSurface
                     image.Source = new BitmapImage(
                         new Uri("Resources/bubble.png", UriKind.Relative));
 
+                    
+
                     canvas.Children.Add(image);
                     // Debut text block
                     TextBlock text = new TextBlock();
                    
-                    text.Text = playList.getSongById(target.Name).Name;
-                    text.Foreground = new SolidColorBrush(Colors.White);
+                    text.Text = song.Name;
+                    text.Foreground = Brushes.Navy;
                     text.TextAlignment = TextAlignment.Center;
                     text.TextWrapping = TextWrapping.Wrap;
                     text.Margin = new Thickness(40, 0, 40, 0);
@@ -429,6 +456,30 @@ namespace ProjetSurface
                     Canvas.SetTop(text, 100);
                     canvas.Children.Add(text);
                     // fin text block
+
+                    //image.TouchDown += (sender, eventArgs) =>
+                    image.MouseDown += (sender2, eventArgs) =>
+                    {
+
+                    };
+
+                    //image.TouchUp += (sender, eventArgs) =>
+                    image.MouseUp += (sender2, eventArgs) =>
+                    {
+                        foreach (Canvas c in playlistPanel.Children)
+                        {
+                             ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
+                             ((TextBlock)c.Children[1]).FontSize = 12;
+                        }
+                               
+
+                        player.PlaySong(false, song, true);
+                        fileLecture.Current_index = fileLecture.getIndexSong(song);
+                        text.Foreground = Brushes.DarkGray;
+                        text.FontSize = 20;
+                        //TODO 
+                        //playlistPanel.Children.
+                    };
 
                     //canvas.SetTop(canvas, NewBody.YPosition);
                     //canvas.SetLeft(canvas, NewBody.XPosition);
