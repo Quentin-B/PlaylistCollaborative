@@ -128,24 +128,36 @@ namespace ProjetSurface
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
+            if (fileLecture.isEmpty())
+                return;
+
             Song s = fileLecture.Previous();
             player.PlaySong(false, s, true);
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
+            if (fileLecture.isEmpty())
+                return;
+
             Song s = fileLecture.Next();
             player.PlaySong(false, s, true);
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
+            if (fileLecture.isEmpty())
+                return;
+
             player.StopSong();
             e.Handled = true;
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
+            if (fileLecture.isEmpty())
+                return;
+
             player.PlaySong(false);
             e.Handled = true;
         }
