@@ -24,7 +24,9 @@ import android.widget.Toast;
 
 import com.application.playlistcollaborative.R;
 import com.application.playlistcollaborative.Tool.JSONBuilder;
+import com.application.playlistcollaborative.model.MusicDB;
 import com.application.playlistcollaborative.model.MusicPojo;
+import com.application.playlistcollaborative.model.SQLiteDB;
 import com.application.playlistcollaborative.model.SocketSingleton;
 
 import org.json.JSONException;
@@ -42,8 +44,8 @@ public class MainActivity extends Activity {
     private TextView tvResponse;
     private Button btSend;
     private EditText etMessage;
-    ListView listView ;
-
+    private ListView listView ;
+    private MusicDB db;
     private SocketSingleton socket;
     private BroadcastReceiver receiver;
 
@@ -52,6 +54,21 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        listView = (ListView) findViewById(R.id.list);
+
+        //Ouverture base de donnée
+        db = new MusicDB(this);
+        db.open();
+
+        //récupération de la liste de musique
+        ArrayList<MusicPojo> m = db.getMusics();
+
+        //s'il y a des musiques on les rajoute a la liste
+        if(m != null){
+            MyCustomAdapter adapter = new MyCustomAdapter(m, this.getBaseContext(), db);
+            listView.setAdapter(adapter);
+        }
 
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -73,11 +90,11 @@ public class MainActivity extends Activity {
                         .build()
         );
 
-        listView = (ListView) findViewById(R.id.list);
+
 
         socket = SocketSingleton.get(getBaseContext());
 
-        socket.getMusic(listView,this);
+        socket.getMusic(listView,this,db);
 
 
 
@@ -145,6 +162,6 @@ public class MainActivity extends Activity {
     }
 
     public void synchroMusic(MenuItem item){
-       socket.getMusic(listView,MainActivity.this);
+       socket.getMusic(listView,MainActivity.this, db);
     }
 }

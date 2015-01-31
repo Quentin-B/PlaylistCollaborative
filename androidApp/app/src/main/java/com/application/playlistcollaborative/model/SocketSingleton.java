@@ -39,6 +39,7 @@ public class SocketSingleton {
     private JSONArray lastresult;
     private JSONObject lastresultobj;
     private ListView lw;
+    private MusicDB db;
     private Activity mainthread;
 
     public static SocketSingleton get(Context context){
@@ -92,17 +93,22 @@ public class SocketSingleton {
                     }else if((ANDROID + "sendmusic").equals(event) && args.length > 0){
                         try{
                             JSONArray jsa = new JSONArray((String)args[0]);
-
                             ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(jsa);
-                            Log.i("ANTHO", "array" + m.toString());
-                            final MyCustomAdapter adapter = new MyCustomAdapter(m, context);
-                            mainthread.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                   lw.setAdapter(adapter);
 
-                                }
-                            });
+                            if(!m.equals(db.getMusics())){
+                                final MyCustomAdapter adapter = new MyCustomAdapter(m, context,db);
+                                mainthread.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        lw.setAdapter(adapter);
+
+                                    }
+                                });
+                                db.removeAllMusics();
+                                db.insertMusics(m);
+                            }
+
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -138,10 +144,11 @@ public class SocketSingleton {
 
     }
 
-    public void getMusic(ListView lw, Activity a){
+    public void getMusic(ListView lw, Activity a, MusicDB db){
         socket.emit(ANDROID+"getmusic", "need music");
         this.lw = lw;
         this.mainthread = a;
+        this.db = db;
     }
 
     public void sendplus(String id){
