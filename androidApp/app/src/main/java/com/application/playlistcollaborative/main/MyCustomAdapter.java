@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.application.playlistcollaborative.R;
@@ -94,6 +95,10 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
             Drawable d = context.getResources().getDrawable(R.drawable.up_disabled);
             up.setImageDrawable(d);
         }
+
+         ProgressBar mProgress = (ProgressBar) view.findViewById(R.id.circle_progress_bar);
+
+         mProgress.setProgress(65);
 
 
       
