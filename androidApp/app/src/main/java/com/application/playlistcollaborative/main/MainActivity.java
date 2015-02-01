@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
         listView = (ListView) findViewById(R.id.list);
 
         //Ouverture base de donnée
-        db = new MusicDB(this);
+        db = new MusicDB(this.getApplicationContext());
         db.open();
 
         //récupération de la liste de musique
@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
-        LayoutInflater mInflater = LayoutInflater.from(this);
+        LayoutInflater mInflater = LayoutInflater.from(this.getBaseContext());
 
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
@@ -84,15 +84,9 @@ public class MainActivity extends Activity {
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Neoteric.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
 
 
-
-        socket = SocketSingleton.get(getBaseContext());
+        socket = SocketSingleton.get();
 
         socket.getMusic(listView,this,db);
 
@@ -115,11 +109,6 @@ public class MainActivity extends Activity {
             }
 
         });
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override
@@ -162,6 +151,8 @@ public class MainActivity extends Activity {
     }
 
     public void synchroMusic(MenuItem item){
-       socket.getMusic(listView,MainActivity.this, db);
+       socket.getMusic(listView,this, db);
     }
+
+
 }

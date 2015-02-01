@@ -17,7 +17,6 @@
         android:orientation="vertical">
 
         <TextView
-            fontPath="fonts/Elkwood.ttf"
             android:id="@+id/title_string"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -28,7 +27,7 @@
             android:gravity="center_vertical"/>
 
         <TextView
-            fontPath="fonts/Neoteric.ttf"
+
             android:id="@+id/artist_string"
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -75,16 +74,20 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/votes"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:textSize="12sp"
-                android:text="OK"
+                android:textSize="20sp"
                 android:gravity="center"/>
 
         </LinearLayout>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
+    <TextView
+        android:layout_width="15dp"
+        android:layout_height="50dp"
+        android:background="#3468A3"/>
 
     <ImageButton
         android:id="@+id/up"

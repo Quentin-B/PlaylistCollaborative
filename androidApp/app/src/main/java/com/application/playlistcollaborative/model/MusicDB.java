@@ -29,6 +29,10 @@ public class MusicDB {
     private static final String COL_VOTED = "Voted";
     private static final int NUM_COL_VOTED = 5;
 
+    private static final String CREATE_BDD = "CREATE TABLE " + TABLE_MUSIC + " ("
+            + COL_ID + " TEXT PRIMARY KEY, " + COL_ARTIST + " TEXT NOT NULL, "
+            + COL_TITRE + " TEXT NOT NULL, "+ COL_GENRE+" TEXT NOT NULL, "+ COL_VOTES +" INTEGER NOT NULL, "+ COL_VOTED + " INTEGER NOT NULL );";
+
 
     private SQLiteDatabase bdd;
 
@@ -80,8 +84,13 @@ public class MusicDB {
 
 
     public int removeMusic(int id){
+        bdd.delete(TABLE_MUSIC, COL_ID + " = " +id, null);
         //Suppression d'un livre de la BDD grâce à l'ID
-        return bdd.delete(TABLE_MUSIC, COL_ID + " = " +id, null);
+        bdd.execSQL("DROP TABLE " + TABLE_MUSIC + ";");
+        bdd.execSQL(CREATE_BDD);
+        return 1;
+
+
     }
 
     public void removeAllMusics(){
@@ -130,14 +139,16 @@ public class MusicDB {
         return cursorToMusic(c);
     }
 
-    public int updateVotedMusic(String id, boolean b){
+    public int updateVotedMusic(MusicPojo m, boolean b){
         //La mise à jour d'un livre dans la BDD fonctionne plus ou moins comme une insertion
         //il faut simple préciser quelle livre on doit mettre à jour grâce à l'ID
 
         int value = (b)?1:0;
         ContentValues values = new ContentValues();
         values.put(COL_VOTED, value);
-        return bdd.update(TABLE_MUSIC, values, COL_ID + " = '" +id + "'", null);
+        values.put(COL_VOTES, m.getVotes()+1);
+        return bdd.update(TABLE_MUSIC, values, COL_ID + " = '" +m.getId() + "'", null);
     }
+
 
 }

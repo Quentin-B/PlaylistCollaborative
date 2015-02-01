@@ -2,6 +2,7 @@ package com.application.playlistcollaborative.main;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import io.socket.SocketIO;
 
 public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
-    private ArrayList<MusicPojo> list = new ArrayList<MusicPojo>();
+    private ArrayList<MusicPojo> list;
     private Context context;
     private SocketSingleton socket;
     private MusicDB db;
@@ -31,7 +32,8 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         this.list = list;
         this.context = context;
         this.db = db;
-        socket = SocketSingleton.get(context);
+        this.list = list;
+        socket = SocketSingleton.get();
     }
 
     @Override
@@ -50,6 +52,15 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         //just return 0 if your list items do not have an Id variable.
     }
 
+    public void upvote(String id){
+        for(MusicPojo m : this.list){
+            if(m.getId().equals(id)){
+                Log.i("WORKING", "LOL");
+                m.setVotes(m.getVotes() + 1);
+            }
+        }
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
@@ -62,43 +73,37 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         TextView listItemText = (TextView) view.findViewById(R.id.title_string);
         TextView ArtistText = (TextView) view.findViewById(R.id.artist_string);
 
-        MusicPojo m = list.get(position);
+        final MusicPojo m = list.get(position);
 
         listItemText.setText(m.getTitle());
         ArtistText.setText(m.getArtist());
 
         //Handle buttons and add onClickListeners
         final ImageButton up = (ImageButton) view.findViewById(R.id.up);
+        final Drawable d = context.getResources().getDrawable(R.drawable.up_disabled);
+
 
         if(!m.isVoted()){
             up.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //do something
-                    MusicPojo m = list.get(position);
                     m.isVoted();
                     notifyDataSetChanged();//or some other task
-                    db.updateVotedMusic(m.getId(), true);
+                    db.updateVotedMusic(m, true);
                     socket.sendplus(m.getId());
-                    up.setClickable(false);
-                    up.setOnClickListener(null);
-                    up.setEnabled(false);
                     up.setActivated(false);
-                    Drawable d = context.getResources().getDrawable(R.drawable.up_disabled);
                     up.setImageDrawable(d);
-
-
 
                 }
             });
         }else{
-            Drawable d = context.getResources().getDrawable(R.drawable.up_disabled);
             up.setImageDrawable(d);
         }
 
          ProgressBar mProgress = (ProgressBar) view.findViewById(R.id.circle_progress_bar);
-
-         mProgress.setProgress(65);
+        TextView tv = (TextView) view.findViewById(R.id.votes);
+        tv.setText(Integer.toString(m.getVotes()));
+         mProgress.setProgress(m.getVotes());
 
 
       
