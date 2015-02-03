@@ -75,6 +75,7 @@ namespace ProjetSurface
             //item.ActualCenter = new Point(300, 100);
             scatterItem.Background = new SolidColorBrush(Colors.Transparent);
             scatterItem.ShowsActivationEffects = false;
+            scatterItem.Name = s.Id;
             
             canvas = new Canvas();
             canvas.Width = defaultSize;

@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.application.playlistcollaborative.Tool.JSONBuilder;
+import com.application.playlistcollaborative.main.MainActivity;
 import com.application.playlistcollaborative.main.MyCustomAdapter;
 
 import org.json.JSONArray;
@@ -35,37 +36,30 @@ public class SocketSingleton {
     private static final String ANDROID = "android_";
     private static final String SURFACE = "surface_";
     private SocketIO socket;
-    private Context context;
-    private JSONArray lastresult;
-    private JSONObject lastresultobj;
     private ListView lw;
+    private MusicDB db;
     private Activity mainthread;
 
-    public static SocketSingleton get(Context context){
+    public static SocketSingleton get(){
         if(instance == null){
-            instance = getSync(context);
+            instance = getSync();
         }
-        instance.context = context;
         return instance;
     }
 
-    public static synchronized SocketSingleton getSync(Context context){
+    public static synchronized SocketSingleton getSync(){
         if (instance == null) {
-            instance = new SocketSingleton(context);
+            instance = new SocketSingleton();
         }
         return instance;
-    }
-
-    public JSONArray getLastresult(){
-        return this.lastresult;
     }
 
     public SocketIO getSocket(){
         return this.socket;
     }
 
-    private SocketSingleton(Context context){
-        this.context = context;
+    private SocketSingleton(){
+
         this.socket = getServerSocket();
 
     }
@@ -92,20 +86,36 @@ public class SocketSingleton {
                     }else if((ANDROID + "sendmusic").equals(event) && args.length > 0){
                         try{
                             JSONArray jsa = new JSONArray((String)args[0]);
+                            final ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(jsa);
 
-                            ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(jsa);
-                            Log.i("ANTHO", "array" + m.toString());
-                            final MyCustomAdapter adapter = new MyCustomAdapter(m, context);
-                            mainthread.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                   lw.setAdapter(adapter);
+                            if(!m.equals(db.getMusics())){
+                                final Context c = mainthread.getApplicationContext();
+                                mainthread.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        MyCustomAdapter adapter = new MyCustomAdapter(m, c,db);
+                                        lw.setAdapter(adapter);
+                                    }
+                                });
+                                db.removeAllMusics();
+                                db.insertMusics(m);
+                            }
 
-                                }
-                            });
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
+
+                    }else if((ANDROID + "broadcast_plus").equals(event) && args.length > 0){
+                        String id = (String)args[0];
+                        final MyCustomAdapter ca = (MyCustomAdapter)lw.getAdapter();
+                        ca.upvote(id);
+                        mainthread.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ca.notifyDataSetChanged();
+                            }
+                        });
 
                     }
                 }
@@ -138,9 +148,10 @@ public class SocketSingleton {
 
     }
 
-    public void getMusic(ListView lw, Activity a){
+    public void getMusic(ListView lw,Activity a, MusicDB db){
         socket.emit(ANDROID+"getmusic", "need music");
         this.lw = lw;
+        this.db = db;
         this.mainthread = a;
     }
 
@@ -148,15 +159,5 @@ public class SocketSingleton {
         socket.emit(ANDROID + "plus", id);
     }
 
-    public void sendmoins(String id){
-        socket.emit(ANDROID + "moins",id);
-    }
 
-    public void setLastresult(JSONArray lastresult) {
-        this.lastresult = lastresult;
-    }
-
-    public JSONObject getLastresultobj() {
-        return lastresultobj;
-    }
 }

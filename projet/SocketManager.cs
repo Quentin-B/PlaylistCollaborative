@@ -59,6 +59,7 @@ namespace ProjetSurface
                     socket.Emit("isTable", null);
                     socket.Emit("echo", "Hello World!");
                     Console.WriteLine("Emit isTable done.");
+                    socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(playList.PlaylistDic.Values));
 
                 });
 
@@ -93,6 +94,8 @@ namespace ProjetSurface
                     }
                     s.Like++;
 
+                    socket.Emit(SURFACE + "broadcast_plus", data.Json.Args[0]);
+                    Console.WriteLine("Event " + SURFACE + "broadcast_plus emitted");
                     Console.WriteLine("Nouvelle valeur de like : " + playList.getSongById(id_song).Like);
                     //TODO
                     //redraw la bulle plus grosse en fonction du nombre de like

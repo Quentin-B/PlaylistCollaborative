@@ -39,7 +39,7 @@ public final class JSONBuilder {
 
                 music = ja.getJSONObject(i);
                 model.setArtist(music.getString("Artist"));
-                model.setGenre(music.getString("Category"));
+                model.setGenre(music.getString("_Category"));
                 model.setTitle(music.getString("Name"));
                 model.setId(music.getString("Id"));
                 m.add(model);

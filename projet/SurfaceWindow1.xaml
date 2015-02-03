@@ -11,7 +11,7 @@
         <s:TagVisualizer VisualizationAdded="OnVisualizationAdded">
             <s:TagVisualizer.Definitions>
                 <s:TagVisualizationDefinition 
-                    Source="annees_70.xml" 
+                    Source="annees_70.xaml" 
                     TagRemovedBehavior="Fade"
                     Value="0x38" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
 
@@ -48,7 +48,7 @@
                     <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
                         <WrapPanel
             x:Name="playlistPanel"
-            Height="800"
+            Height="800" 
             Width="200"
             Background="AliceBlue"/>
                     </ScrollViewer>

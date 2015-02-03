@@ -1,20 +1,27 @@
 package com.application.playlistcollaborative.model;
 
+import java.util.Objects;
+
 /**
  * Created by Hugo on 16/01/2015.
  */
-public class MusicPojo {
+public class MusicPojo implements  Comparable<MusicPojo>{
 
     private String id;
     private String title;
     private String artist;
     private String genre;
+    private int votes;
+    private boolean voted;
 
     public MusicPojo(String m_id, String m_title, String m_artist, String m_genre){
         this.id = m_id;
         this.title = m_title;
         this.artist = m_artist;
         this.genre = m_genre;
+        this.votes = 0;
+        this.voted = false;
+
     }
 
     public MusicPojo(){
@@ -58,5 +65,32 @@ public class MusicPojo {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public boolean isVoted() {
+        return voted;
+    }
+
+    public void setVoted(boolean voted) {
+        this.voted = voted;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
+    @Override
+    public int compareTo(MusicPojo musicPojo) {
+        return this.id.compareTo(musicPojo.getId());
+    }
+
+    @Override
+    public boolean equals(Object m){
+        return m.getClass().equals(this.getClass()) && this.getId().equals(((MusicPojo) m).getId());
+
     }
 }
