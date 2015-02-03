@@ -38,7 +38,26 @@ namespace ProjetSurface
         public void PlaySong(bool loop)
         {
             Bass.BASS_ChannelPlay(stream, false);
+
         }
+
+        public float getCurrentSongLength()
+        {
+            long byteduration = 0;
+            byteduration = Bass.BASS_ChannelGetLength(stream);
+            float seconds = Bass.BASS_ChannelBytes2Seconds(stream, byteduration);
+            return seconds;
+            
+        }
+
+        public float getCurrentSongPos()
+        {
+            long byteduration = 0;
+            byteduration = Bass.BASS_ChannelGetPosition(stream);
+            float seconds = Bass.BASS_ChannelBytes2Seconds(stream, byteduration);
+            return seconds;
+        }
+
 
         public void PlaySong(bool loop,Song s, bool stop)
         {
@@ -48,6 +67,7 @@ namespace ProjetSurface
             }
             LoadSong(s.Location);
             PlaySong(loop);
+
         }
 
         public void StopSong()

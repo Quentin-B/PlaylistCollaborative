@@ -156,6 +156,7 @@ namespace ProjetSurface
                 return;
 
             player.StopSong();
+            this._sm.stopmusic();
             e.Handled = true;
         }
 
@@ -164,9 +165,14 @@ namespace ProjetSurface
             if (fileLecture.isEmpty())
                 return;
 
-            player.PlaySong(false);        
-            e.Handled = true;
+            player.PlaySong(false);
 
+            SongPointer sp = new SongPointer(fileLecture.getCurrentSong().Id, player.getCurrentSongLength(), player.getCurrentSongPos());
+            this._sm.sendmusicstarting(sp);
+
+
+            e.Handled = true;
+          
             updateBubble();
         }
 
@@ -358,7 +364,7 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            image.TouchDown += (sender, eventArgs) =>
+            image.MouseDown += (sender, eventArgs) =>
             //image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
@@ -366,7 +372,7 @@ namespace ProjetSurface
                 eventArgs.Handled = true;           
             };
 
-            image.TouchUp += (sender, eventArgs) =>
+            image.MouseUp += (sender, eventArgs) =>
             //image.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
@@ -455,7 +461,6 @@ namespace ProjetSurface
                               
                         player.PlaySong(false, song, true);
                         fileLecture.Current_index = fileLecture.getIndexSong(song);
-
                         updateBubble();
                         //TODO 
                         //playlistPanel.Children.

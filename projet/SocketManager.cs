@@ -19,6 +19,7 @@ namespace ProjetSurface
         private String SURFACE = "surface_";
         private PlayList playList;
         private SurfaceWindow1 surfaceWindow;
+        private Client socket;
 
 
         private string _serverURL;
@@ -47,7 +48,7 @@ namespace ProjetSurface
             
                 System.Net.WebRequest.DefaultWebProxy = null;
 
-                Client socket = new Client(this.ServerUrl);
+                this.socket = new Client(this.ServerUrl);
                 /*this.socket.Opened += SocketOpened;
                 this.socket.Error += SocketError;
                 this.socket.Message += SocketMessage;
@@ -146,6 +147,17 @@ namespace ProjetSurface
                 */
                 socket.Connect();
             
+        }
+
+        public void sendmusicstarting(SongPointer s){
+            socket.Emit(SURFACE + "music_pointer", JsonConvert.SerializeObject(s));
+            Console.WriteLine("Music_pointer event emitted");
+        }
+
+        public void stopmusic()
+        {
+            socket.Emit(SURFACE + "stop_music", "stop music");
+            Console.WriteLine("Stop_music event emitted");
         }
 
         /*
