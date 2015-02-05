@@ -64,6 +64,16 @@ namespace ProjetSurface
 
         private Bubble bubble;
 
+        private Storyboard actualSongAnimation;
+
+        private Song songDragged;
+
+        bool captured = false;
+        double x_shape, x_canvas, y_shape, y_canvas;
+        UIElement source = null;
+        UIElement sourceSelected = null;
+        Image imageVinyl;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -84,8 +94,6 @@ namespace ProjetSurface
             */
             this.m_Random = new Random();
 
-            player = new Player();
-
             bubblesList = new Dictionary<string, Bubble>();
             playList = PlayList.Instance;
             fileLecture = FileDeLecture.Instance;
@@ -93,6 +101,8 @@ namespace ProjetSurface
             _initializeSongs();
 
             _initializeSocket();
+
+            player = new Player(this);
 
             //Music music = new Music("Id_music", "Title_music", "Artist_music", "Genre_music");
             //string json = JsonConvert.SerializeObject(employee, Formatting.Indented, new KeysJsonConverter(typeof(Employee)));
@@ -128,6 +138,9 @@ namespace ProjetSurface
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
+            if(actualSongAnimation != null)
+                actualSongAnimation.Stop();
+            
             if (fileLecture.isEmpty())
                 return;
 
@@ -136,7 +149,6 @@ namespace ProjetSurface
 
             updateBubble();
 
-            
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
@@ -145,13 +157,22 @@ namespace ProjetSurface
                 return;
 
             Song s = fileLecture.Next();
-            player.PlaySong(false, s, true);
-
-            updateBubble();
+            if (s != null)
+            {
+                if (actualSongAnimation != null)
+                {
+                    actualSongAnimation.Stop();
+                }
+                player.PlaySong(false, s, true);
+                updateBubble();
+            }
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
+            if (actualSongAnimation != null)
+                actualSongAnimation.Stop();
+
             if (fileLecture.isEmpty())
                 return;
 
@@ -177,12 +198,21 @@ namespace ProjetSurface
 
         private void _initializeSongs()
         {
-            Song s1 = new Song("Flashlight", "Inconnu", "../../Resources/Flashlight.mp3", Song.Category.TECHNO);
-            Song s2 = new Song("Hot Hands", "Inconnu", "../../Resources/Hot Hands.mp3", Song.Category.TECHNO);
-            Song s3 = new Song("Want U Back", "Inconnu", "../../Resources/i_want_you_back-jackson5.mp3", Song.Category.ANNEES_70);
-            Song s4 = new Song("ABC", "Inconnu", "../../Resources/abc-jackson5.mp3", Song.Category.ANNEES_70);
-            Song s5 = new Song("Thriller", "Inconnu", "../../Resources/thriller-michael_jackson.mp3", Song.Category.ANNEES_80);
-            Song s6 = new Song("Beat It", "Inconnu", "../../Resources/beat_it-michael_jackson.mp3", Song.Category.ANNEES_80);
+            Song s1 = new Song("Flashlight", "M. Poisson", "../../Resources/Flashlight.mp3", Song.Category.TECHNO);
+            Song s2 = new Song("Hot Hands", "M. Soleil", "../../Resources/Hot Hands.mp3", Song.Category.TECHNO);
+            Song s3 = new Song("Want U Back", "Jackson 5", "../../Resources/i_want_you_back-jackson5.mp3", Song.Category.ANNEES_70);
+            Song s4 = new Song("ABC", "Jackson 5", "../../Resources/abc-jackson5.mp3", Song.Category.ANNEES_70);
+            Song s5 = new Song("Thriller", "Michael Jackson", "../../Resources/thriller-michael_jackson.mp3", Song.Category.ANNEES_80);
+            Song s6 = new Song("Beat It", "Michael Jackson", "../../Resources/beat_it-michael_jackson.mp3", Song.Category.ANNEES_80);
+            Song s7 = new Song("No woman no cry", "Bob Marley", "../../Resources/Bob_Marley-No_woman_no_cry.mp3", Song.Category.REGGAE);
+            Song s8 = new Song("Buffalo soldier", "Bob Marley", "../../Resources/Bob_Marley-Buffalo_Soldier.mp3", Song.Category.REGGAE);
+            Song s9 = new Song("One Love", "Bob Marley", "../../Resources/Bob_Marley-One_Love.mp3", Song.Category.REGGAE);
+            Song s10 = new Song("Reggae Shark", "M. Shark", "../../Resources/The_Key_of_Awesome-Reggae_Shark.mp3", Song.Category.REGGAE);
+            Song s11 = new Song("Hunger of the pine", "Alt-J", "../../Resources/Alt-J-Hunger_Of_The_Pine.mp3", Song.Category.POP_ROCK);
+            Song s12 = new Song("Left Hand Free", "Alt-J", "../../Resources/alt-J-Left_Hand_Free.mp3", Song.Category.POP_ROCK);
+            Song s13 = new Song("Flitzpleasure", "Alt-J", "../../Resources/Alt-J_Fitzpleasure.mp3", Song.Category.POP_ROCK);
+            Song s14 = new Song("Mathilda", "Alt-J", "../../Resources/Alt-J_Matilda.mp3", Song.Category.POP_ROCK);
+
 
             playList.Add(s1.Id, s1);
             playList.Add(s2.Id, s2);
@@ -190,6 +220,14 @@ namespace ProjetSurface
             playList.Add(s4.Id, s4);
             playList.Add(s5.Id, s5);
             playList.Add(s6.Id, s6);
+            playList.Add(s7.Id, s7);
+            playList.Add(s8.Id, s8);
+            playList.Add(s9.Id, s9);
+            playList.Add(s10.Id, s10);
+            playList.Add(s11.Id, s11);
+            playList.Add(s12.Id, s12);
+            playList.Add(s13.Id, s13);
+            playList.Add(s14.Id, s14);
 
             _newBubble(s1);
             _newBubble(s2);
@@ -197,11 +235,13 @@ namespace ProjetSurface
             _newBubble(s4);
             _newBubble(s5);
             _newBubble(s6);
+            _newBubble(s7);
+            _newBubble(s8);
         }
 
         public void _newBubble(Song s)
         {
-            bubble = new Bubble(s);
+            bubble = new Bubble(s, this);
 
             bubblesList.Add(s.Id, bubble);
             test_bubble.Items.Add(bubble.ScatterItem);
@@ -222,6 +262,16 @@ namespace ProjetSurface
             startMoving(bubble.ScatterItem, s, bubble.Image);
             //});
             //t.Start();
+        }
+
+        public void deleteBubble(Song s)
+        {
+            var canvasList = playlistPanel.Children.OfType<Canvas>().ToList();
+            foreach (Canvas c in canvasList)
+            {
+                if(c.Name.Equals(s.Id))
+                    playlistPanel.Children.Remove(c);
+            }
         }
 
         private void _startServer()
@@ -358,16 +408,16 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            image.TouchDown += (sender, eventArgs) =>
-            //image.MouseDown += (sender, eventArgs) =>
+            //image.TouchDown += (sender, eventArgs) =>
+            image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;           
             };
 
-            image.TouchUp += (sender, eventArgs) =>
-            //image.MouseUp += (sender, eventArgs) =>
+            //image.TouchUp += (sender, eventArgs) =>
+            image.MouseUp += (sender, eventArgs) =>
             {
                 target.Center = target.ActualCenter;
                 //target.Center = eventArgs.GetPosition(null);
@@ -375,7 +425,7 @@ namespace ProjetSurface
                 Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
                 if (fileLecture.isEmpty())
-                    player.LoadSong(song.Location);               
+                    player.LoadSong(song);               
 
                 fileLecture.Add(song);        
                
@@ -419,46 +469,113 @@ namespace ProjetSurface
                     canvas.Height = 200;
 
                     Song song = playList.getSongById(target.Name);
-
+                    canvas.Name = song.Id;
 
                     Image image = new Image();
                     image.Width = 200;
                     image.Height = 200;
                     image.Source = new BitmapImage(
-                        new Uri("Resources/bubble.png", UriKind.Relative));
-
-                    
+                        new Uri("Resources/vinyl.png", UriKind.Relative));
 
                     canvas.Children.Add(image);
+
+                    //<Border BorderBrush="{x:Null}" Height="50">
+                    //    <TextBlock Text="Your text" VerticalAlignment="Center"/>
+                    //</Border>
+
                     // Debut text block
                     TextBlock text = new TextBlock();
                    
                     text.Text = song.Name;
-                    text.Foreground = Brushes.Navy;
+                    text.Foreground = Brushes.Black;
                     text.TextAlignment = TextAlignment.Center;
-                    text.TextWrapping = TextWrapping.Wrap;
-                    text.Margin = new Thickness(40, 0, 40, 0);
+                    text.Width = canvas.Width;
+                    //text.Background = Brushes.White;
+                    //text.Opacity = 0.7;
+                    //text.TextWrapping = TextWrapping.Wrap;
+                    //text.Margin = new Thickness(40, 0, 40, 0);
+                    //text.VerticalAlignment = VerticalAlignment.Center;
+
                     Canvas.SetLeft(text, 0);
                     Canvas.SetTop(text, 100);
                     canvas.Children.Add(text);
                     // fin text block
 
-                    image.TouchDown += (sender2, eventArgs) =>
-                    //image.MouseDown += (sender2, eventArgs) =>
+                    //image.TouchDown += (sender2, eventArgs) =>
+                    /*image.MouseDown += (sender2, eventArgs) =>
                     {
 
-                    };
+                    };*/
 
-                    image.TouchUp += (sender2, eventArgs) =>
-                    //image.MouseUp += (sender2, eventArgs) =>
-                    {                        
-                              
+                    //image.TouchUp += (sender2, eventArgs) =>
+                    image.MouseUp += (sender2, eventArgs) =>
+                    {
+                        //Mouse.Capture(null);
+                        //captured = false;
+                        //Mouse.OverrideCursor = Cursors.Hand;
+                          
                         player.PlaySong(false, song, true);
                         fileLecture.Current_index = fileLecture.getIndexSong(song);
 
+                        if (actualSongAnimation != null)
+                            actualSongAnimation.Stop();
+
                         updateBubble();
+                        
                         //TODO 
                         //playlistPanel.Children.
+                    };
+                     
+
+                    //image.TouchDown += (sender2, eventArgs) =>
+                    /*image.MouseDown += (sender2, eventArgs) =>
+                    {
+                        Image i = eventArgs.Source as Image;
+                        Canvas c = (Canvas)i.Parent;
+                        songDragged = playList.getSongById(c.Name);
+
+                        source = (UIElement)i;
+                        sourceSelected = source;
+                        Mouse.Capture(source);
+                        captured = true;
+                        x_shape = Canvas.GetLeft(source);
+                        x_canvas = eventArgs.GetPosition(main_stack).X;
+                        y_shape = Canvas.GetTop(source);
+                        y_canvas = eventArgs.GetPosition(main_stack).Y;
+
+                        //DragDrop.DoDragDrop(i, "Song was Dragged!", DragDropEffects.Copy);
+                    };*/
+
+                    //image.TouchMove += (sender2, eventArgs) =>
+                    /*image.MouseMove += (sender2, eventArgs) =>
+                    {
+                        if (captured)
+                        {
+                            Console.Write("MOVEON");
+                            double x = eventArgs.GetPosition(main_stack).X;
+                            double y = eventArgs.GetPosition(main_stack).Y;
+                            x_shape += x - x_canvas;
+                            Canvas.SetLeft(source, x_shape);
+                            x_canvas = x;
+                            y_shape += y - y_canvas;
+                            Canvas.SetTop(source, y_shape);
+                            y_canvas = y;
+                            DragDrop.DoDragDrop(source, "Song was Dragged!", DragDropEffects.Copy);
+                        }
+                    };*/
+
+                    image.GiveFeedback += (sender2, eventArgs) =>
+                    {
+                        if (eventArgs.Effects == DragDropEffects.Copy)
+                        {
+                            //Mouse.OverrideCursor = imageVinyl;
+                            Mouse.OverrideCursor = null;
+                            //Mouse.OverrideCursor = ((TextBlock)this.Resources["CursorVinyl"]).Cursor;
+                        }
+                        else
+                            eventArgs.UseDefaultCursors = true;
+
+                        eventArgs.Handled = true;
                     };
 
                     //canvas.SetTop(canvas, NewBody.YPosition);
@@ -475,23 +592,72 @@ namespace ProjetSurface
 
         }
 
+        // Drag target
+        private void Song_Drop(object sender, DragEventArgs e)
+        {
+           // string draggedText = (string)e.Data.GetData(DataFormats.StringFormat);
+            //Label l = e.Source as Label;
+            //l.Content = draggedText;
+            Console.WriteLine("drop");
+            deleteBubble(songDragged);
+            //songDragged = null;  
+        }
+
         private void updateBubble()
         {
-            foreach (Canvas c in playlistPanel.Children)
+            /*foreach (Canvas c in playlistPanel.Children)
             {
                 ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
                 ((TextBlock)c.Children[1]).FontSize = 12;
-            }
+            }*/
 
             Canvas c1 = (Canvas)playlistPanel.Children[fileLecture.Current_index];
-            TextBlock text = (TextBlock)c1.Children[1];
-            text.Foreground = Brushes.DarkGray;
-            text.FontSize = 20;
+
+            rotateCanvas(c1);
+
+            //TextBlock text = (TextBlock)c1.Children[1];
+            //text.Foreground = Brushes.DarkGray;
+            //text.FontSize = 20;
+        }
+
+        public void rotateCanvas(Canvas c)
+        {
+            Image i = c.Children.OfType<Image>().First();
+            TextBlock t = c.Children.OfType<TextBlock>().First();
+            actualSongAnimation = new Storyboard();
+            actualSongAnimation.Duration = new Duration(TimeSpan.FromSeconds(4.0));
+            DoubleAnimation rotateAnimation = new DoubleAnimation()
+            {
+                From = 0,
+                To = 360,
+                Duration = actualSongAnimation.Duration
+            };
+
+            DoubleAnimation rotateText = new DoubleAnimation()
+            {
+                From = 0,
+                To = 360,
+                Duration = actualSongAnimation.Duration
+            };
+
+            Vector offset = VisualTreeHelper.GetOffset(i);
+            i.RenderTransform = new RotateTransform(0, 100, 100);
+            t.RenderTransform = new RotateTransform(0, 100, 0);
+            Storyboard.SetTarget(rotateAnimation, i);
+            Storyboard.SetTargetProperty(rotateAnimation, new PropertyPath("(UIElement.RenderTransform).(RotateTransform.Angle)"));
+            Storyboard.SetTarget(rotateText, t);
+            Storyboard.SetTargetProperty(rotateText, new PropertyPath("(UIElement.RenderTransform).(RotateTransform.Angle)"));
+
+            actualSongAnimation.Children.Add(rotateAnimation);
+            actualSongAnimation.Children.Add(rotateText);
+            //s.FillBehavior = FillBehavior.Stop;
+            actualSongAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            actualSongAnimation.Begin();
         }
 
         private Point GetRandomPoint()
         {
-            var possibleX = new List<int> { 0, 1400, 0, 800};
+            var possibleX = new List<int> { 80, 1320, 80, 720};
 
             int x;
             int y;
@@ -499,12 +665,12 @@ namespace ProjetSurface
             if ((x == 0)||(x == 1))
             {
                 x = possibleX[x];
-                y = m_Random.Next(0, 800);
+                y = m_Random.Next(80, 720);
             }
             else
             {
                 y = possibleX[x];
-                x = m_Random.Next(0, 1400);
+                x = m_Random.Next(80, 1320);
             }
             return new Point(x,y);
         }

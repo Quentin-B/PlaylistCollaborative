@@ -135,12 +135,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\abc-jackson5.mp3" />
+    <Content Include="Resources\Alt-J-Hunger_Of_The_Pine.mp3" />
+    <Content Include="Resources\alt-J-Left_Hand_Free.mp3" />
+    <Content Include="Resources\Alt-J_Fitzpleasure.mp3" />
+    <Content Include="Resources\Alt-J_Matilda.mp3" />
+    <Resource Include="Resources\background-main.jpg" />
+    <Resource Include="Resources\background-playlist.jpg" />
     <Content Include="Resources\beat_it-michael_jackson.mp3" />
+    <Content Include="Resources\Bob_Marley-Buffalo_Soldier.mp3" />
+    <Content Include="Resources\Bob_Marley-No_woman_no_cry.mp3" />
+    <Content Include="Resources\Bob_Marley-One_Love.mp3" />
     <Content Include="Resources\i_want_you_back-jackson5.mp3" />
+    <Resource Include="Resources\vinyl.png" />
+    <Resource Include="Resources\wallpaper.jpg" />
     <Resource Include="Resources\magicshialabeouf.jpg" />
     <Content Include="Resources\Much Too Much.mp3" />
+    <Resource Include="Resources\texture.jpg" />
+    <Resource Include="Resources\texture.png" />
+    <Resource Include="Resources\texture2.jpg" />
+    <Content Include="Resources\No woman no cry.mp3" />
+    <Content Include="Resources\The_Key_of_Awesome-Reggae_Shark.mp3" />
     <Content Include="Resources\thriller-michael_jackson.mp3" />
-    <Resource Include="Resources\pause.png" />
     <Resource Include="Resources\play.png" />
     <Resource Include="Resources\stop.png" />
     <Resource Include="Resources\next.png" />

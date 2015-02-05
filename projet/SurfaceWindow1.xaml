@@ -7,7 +7,13 @@
     Height="{Binding SystemParameters.PrimaryScreenHeight}" 
     Width="{Binding SystemParameters.PrimaryScreenWidth}"
     >
-    <StackPanel>
+    <Window.Resources>
+        <ResourceDictionary>
+            <TextBlock x:Key="CursorVinyl" Cursor="Resources/vinyl.png"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <StackPanel
+        x:Name="main_stack">
         <s:TagVisualizer VisualizationAdded="OnVisualizationAdded">
             <s:TagVisualizer.Definitions>
                 <s:TagVisualizationDefinition 
@@ -16,8 +22,22 @@
                     Value="0x38" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
 
             </s:TagVisualizer.Definitions>
-            <Grid>
+            <Grid
+                x:Name="main_grid"
+                AllowDrop="True" Drop="Song_Drop">
+                <Grid.Background>
+                    <ImageBrush x:Name="backgroundGrid" ImageSource="/Resources/Background-main.jpg"
+                                Stretch="UniformToFill"/>
+                </Grid.Background>
 
+                <!--<Grid.Background>
+                    <VisualBrush TileMode="Tile" Viewport="0,0,0.1,0.1">
+                        <VisualBrush.Visual>
+                            <Image Source="Resources/texture2.jpg"></Image>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Grid.Background>-->
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -28,7 +48,11 @@
 
                 <s:ScatterView  
                     Grid.Column="0" Grid.Row="0"
-                    x:Name="test_bubble" Cursor="Hand" Background="Transparent">
+                    x:Name="test_bubble" Cursor="Hand">
+                    <s:ScatterView.Background>
+                        <ImageBrush x:Name="backgroundScatterView" ImageSource="/Resources/Background-main.jpg"
+                                Stretch="UniformToFill"/>
+                    </s:ScatterView.Background>
                     <s:ScatterView.ItemContainerStyle>
                         <Style TargetType="{x:Type s:ScatterViewItem}">
                             <Setter Property="Template">
@@ -41,33 +65,52 @@
                         </Style>
                     </s:ScatterView.ItemContainerStyle>
                 </s:ScatterView>
+
                 <StackPanel
             Grid.Column="1" Grid.Row="0"
             Width="200"
             Orientation="Vertical">
-                    <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+                    <StackPanel.Background>
+                        <ImageBrush x:Name="backgroundStackPanelPlaylist" ImageSource="/Resources/Background-playlist.jpg"
+                                Stretch="UniformToFill"/>
+                        </StackPanel.Background>
+                            <!--<StackPanel.Background>
+                        <VisualBrush TileMode="Tile" Viewport="0,0,0.5,0.5">
+                            <VisualBrush.Visual>
+                                <Image Source="Resources/texture.png"></Image>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </StackPanel.Background>-->
+                    <ScrollViewer x:Name="MyScrollViewer" 
+                                  PanningMode="Both"
+                                  HorizontalScrollBarVisibility="Disabled" 
+                                  VerticalScrollBarVisibility="Hidden">
                         <WrapPanel
             x:Name="playlistPanel"
             Height="800" 
             Width="200"
-            Background="AliceBlue"/>
+            Background="Transparent"/>
                     </ScrollViewer>
                     <StackPanel
             Width="200"
-        Orientation="Horizontal"
-                Background="AliceBlue">
+        Orientation="Horizontal">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="0,0,20,20"/>
+                            </Style>
+                        </StackPanel.Resources>
                         <Button 
                     x:Name="previousButton"
-                    Height="50" Width="50">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image Source="Resources/previous.png"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Button 
+                    Height="40" Width="40">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="Resources/previous.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button 
                     x:Name="playButton"
-                    Height="50" Width="50">
+                    Height="40" Width="40">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Image Source="Resources/play.png"/>
@@ -76,7 +119,7 @@
                         </Button>
                         <Button 
                     x:Name="stopButton"
-                    Height="50" Width="50">
+                    Height="40" Width="40">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Image Source="Resources/stop.png"/>
@@ -85,7 +128,7 @@
                         </Button>
                         <Button 
                     x:Name="nextButton"
-                    Height="50" Width="50">
+                    Height="40" Width="40">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Image Source="Resources/next.png"/>

@@ -9,7 +9,7 @@ namespace ProjetSurface
     public class Song
     {
         String id;
-        public enum Category { POP_ROCK, TECHNO, ANNEES_70, ANNEES_80, ANNEES_90 };
+        public enum Category { POP_ROCK, TECHNO, ANNEES_70, ANNEES_80, ANNEES_90, DUBSTEP, REGGAE };
 
         public String Id
         {

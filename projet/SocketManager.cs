@@ -92,7 +92,6 @@ namespace ProjetSurface
                     {
                         Application.Current.Dispatcher.Invoke(new Action(() => b.like()));
                     }
-                    s.Like++;
 
                     socket.Emit(SURFACE + "broadcast_plus", data.Json.Args[0]);
                     Console.WriteLine("Event " + SURFACE + "broadcast_plus emitted");
