@@ -177,6 +177,7 @@ namespace ProjetSurface
                 return;
 
             player.StopSong();
+            this._sm.stopmusic();
             e.Handled = true;
         }
 
@@ -185,9 +186,14 @@ namespace ProjetSurface
             if (fileLecture.isEmpty())
                 return;
 
-            player.PlaySong(false);        
-            e.Handled = true;
+            player.PlaySong(false);
 
+            SongPointer sp = new SongPointer(fileLecture.getCurrentSong().Id, player.getCurrentSongLength(), player.getCurrentSongPos());
+            this._sm.sendmusicstarting(sp);
+
+
+            e.Handled = true;
+          
             updateBubble();
         }
 
@@ -408,8 +414,9 @@ namespace ProjetSurface
 
             stb.Begin(this, true);
 
-            //image.TouchDown += (sender, eventArgs) =>
+
             image.MouseDown += (sender, eventArgs) =>
+            //image.MouseDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;

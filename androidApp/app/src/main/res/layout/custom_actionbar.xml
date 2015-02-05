@@ -18,6 +18,7 @@
         android:src="@drawable/logo" />
 
         <TextView
+        fontPath="fonts/Neoteric.ttf"
         android:id="@+id/title_text"
         android:layout_width="fill_parent"
         android:gravity="center"

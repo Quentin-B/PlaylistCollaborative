@@ -82,6 +82,11 @@ public class MusicDB {
         }
     }
 
+    public MusicPojo getMusicById(String id){
+        Cursor c = bdd.rawQuery("SELECT  * FROM " + TABLE_MUSIC + " WHERE " + COL_ID + " = '" +id+"';", null);
+        return  cursorToMusic(c);
+    }
+
 
     public int removeMusic(int id){
         bdd.delete(TABLE_MUSIC, COL_ID + " = " +id, null);
@@ -93,12 +98,33 @@ public class MusicDB {
 
     }
 
+
+    private  MusicPojo cursorToMusic(Cursor c){
+        if (c.getCount() == 0)
+            return null;
+
+        MusicPojo m = new MusicPojo();
+
+        c.moveToFirst();
+
+        m.setId(c.getString(NUM_COL_ID));
+        m.setArtist(c.getString(NUM_COL_ARTIST));
+        m.setTitle(c.getString(NUM_COL_TITRE));
+        m.setGenre(c.getString(NUM_COL_GENRE));
+        m.setVotes(c.getInt(NUM_COL_VOTES));
+        int vot = c.getInt(NUM_COL_VOTED);
+
+        if(vot == 1) m.setVoted(true);
+        else m.setVoted(false);
+
+        return m;
+    }
     public void removeAllMusics(){
         bdd.delete( TABLE_MUSIC, null,null);
     }
 
     //Cette méthode permet de convertir un cursor en un livre
-    private ArrayList<MusicPojo> cursorToMusic(Cursor c){
+    private ArrayList<MusicPojo> cursorToMusics(Cursor c){
         //si aucun élément n'a été retourné dans la requête, on renvoie null
         if (c.getCount() == 0)
             return null;
@@ -136,7 +162,7 @@ public class MusicDB {
     public ArrayList<MusicPojo> getMusics(){
         //Récupère dans un Cursor les valeur correspondant à un livre contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
         Cursor c = bdd.rawQuery("SELECT  * FROM " + TABLE_MUSIC, null);
-        return cursorToMusic(c);
+        return cursorToMusics(c);
     }
 
     public int updateVotedMusic(MusicPojo m, boolean b){

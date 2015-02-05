@@ -2,6 +2,7 @@ package com.application.playlistcollaborative.Tool;
 
 import android.util.Log;
 
+import com.application.playlistcollaborative.model.MusicPointerPojo;
 import com.application.playlistcollaborative.model.MusicPojo;
 
 import org.json.JSONArray;
@@ -14,18 +15,14 @@ import java.util.ArrayList;
  */
 public final class JSONBuilder {
 
-    public static JSONObject MusicToJSON(MusicPojo m){
-        JSONObject ret = new JSONObject();
-        try{
-            ret.put("id", m.getId());
-            ret.put("title", m.getTitle());
-            ret.put("artist", m.getArtist());
-            ret.put("genre", m.getGenre());
+    public static MusicPointerPojo JSONToMP(JSONObject jo){
+        try {
+            return new MusicPointerPojo(jo.getString("Id"), jo.getLong("Duration"), jo.getLong("Position"));
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return ret;
+        return  null;
 
     }
 

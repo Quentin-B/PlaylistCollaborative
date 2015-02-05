@@ -50,9 +50,28 @@ namespace ProjetSurface
             Bass.BASS_ChannelSetSync(stream, BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME,
                          0, _mySync, 0);
             Bass.BASS_ChannelPlay(stream, false);
+
         }
 
-        public void PlaySong(bool loop, Song s, bool stop)
+        public float getCurrentSongLength()
+        {
+            long byteduration = 0;
+            byteduration = Bass.BASS_ChannelGetLength(stream);
+            float seconds = Bass.BASS_ChannelBytes2Seconds(stream, byteduration);
+            return seconds;
+            
+        }
+
+        public float getCurrentSongPos()
+        {
+            long byteduration = 0;
+            byteduration = Bass.BASS_ChannelGetPosition(stream);
+            float seconds = Bass.BASS_ChannelBytes2Seconds(stream, byteduration);
+            return seconds;
+        }
+
+
+        public void PlaySong(bool loop,Song s, bool stop)
         {
             if(stop)
             {
@@ -60,6 +79,7 @@ namespace ProjetSurface
             }
             LoadSong(s);
             PlaySong(loop);
+
         }
 
         private void EndSync(int handle, int channel, int data, int user)

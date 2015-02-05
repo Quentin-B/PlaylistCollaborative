@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.application.playlistcollaborative.model.SocketSingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -48,6 +50,9 @@ public class MainActivity extends Activity {
     private MusicDB db;
     private SocketSingleton socket;
     private BroadcastReceiver receiver;
+    private TextView artist;
+    private TextView titre;
+    private ProgressBar p;
 
 
     @Override
@@ -70,6 +75,14 @@ public class MainActivity extends Activity {
             listView.setAdapter(adapter);
         }
 
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Elkwood.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+
+        //....
+
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -77,6 +90,10 @@ public class MainActivity extends Activity {
 
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
+         artist = (TextView) findViewById(R.id.main_artist);
+         titre = (TextView)findViewById(R.id.main_titre);
+        p = (ProgressBar)findViewById(R.id.current_music);
+
         mTitleTextView.setText("Playlist");
 
 
@@ -88,7 +105,7 @@ public class MainActivity extends Activity {
 
         socket = SocketSingleton.get();
 
-        socket.getMusic(listView,this,db);
+        socket.getMusic(listView,this,db, artist, titre,p);
 
 
 
@@ -129,6 +146,11 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     public boolean onMenuOpened(int featureId, Menu menu)
     {
         if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
@@ -151,7 +173,7 @@ public class MainActivity extends Activity {
     }
 
     public void synchroMusic(MenuItem item){
-       socket.getMusic(listView,this, db);
+       socket.getMusic(listView,this, db, artist, titre,p);
     }
 
 
