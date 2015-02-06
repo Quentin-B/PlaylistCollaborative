@@ -102,10 +102,16 @@ namespace ProjetSurface
         private void EndSync(int handle, int channel, int data, int user)
         {
             Application.Current.Dispatcher.Invoke(new Action(() => surface.deleteBubble(currentSong)));
-            Song nextSong = file.Next();
-            
-            if(nextSong != null)
+            file.removeCurrent();
+            //Song nextSong = file.Next();
+            Song nextSong = file.getCurrentSong();
+
+            if (nextSong != null)
+            {
                 PlaySong(false, nextSong, true);
+                Application.Current.Dispatcher.Invoke(new Action(() => surface.updateBubble()));
+                
+            }
         }
 
         public void StopSong()
