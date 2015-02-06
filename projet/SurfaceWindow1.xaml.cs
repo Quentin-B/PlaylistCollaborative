@@ -610,7 +610,7 @@ namespace ProjetSurface
             //songDragged = null;  
         }
 
-        private void updateBubble()
+        public void updateBubble()
         {
             /*foreach (Canvas c in playlistPanel.Children)
             {

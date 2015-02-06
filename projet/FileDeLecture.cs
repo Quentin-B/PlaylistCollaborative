@@ -59,6 +59,15 @@ namespace ProjetSurface
             fileLecture.Remove(s);
         }
 
+        public void removeCurrent()
+        {
+            Song s = getCurrentSong();
+            if(s==null)
+                return;
+
+            fileLecture.Remove(s);
+        }
+
         public Song Next()
         {
             if (Current_index == fileLecture.Count - 1)
@@ -75,7 +84,14 @@ namespace ProjetSurface
 
         public Song getCurrentSong()
         {
-           return fileLecture.ElementAt(current_index);
+            try
+            {
+                return fileLecture.ElementAt(current_index);
+            }
+           catch(ArgumentOutOfRangeException e)
+            {
+                return null;
+            }
         }
 
         public bool isEmpty()
