@@ -174,6 +174,8 @@ public class MainActivity extends Activity {
 
     public void synchroMusic(MenuItem item){
        socket.getMusic(listView,this, db, artist, titre,p);
+       socket.getCurrentPlayingMusic();
+        
     }
 
 

@@ -2,6 +2,7 @@ package com.application.playlistcollaborative.model;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -144,6 +145,7 @@ public class SocketSingleton {
                            currentmusic = mpp.getId();
 
                             mainthread.runOnUiThread(new Runnable() {
+                                @SuppressLint("NewApi")
                                 @Override
                                 public void run() {
                                     LinearLayout ll = (LinearLayout) mainthread.findViewById(R.id.player);
@@ -243,6 +245,10 @@ public class SocketSingleton {
         this.artist = artist;
         this.titre = titre;
         this.music = p;
+    }
+
+    public void getCurrentPlayingMusic(){
+        socket.emit(ANDROID+"music_playing", "ok");
     }
 
     public void sendplus(String id){

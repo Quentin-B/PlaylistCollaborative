@@ -78,8 +78,15 @@ namespace ProjetSurface
                 {                                                     
                     Console.WriteLine("Event "+SURFACE+"getmusic received");
                     socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(playList.PlaylistDic.Values));
-                    //SongPointer sp = new SongPointer(fdl.getCurrentSong().Id, this.p.getCurrentSongLength(), this.p.getCurrentSongPos());
-                    //this.sendmusicstarting(sp);
+                    
+                });
+
+                socket.On(SURFACE + "music_playing", (data) =>
+                {
+                    Console.WriteLine("Event music_playing received");
+                    //SongPointer sp = new SongPointer(this.fdl.getCurrentSong().Id, this.p.getCurrentSongLength(), this.p.getCurrentSongPos());
+                    //socket.Emit(SURFACE + "music_pointer", JsonConvert.SerializeObject(sp));
+                    
                 });
 
                 socket.On(SURFACE + "plus", (data) =>
