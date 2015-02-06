@@ -88,7 +88,7 @@
                                   VerticalScrollBarVisibility="Hidden">
                             <WrapPanel
             x:Name="playlistPanel"
-            Height="800" 
+            Height="1000" 
             Width="200"
             Background="Transparent"/>
                         </ScrollViewer>
