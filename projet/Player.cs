@@ -108,7 +108,11 @@ namespace ProjetSurface
 
             if (nextSong != null)
             {
+                
+        
                 PlaySong(false, nextSong, true);
+                SongPointer sp = new SongPointer(nextSong.Id, getCurrentSongLength(), getCurrentSongPos());
+                surface._Sock.sendmusicstarting(sp);
                 Application.Current.Dispatcher.Invoke(new Action(() => surface.updateBubble()));
                 
             }

@@ -13,13 +13,15 @@ using System.Windows;
 
 namespace ProjetSurface
 {
-    class SocketManager
+    public class SocketManager
     {
         private String ANDROID = "android_";
         private String SURFACE = "surface_";
         private PlayList playList;
         private SurfaceWindow1 surfaceWindow;
         private Client socket;
+        private Player p;
+        private FileDeLecture fdl;
 
 
         private string _serverURL;
@@ -36,11 +38,13 @@ namespace ProjetSurface
         //public Client socket;
         //public Socket socket;
 
-        public SocketManager(string serverUrl, SurfaceWindow1 surfaceWindow)
+        public SocketManager(string serverUrl, SurfaceWindow1 surfaceWindow, Player player, FileDeLecture filedl)
         {
             this.ServerUrl = serverUrl;
             playList = PlayList.Instance;
             this.surfaceWindow = surfaceWindow;
+            this.p = player;
+            this.fdl = filedl;
         }
 
         private void _connection()
@@ -74,7 +78,8 @@ namespace ProjetSurface
                 {                                                     
                     Console.WriteLine("Event "+SURFACE+"getmusic received");
                     socket.Emit(SURFACE + "sendmusic", JsonConvert.SerializeObject(playList.PlaylistDic.Values));
-                   
+                    //SongPointer sp = new SongPointer(fdl.getCurrentSong().Id, this.p.getCurrentSongLength(), this.p.getCurrentSongPos());
+                    //this.sendmusicstarting(sp);
                 });
 
                 socket.On(SURFACE + "plus", (data) =>

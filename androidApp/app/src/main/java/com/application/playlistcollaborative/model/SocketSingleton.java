@@ -5,8 +5,10 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -99,7 +101,7 @@ public class SocketSingleton {
                             final ArrayList<MusicPojo> m = JSONBuilder.JSONToMusicList(jsa);
 
                             if(!m.equals(db.getMusics())){
-                                final Context c = mainthread.getApplicationContext();
+                                final Context c = mainthread.getBaseContext();
                                 mainthread.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -144,15 +146,34 @@ public class SocketSingleton {
                             mainthread.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    LinearLayout ll = (LinearLayout) mainthread.findViewById(R.id.player);
+                                    ll.setVisibility(View.VISIBLE);
 
                                     MusicPojo mp = db.getMusicById(mpp.getId());
+
+                                    if(mp == null){
+                                        Log.i("Probleme bdd", "impossible d'obtenir la musique");
+                                        return;
+                                    }
                                     artist.setText(mp.getArtist());
                                     titre.setText(mp.getTitle());
 
-                                    music.setMax(Math.round(mpp.getDuration()));
-                                    animation = ObjectAnimator.ofInt(music, "progress",Math.round(mpp.getPosition()),Math.round(mpp.getDuration()));
-                                    animation.setDuration(Math.round(mpp.getDuration())*1000); // 0.5 second
-                                    animation.setInterpolator(new LinearInterpolator());
+                                    music.setMax(300);
+
+                                    if(animation == null){
+                                        animation = ObjectAnimator.ofInt(music, "progress",0,300);
+                                        animation.setDuration(Math.round(mpp.getDuration())*1000); // 0.5 second
+                                        animation.setInterpolator(new LinearInterpolator());
+                                    }else {
+                                        animation.pause();
+                                        animation.setDuration(Math.round(mpp.getDuration())*1000);
+                                        animation.setCurrentPlayTime(Math.round(mpp.getPosition()));
+                                        animation.resume();
+
+
+                                    }
+
+
 
 
                                     animation.start();
@@ -166,9 +187,6 @@ public class SocketSingleton {
                             mainthread.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.i("Real value", "" + mpp.getPosition());
-                                    Log.i("Actual value", "" + Math.round(mpp.getPosition()));
-
                                     animation.resume();
                                 }
                             });
@@ -178,8 +196,10 @@ public class SocketSingleton {
                         mainthread.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                playtime = animation.getCurrentPlayTime();
-                                animation.pause();
+                               if(animation != null){
+                                   animation.pause();
+                               }
+
                             }
                         });
 
