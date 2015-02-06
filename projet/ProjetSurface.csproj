@@ -102,6 +102,7 @@
     <Compile Include="RemoveChildHelper.cs" />
     <Compile Include="SocketManager.cs" />
     <Compile Include="Song.cs" />
+    <Compile Include="SongPointer.cs" />
     <Compile Include="SurfaceWindow1.xaml.cs">
       <DependentUpon>SurfaceWindow1.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -139,6 +140,7 @@
     <Content Include="Resources\alt-J-Left_Hand_Free.mp3" />
     <Content Include="Resources\Alt-J_Fitzpleasure.mp3" />
     <Content Include="Resources\Alt-J_Matilda.mp3" />
+    <Resource Include="Resources\wheel.png" />
     <Resource Include="Resources\background-main.jpg" />
     <Resource Include="Resources\background-playlist.jpg" />
     <Content Include="Resources\beat_it-michael_jackson.mp3" />

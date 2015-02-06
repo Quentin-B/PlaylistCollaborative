@@ -14,11 +14,14 @@ namespace ProjetSurface
         private SYNCPROC _mySync;
         Song currentSong;
         SurfaceWindow1 surface;
+        int volume;
+
         public Player(SurfaceWindow1 surface)
         {
             Bass.BASS_Init(1, 44100, BASSInit.BASS_DEVICE_DEFAULT, 0, null);
             file = FileDeLecture.Instance;
             this.surface = surface;
+            volume = 50;
         }
 
         public void SetDevice(int device)
@@ -42,6 +45,20 @@ namespace ProjetSurface
             currentSong = s;
             stream = Bass.BASS_StreamCreateFile(s.Location, 0, 0,
                 BASSStream.BASS_SAMPLE_FLOAT);
+        }
+
+        public void PlusVolume()
+        {
+            if (volume == 100)
+                return;
+            Bass.BASS_SetVolume(++volume);
+        }
+
+        public void LessVolume()
+        {
+            if (volume == 0)
+                return;
+            Bass.BASS_SetVolume(--volume);
         }
 
         public void PlaySong(bool loop)

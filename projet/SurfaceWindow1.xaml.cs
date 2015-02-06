@@ -73,6 +73,10 @@ namespace ProjetSurface
         UIElement source = null;
         UIElement sourceSelected = null;
         Image imageVinyl;
+        bool wheelDragged = false;
+        RotateTransform transformWheel;
+        Point origin;
+        Point actualMouse;
 
         /// <summary>
         /// Default constructor.
@@ -99,7 +103,7 @@ namespace ProjetSurface
             fileLecture = FileDeLecture.Instance;
 
             _initializeSongs();
-
+            _initializeWheel();
             _initializeSocket();
 
             player = new Player(this);
@@ -134,6 +138,72 @@ namespace ProjetSurface
             nextButton.Click += btnNext_Click;
             nextButton.TouchDown += btnNext_Click;
 
+        }
+
+        private void _initializeWheel()
+        {
+            transformWheel = new RotateTransform(0, 125, 125);
+            wheel.RenderTransform = transformWheel;
+
+            wheel.MouseDown += (sender, eventArgs) =>
+            //wheelCanvas.MouseDown += (sender, eventArgs) =>
+            {
+                eventArgs.Handled = false;
+            };
+
+            wheel.MouseUp += (sender, eventArgs) =>
+            //wheelCanvas.MouseDown += (sender, eventArgs) =>
+            {
+                eventArgs.Handled = false;
+            };
+
+            wheel.MouseMove += (sender, eventArgs) =>
+            //wheelCanvas.MouseDown += (sender, eventArgs) =>
+            {
+                eventArgs.Handled = false;
+            };
+            
+            wheelCanvas.MouseDown += (sender, eventArgs) =>
+            //wheelCanvas.MouseDown += (sender, eventArgs) =>
+            {
+                origin = Mouse.GetPosition(wheelCanvas);
+                wheelDragged = true;
+                eventArgs.Handled = true;
+            };
+
+            //wheelCanvas.TouchUp += (sender, eventArgs) =>
+            wheelCanvas.MouseUp += (sender, eventArgs) =>
+            {
+                wheelDragged = false;
+                eventArgs.Handled = true;
+            };
+
+            //wheelCanvas.TouchMove += (sender, eventArgs) =>
+            wheelCanvas.MouseMove += (sender, eventArgs) =>
+            {
+                if (wheelDragged == true) {
+
+                    actualMouse = Mouse.GetPosition(wheelCanvas);
+
+                    if (System.Math.Abs(origin.X - actualMouse.X) <= System.Math.Abs(origin.Y - actualMouse.Y))
+                    {
+                        // change in y is greater, now find up or down
+                        if ((origin.Y - actualMouse.Y) < 0)
+                        {
+                            transformWheel.Angle++;
+                            player.PlusVolume();
+                            eventArgs.Handled = true;
+                        }
+                        else
+                        {
+                            transformWheel.Angle--;
+                            player.LessVolume();
+                            eventArgs.Handled = true;
+                        }
+                    }
+                }
+                
+            };
         }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
