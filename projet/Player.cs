@@ -13,6 +13,12 @@ namespace ProjetSurface
         FileDeLecture file;
         private SYNCPROC _mySync;
         Song currentSong;
+
+        public Song CurrentSong
+        {
+            get { return currentSong; }
+            set { currentSong = value; }
+        }
         SurfaceWindow1 surface;
         int volume;
 

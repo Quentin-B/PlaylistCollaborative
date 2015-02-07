@@ -143,10 +143,13 @@
     <Resource Include="Resources\wheel.png" />
     <Resource Include="Resources\background-main.jpg" />
     <Resource Include="Resources\background-playlist.jpg" />
+    <Resource Include="Resources\arrow_down.png" />
+    <Resource Include="Resources\arrow_up.png" />
     <Content Include="Resources\beat_it-michael_jackson.mp3" />
     <Content Include="Resources\Bob_Marley-Buffalo_Soldier.mp3" />
     <Content Include="Resources\Bob_Marley-No_woman_no_cry.mp3" />
     <Content Include="Resources\Bob_Marley-One_Love.mp3" />
+    <Resource Include="Resources\delete_song.png" />
     <Content Include="Resources\i_want_you_back-jackson5.mp3" />
     <Resource Include="Resources\vinyl.png" />
     <Resource Include="Resources\wallpaper.jpg" />
@@ -156,6 +159,7 @@
     <Resource Include="Resources\texture.png" />
     <Resource Include="Resources\texture2.jpg" />
     <Content Include="Resources\No woman no cry.mp3" />
+    <Resource Include="Resources\play_song.png" />
     <Content Include="Resources\The_Key_of_Awesome-Reggae_Shark.mp3" />
     <Content Include="Resources\thriller-michael_jackson.mp3" />
     <Resource Include="Resources\play.png" />

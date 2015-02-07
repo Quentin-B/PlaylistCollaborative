@@ -9,7 +9,7 @@ namespace ProjetSurface
     class FileDeLecture
     {
         private static FileDeLecture instance;
-        private LinkedList<Song> fileLecture;
+        private List<Song> fileLecture;
         private int current_index;
 
         public int Current_index
@@ -25,7 +25,7 @@ namespace ProjetSurface
             }
         }
 
-        public LinkedList<Song> FileLecture
+        public List<Song> FileLecture
         {
             get { return fileLecture; }
             set { fileLecture = value; }
@@ -33,7 +33,7 @@ namespace ProjetSurface
 
         private FileDeLecture()
         {
-            fileLecture = new LinkedList<Song>();
+            fileLecture = new List<Song>();
             current_index = 0;
         }
 
@@ -51,7 +51,7 @@ namespace ProjetSurface
 
         public void Add(Song s)
         {
-            fileLecture.AddLast(s);
+            fileLecture.Add(s);
         }
 
         public void remove(Song s)

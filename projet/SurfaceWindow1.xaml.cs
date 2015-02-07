@@ -322,22 +322,8 @@ namespace ProjetSurface
             bubblesList.Add(s.Id, bubble);
             test_bubble.Items.Add(bubble.ScatterItem);
 
-            /*DoubleAnimation da = new DoubleAnimation();
-            da.From = 0;
-            da.To = 360;
-            da.Duration = new Duration(TimeSpan.FromSeconds(5));
-            da.RepeatBehavior = RepeatBehavior.Forever;
-            canvas.BeginAnimation(RotateTransform.AngleProperty, da);*/
-
-            //Thread t = new Thread(() =>
-            //{
-            // });
-
-            //  t.Start();
             Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, bubble.ScatterItem, false)));
             startMoving(bubble.ScatterItem, s, bubble.Image);
-            //});
-            //t.Start();
         }
 
         public void deleteBubble(Song s)
@@ -496,17 +482,20 @@ namespace ProjetSurface
             //image.TouchUp += (sender, eventArgs) =>
             image.MouseUp += (sender, eventArgs) =>
             {
+                image.IsEnabled = false;
                 target.Center = target.ActualCenter;
+                clearPlaylist();
                 //target.Center = eventArgs.GetPosition(null);
                 //startMoving(target);
+
+                eventArgs.Handled = true;
+
                 Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, target, true)));
 
                 if (fileLecture.isEmpty())
                     player.LoadSong(song);               
 
-                fileLecture.Add(song);        
-               
-                eventArgs.Handled = true;
+                fileLecture.Add(song); 
             };
 
             target.Center = target.ActualCenter;
@@ -545,6 +534,10 @@ namespace ProjetSurface
                     canvas.Width = 200;
                     canvas.Height = 200;
 
+                    Canvas canvasInterface = new Canvas();
+                    canvasInterface.Width = 200;
+                    canvasInterface.Height = 200;
+
                     Song song = playList.getSongById(target.Name);
                     canvas.Name = song.Id;
 
@@ -555,6 +548,7 @@ namespace ProjetSurface
                         new Uri("Resources/vinyl.png", UriKind.Relative));
 
                     canvas.Children.Add(image);
+                    canvas.Children.Add(canvasInterface);
 
                     //<Border BorderBrush="{x:Null}" Height="50">
                     //    <TextBlock Text="Your text" VerticalAlignment="Center"/>
@@ -576,89 +570,118 @@ namespace ProjetSurface
                     Canvas.SetLeft(text, 0);
                     Canvas.SetTop(text, 100);
                     canvas.Children.Add(text);
-                    // fin text block
 
-                    //image.TouchDown += (sender2, eventArgs) =>
-                    /*image.MouseDown += (sender2, eventArgs) =>
-                    {
+                    Image imageDelete = new Image();
+                    imageDelete.Width = 50;
+                    imageDelete.Height = 50;
+                    imageDelete.Source = new BitmapImage(
+                        new Uri("Resources/delete_song.png", UriKind.Relative));
 
-                    };*/
+                    Image imagePlay = new Image();
+                    imagePlay.Width = 50;
+                    imagePlay.Height = 50;
+                    imagePlay.Source = new BitmapImage(
+                        new Uri("Resources/play_song.png", UriKind.Relative));
 
-                    //image.TouchUp += (sender2, eventArgs) =>
+                    Image imageUp = new Image();
+                    imageUp.Width = 50;
+                    imageUp.Height = 50;
+                    imageUp.Source = new BitmapImage(
+                        new Uri("Resources/arrow_up.png", UriKind.Relative));
+
+                    Image imageDown = new Image();
+                    imageDown.Width = 50;
+                    imageDown.Height = 50;
+                    imageDown.Source = new BitmapImage(
+                        new Uri("Resources/arrow_down.png", UriKind.Relative));
+
+                    Canvas.SetLeft(imageDelete, 30);
+                    Canvas.SetTop(imageDelete, 130);
+                    canvasInterface.Children.Add(imageDelete);
+
+                    Canvas.SetLeft(imagePlay, 120);
+                    Canvas.SetTop(imagePlay, 30);
+                    canvasInterface.Children.Add(imagePlay);
+
+                    Canvas.SetLeft(imageUp, 150);
+                    Canvas.SetTop(imageUp, 0);
+                    canvasInterface.Children.Add(imageUp);
+
+                    Canvas.SetLeft(imageDown, 150);
+                    Canvas.SetTop(imageDown, 150);
+                    canvasInterface.Children.Add(imageDown);
+
+                    canvasInterface.Visibility = Visibility.Hidden;
+
+                    int index;
+                    index = playlistPanel.Children.Add(canvas);
+
                     image.MouseUp += (sender2, eventArgs) =>
                     {
-                        //Mouse.Capture(null);
-                        //captured = false;
-                        //Mouse.OverrideCursor = Cursors.Hand;
-                          
-                        player.PlaySong(false, song, true);
-                        fileLecture.Current_index = fileLecture.getIndexSong(song);
-
-                        if (actualSongAnimation != null)
-                            actualSongAnimation.Stop();
-
-                        updateBubble();
-                        
-                        //TODO 
-                        //playlistPanel.Children.
-                    };
-                     
-
-                    //image.TouchDown += (sender2, eventArgs) =>
-                    /*image.MouseDown += (sender2, eventArgs) =>
-                    {
-                        Image i = eventArgs.Source as Image;
-                        Canvas c = (Canvas)i.Parent;
-                        songDragged = playList.getSongById(c.Name);
-
-                        source = (UIElement)i;
-                        sourceSelected = source;
-                        Mouse.Capture(source);
-                        captured = true;
-                        x_shape = Canvas.GetLeft(source);
-                        x_canvas = eventArgs.GetPosition(main_stack).X;
-                        y_shape = Canvas.GetTop(source);
-                        y_canvas = eventArgs.GetPosition(main_stack).Y;
-
-                        //DragDrop.DoDragDrop(i, "Song was Dragged!", DragDropEffects.Copy);
-                    };*/
-
-                    //image.TouchMove += (sender2, eventArgs) =>
-                    /*image.MouseMove += (sender2, eventArgs) =>
-                    {
-                        if (captured)
+                        if (!song.Equals(player.CurrentSong))
                         {
-                            Console.Write("MOVEON");
-                            double x = eventArgs.GetPosition(main_stack).X;
-                            double y = eventArgs.GetPosition(main_stack).Y;
-                            x_shape += x - x_canvas;
-                            Canvas.SetLeft(source, x_shape);
-                            x_canvas = x;
-                            y_shape += y - y_canvas;
-                            Canvas.SetTop(source, y_shape);
-                            y_canvas = y;
-                            DragDrop.DoDragDrop(source, "Song was Dragged!", DragDropEffects.Copy);
-                        }
-                    };*/
+                            clearPlaylist();
 
-                    image.GiveFeedback += (sender2, eventArgs) =>
-                    {
-                        if (eventArgs.Effects == DragDropEffects.Copy)
-                        {
-                            //Mouse.OverrideCursor = imageVinyl;
-                            Mouse.OverrideCursor = null;
-                            //Mouse.OverrideCursor = ((TextBlock)this.Resources["CursorVinyl"]).Cursor;
-                        }
-                        else
-                            eventArgs.UseDefaultCursors = true;
+                            // Initialize a new BlurBitmapEffect that will be applied
+                            // to the Button.
+                            BlurEffect myBlurEffect = new BlurEffect();
 
-                        eventArgs.Handled = true;
+                            // Set the Radius property of the blur. This determines how 
+                            // blurry the effect will be. The larger the radius, the more
+                            // blurring. 
+                            myBlurEffect.Radius = 10;
+
+                            // Set the KernelType property of the blur. A KernalType of "Box"
+                            // creates less blur than the Gaussian kernal type.
+                            myBlurEffect.KernelType = KernelType.Box;
+
+                            canvasInterface.Visibility = Visibility.Visible;
+                            image.Effect = myBlurEffect;
+
+                            imagePlay.MouseUp += (sender3, eventArgs3) =>
+                            {
+                                canvasInterface.Visibility = Visibility.Hidden;
+
+                                player.PlaySong(false, song, true);
+                                fileLecture.Current_index = fileLecture.getIndexSong(song);
+
+                                if (actualSongAnimation != null)
+                                    actualSongAnimation.Stop();
+
+                                updateBubble();
+                            };
+
+                            imageDelete.MouseUp += (sender3, eventArgs3) =>
+                            {
+                                deleteBubble(song);
+                                fileLecture.FileLecture.Remove(song);
+                            };
+
+                            imageDown.MouseUp += (sender3, eventArgs3) =>
+                            {
+                                if (index == fileLecture.FileLecture.Count - 1)
+                                    return;
+
+                                playlistPanel.Children.Remove(canvas);
+                                playlistPanel.Children.Insert(++index, canvas);
+
+                                fileLecture.FileLecture.Remove(song);
+                                fileLecture.FileLecture.Insert(index, song);
+                            };
+
+                            imageUp.MouseUp += (sender3, eventArgs3) =>
+                            {
+                                if (index == 0)
+                                    return;
+
+                                playlistPanel.Children.Remove(canvas);
+                                playlistPanel.Children.Insert(--index, canvas);
+
+                                fileLecture.FileLecture.Remove(song);
+                                fileLecture.FileLecture.Insert(index, song);
+                            };
+                        }
                     };
-
-                    //canvas.SetTop(canvas, NewBody.YPosition);
-                    //canvas.SetLeft(canvas, NewBody.XPosition);
-
-                    playlistPanel.Children.Add(canvas);
                 };
             }
 
@@ -680,13 +703,23 @@ namespace ProjetSurface
             //songDragged = null;  
         }
 
+        public void clearPlaylist()
+        {
+            foreach (Canvas c in playlistPanel.Children)
+            {
+                ((TextBlock)c.Children[2]).Foreground = Brushes.Black;
+                ((TextBlock)c.Children[2]).FontSize = 12;
+
+                Image i = ((Image)c.Children[0]);
+                i.Effect = null;
+
+                ((Canvas)c.Children[1]).Visibility = Visibility.Hidden;
+            }
+        }
+
         public void updateBubble()
         {
-            /*foreach (Canvas c in playlistPanel.Children)
-            {
-                ((TextBlock)c.Children[1]).Foreground = Brushes.Navy;
-                ((TextBlock)c.Children[1]).FontSize = 12;
-            }*/
+            clearPlaylist();
 
             Canvas c1 = (Canvas)playlistPanel.Children[fileLecture.Current_index];
 
