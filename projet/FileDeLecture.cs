@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetSurface
 {
-    class FileDeLecture
+    public class FileDeLecture
     {
         private static FileDeLecture instance;
         private List<Song> fileLecture;

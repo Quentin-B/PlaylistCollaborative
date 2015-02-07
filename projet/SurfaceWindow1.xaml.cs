@@ -55,6 +55,12 @@ namespace ProjetSurface
         private String _serverAddress = "http://nodejs-ihmdj.rhcloud.com:8000";
         private SocketManager _sm;
 
+        public SocketManager _Sock
+        {
+            get { return _sm; }
+            set { _sm = value; }
+        }
+
         //Declare a delegate for Async operation.
         public delegate void AsyncMethodCaller();
 
@@ -216,6 +222,8 @@ namespace ProjetSurface
 
             Song s = fileLecture.Previous();
             player.PlaySong(false, s, true);
+            SongPointer sp = new SongPointer(fileLecture.getCurrentSong().Id, player.getCurrentSongLength(), player.getCurrentSongPos());
+            this._sm.sendmusicstarting(sp);
 
             updateBubble();
 
@@ -234,6 +242,8 @@ namespace ProjetSurface
                     actualSongAnimation.Stop();
                 }
                 player.PlaySong(false, s, true);
+                SongPointer sp = new SongPointer(fileLecture.getCurrentSong().Id, player.getCurrentSongLength(), player.getCurrentSongPos());
+                this._sm.sendmusicstarting(sp);
                 updateBubble();
             }
         }
@@ -269,7 +279,7 @@ namespace ProjetSurface
 
         private void _initializeSocket()
         {
-            this._sm = new SocketManager(this._serverAddress, this);
+            this._sm = new SocketManager(this._serverAddress, this, this.player, this.fileLecture);
         }
 
         private void _initializeSongs()
@@ -472,7 +482,7 @@ namespace ProjetSurface
 
 
             image.MouseDown += (sender, eventArgs) =>
-            //image.MouseDown += (sender, eventArgs) =>
+            //image.TouchDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
@@ -641,6 +651,10 @@ namespace ProjetSurface
                             imagePlay.MouseUp += (sender3, eventArgs3) =>
                             {
                                 canvasInterface.Visibility = Visibility.Hidden;
+
+                                SongPointer sp = new SongPointer(song.Id, player.getCurrentSongLength(), player.getCurrentSongPos());
+                                this._sm.sendmusicstarting(sp);
+                                Console.WriteLine("Song_pointer event emitted");
 
                                 player.PlaySong(false, song, true);
                                 fileLecture.Current_index = fileLecture.getIndexSong(song);
