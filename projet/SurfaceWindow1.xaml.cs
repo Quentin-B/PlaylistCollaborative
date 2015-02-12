@@ -76,15 +76,16 @@ namespace ProjetSurface
 
         private List<Song.Category> filters;
 
-        bool captured = false;
-        double x_shape, x_canvas, y_shape, y_canvas;
-        UIElement source = null;
-        UIElement sourceSelected = null;
-        Image imageVinyl;
-        bool wheelDragged = false;
-        RotateTransform transformWheel;
-        Point origin;
-        Point actualMouse;
+        private bool captured = false;
+        private double x_shape, x_canvas, y_shape, y_canvas;
+        private UIElement source = null;
+        private UIElement sourceSelected = null;
+        private Image imageVinyl;
+        private bool wheelDragged = false;
+        private RotateTransform transformWheel;
+        private Point origin;
+        private  Point actualMouse;
+        private Storyboard storyboardFade;
 
         /// <summary>
         /// Default constructor.
@@ -106,6 +107,7 @@ namespace ProjetSurface
             */
             this.m_Random = new Random();
             this.filters = new List<Song.Category>();
+            this.storyboardFade = new Storyboard();
 
             bubblesList = new Dictionary<string, Bubble>();
             playList = PlayList.Instance;
@@ -521,7 +523,7 @@ namespace ProjetSurface
         {
             #region Fade in
             // Create a storyboard to contain the animations.
-            Storyboard storyboard = new Storyboard();
+            //Storyboard storyboardFade = new Storyboard();
 
             // Create a DoubleAnimation to fade the not selected option control
             DoubleAnimation animation = new DoubleAnimation();
@@ -534,11 +536,11 @@ namespace ProjetSurface
             Storyboard.SetTarget(animation, target);
             Storyboard.SetTargetProperty(animation, new PropertyPath(ScatterViewItem.OpacityProperty));
             // Add the animation to the storyboard
-            storyboard.Children.Add(animation);
+            storyboardFade.Children.Add(animation);
 
             if (suppress)
             {
-                storyboard.Completed += delegate(object sender, EventArgs e)
+                storyboardFade.Completed += delegate(object sender, EventArgs e)
                 {
                     // call UIElementManager to finally hide the element
                     //this.UIElementManager.GetInstance().Hide(target);
@@ -710,9 +712,10 @@ namespace ProjetSurface
                     };
                 };
             }
+           
 
             // Begin the storyboard
-            storyboard.Begin(this, true);
+            storyboardFade.Begin(this, true);
 
             #endregion
 
@@ -928,6 +931,10 @@ namespace ProjetSurface
                 if (!filters.Contains(b.S._Category))
                 {
                     Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
                 }
             }
         }
