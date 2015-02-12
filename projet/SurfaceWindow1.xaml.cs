@@ -868,6 +868,81 @@ namespace ProjetSurface
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.ANNEES_70)
                         {
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                        }
+                    }
+                    break;
+                case 0x6F:
+                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+                    {
+                        // do something with entry.Value or entry.Key
+                        Bubble b = entry.Value;
+                        if (b.S._Category != Song.Category.ANNEES_80)
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                        }
+                    }
+                    break;
+                case 0xD8:
+                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+                    {
+                        // do something with entry.Value or entry.Key
+                        Bubble b = entry.Value;
+                        if (b.S._Category != Song.Category.POP_ROCK)
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                        }
+                    }
+                    break;
+                case 0xDB:
+                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+                    {
+                        // do something with entry.Value or entry.Key
+                        Bubble b = entry.Value;
+                        if (b.S._Category != Song.Category.REGGAE)
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                        }
+                    }
+                    break;
+                case 0xD9:
+                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+                    {
+                        // do something with entry.Value or entry.Key
+                        Bubble b = entry.Value;
+                        if (b.S._Category != Song.Category.TECHNO)
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                        }
+                    }
+                    break;
+                defaut:
+                    break;
+            }
+
+            
+            // At this point, the TagVisualization object has a drop shadow that is getting smaller,
+            // while the interior is fading (because TagRemovedBehavior == TagRemovedBehavior.Fade).
+            // If the tag is put back on the Microsoft Surface screen before LostTagTimeout, the OnGotTag event (above)
+            // occurs, and the TagVisualization receives its original effect.
+        }
+
+        private void OnGotTag(object sender, RoutedEventArgs e)
+        {
+            // Get a reference to the TagVisualization object.
+            TagVisualization tv = (TagVisualization)e.Source;
+            // Apply the original effect.
+            tv.Effect = (Effect)tv.Tag;
+
+            switch (tv.VisualizedTag.Value)
+            {
+                case 0x6E:
+                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+                    {
+                        // do something with entry.Value or entry.Key
+                        Bubble b = entry.Value;
+                        if (b.S._Category != Song.Category.ANNEES_70)
+                        {
                             Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
@@ -912,36 +987,6 @@ namespace ProjetSurface
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.TECHNO)
                         {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
-                    break;
-                defaut:
-                    break;
-            }
-
-            
-            // At this point, the TagVisualization object has a drop shadow that is getting smaller,
-            // while the interior is fading (because TagRemovedBehavior == TagRemovedBehavior.Fade).
-            // If the tag is put back on the Microsoft Surface screen before LostTagTimeout, the OnGotTag event (above)
-            // occurs, and the TagVisualization receives its original effect.
-        }
-
-        private void OnGotTag(object sender, RoutedEventArgs e)
-        {
-            // Get a reference to the TagVisualization object.
-            TagVisualization tv = (TagVisualization)e.Source;
-            // Apply the original effect.
-            tv.Effect = (Effect)tv.Tag;
-
-            switch (tv.VisualizedTag.Value)
-            {
-                case 0x38:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.ANNEES_70) {
                             Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
