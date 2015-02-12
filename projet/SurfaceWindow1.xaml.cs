@@ -868,7 +868,7 @@ namespace ProjetSurface
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.ANNEES_70)
                         {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
                     break;
@@ -879,7 +879,7 @@ namespace ProjetSurface
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.ANNEES_80)
                         {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
                     break;
@@ -890,7 +890,7 @@ namespace ProjetSurface
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.POP_ROCK)
                         {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
                     break;
@@ -901,7 +901,7 @@ namespace ProjetSurface
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.REGGAE)
                         {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
                     break;
@@ -912,7 +912,7 @@ namespace ProjetSurface
                         Bubble b = entry.Value;
                         if (b.S._Category != Song.Category.TECHNO)
                         {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                         }
                     }
                     break;
