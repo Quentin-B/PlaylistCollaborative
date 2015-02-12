@@ -20,8 +20,23 @@
                     <s:TagVisualizationDefinition 
                     Source="annees_70.xaml" 
                     TagRemovedBehavior="Fade"
-                    Value="0x38" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
-
+                    Value="0x6E" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
+                    <s:TagVisualizationDefinition 
+                    Source="annees_80.xaml" 
+                    TagRemovedBehavior="Fade"
+                    Value="0x6F" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
+                    <s:TagVisualizationDefinition 
+                    Source="techno.xaml" 
+                    TagRemovedBehavior="Fade"
+                    Value="0xD9" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
+                    <s:TagVisualizationDefinition 
+                    Source="reggae.xaml" 
+                    TagRemovedBehavior="Fade"
+                    Value="0xDB" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
+                    <s:TagVisualizationDefinition 
+                    Source="pop_rock.xaml"
+                    TagRemovedBehavior="Fade"
+                    Value="0xD8" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
                 </s:TagVisualizer.Definitions>
                 <Grid
                 x:Name="main_grid"
@@ -88,7 +103,7 @@
                                   VerticalScrollBarVisibility="Hidden">
                             <WrapPanel
             x:Name="playlistPanel"
-            Height="1000" 
+            Height="800" 
             Width="200"
             Background="Transparent"/>
                         </ScrollViewer>
@@ -97,12 +112,12 @@
         Orientation="Horizontal">
                             <StackPanel.Resources>
                                 <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Margin" Value="0,0,20,20"/>
+                                    <Setter Property="Margin" Value="0,0,18,18"/>
                                 </Style>
                             </StackPanel.Resources>
                             <Button 
                     x:Name="previousButton"
-                    Height="40" Width="40">
+                    Height="35" Width="35">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Resources/previous.png"/>
@@ -111,7 +126,7 @@
                             </Button>
                             <Button 
                     x:Name="playButton"
-                    Height="40" Width="40">
+                    Height="35" Width="35">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Resources/play.png"/>
@@ -120,7 +135,7 @@
                             </Button>
                             <Button 
                     x:Name="stopButton"
-                    Height="40" Width="40">
+                    Height="35" Width="35">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Resources/stop.png"/>
@@ -129,7 +144,7 @@
                             </Button>
                             <Button 
                     x:Name="nextButton"
-                    Height="40" Width="40">
+                    Height="35" Width="35">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Resources/next.png"/>
