@@ -85,7 +85,6 @@ namespace ProjetSurface
         private RotateTransform transformWheel;
         private Point origin;
         private  Point actualMouse;
-        private Storyboard storyboardFade;
 
         /// <summary>
         /// Default constructor.
@@ -107,7 +106,6 @@ namespace ProjetSurface
             */
             this.m_Random = new Random();
             this.filters = new List<Song.Category>();
-            this.storyboardFade = new Storyboard();
 
             bubblesList = new Dictionary<string, Bubble>();
             playList = PlayList.Instance;
@@ -329,6 +327,7 @@ namespace ProjetSurface
             _newBubble(s6);
             _newBubble(s7);
             _newBubble(s8);
+            _newBubble(s12);
         }
 
         public void _newBubble(Song s)
@@ -527,6 +526,8 @@ namespace ProjetSurface
 
             // Create a DoubleAnimation to fade the not selected option control
             DoubleAnimation animation = new DoubleAnimation();
+
+            Storyboard storyboardFade = new Storyboard();
 
             animation.From = from;
             animation.To = to;
@@ -870,16 +871,16 @@ namespace ProjetSurface
                 case 0x6E:
                     removeFilter(Song.Category.ANNEES_70);
                     break;
-                case 0x6F:
+                case 0xB4:
                     removeFilter(Song.Category.ANNEES_80);
                     break;
                 case 0xD8:
                     removeFilter(Song.Category.POP_ROCK);
                     break;
-                case 0xDB:
+                case 0xC9:
                     removeFilter(Song.Category.REGGAE);
                     break;
-                case 0xD9:
+                case 0xB3:
                     removeFilter(Song.Category.TECHNO);
                     break;
                 defaut:
@@ -905,16 +906,16 @@ namespace ProjetSurface
                 case 0x6E:
                     songFilter(Song.Category.ANNEES_70);
                     break;
-                case 0x6F:
+                case 0xB4:
                     songFilter(Song.Category.ANNEES_80);
                     break;
                 case 0xD8:
                     songFilter(Song.Category.POP_ROCK);
                     break;
-                case 0xDB:
+                case 0xC9:
                     songFilter(Song.Category.REGGAE);
                     break;
-                case 0xD9:
+                case 0xB3:
                     songFilter(Song.Category.TECHNO);
                     break;
                 defaut:
@@ -946,9 +947,13 @@ namespace ProjetSurface
             {
                 // do something with entry.Value or entry.Key
                 Bubble b = entry.Value;
-                if (b.S._Category == c)
+                if ((filters.Count == 0)&&(b.S._Category!=c))
                 {
                     Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                }
+                if ((filters.Count > 0) && b.S._Category == c)
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
                 }
             }
         }

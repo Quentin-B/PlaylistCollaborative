@@ -25,15 +25,15 @@
                     <s:TagVisualizationDefinition 
                     Source="annees_80.xaml" 
                     TagRemovedBehavior="Fade"
-                    Value="0x6F" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
+                    Value="0xB4" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
                     <s:TagVisualizationDefinition 
                     Source="techno.xaml" 
                     TagRemovedBehavior="Fade"
-                    Value="0xD9" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
+                    Value="0xB3" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
                     <s:TagVisualizationDefinition 
                     Source="reggae.xaml" 
                     TagRemovedBehavior="Fade"
-                    Value="0xDB" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
+                    Value="0xC9" OrientationOffsetFromTag="0" PhysicalCenterOffsetFromTag="0,0"/>
                     <s:TagVisualizationDefinition 
                     Source="pop_rock.xaml"
                     TagRemovedBehavior="Fade"
