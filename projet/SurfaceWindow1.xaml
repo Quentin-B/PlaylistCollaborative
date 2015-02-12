@@ -5,8 +5,8 @@
     xmlns:myScrollView="clr-namespace:ProjetSurface"
     Title="ProjetSurface"
     Background="Black"
-    Height="{Binding SystemParameters.PrimaryScreenHeight}" 
-    Width="{Binding SystemParameters.PrimaryScreenWidth}"
+    Height="1080" 
+    Width="1920"
     >
     <Window.Resources>
         <ResourceDictionary>
@@ -65,6 +65,7 @@
 
                     <s:ScatterView  
                     Grid.Column="0" Grid.Row="0"
+                    Height="1080" 
                     x:Name="test_bubble" Cursor="Hand">
                         <s:ScatterView.Background>
                             <ImageBrush x:Name="backgroundScatterView" ImageSource="/Resources/Background-main.jpg"
@@ -85,7 +86,6 @@
 
                     <StackPanel
             Grid.Column="1" Grid.Row="0"
-            Width="200"
             Orientation="Vertical">
                         <StackPanel.Background>
                             <ImageBrush x:Name="backgroundStackPanelPlaylist" ImageSource="/Resources/Background-playlist.jpg"
@@ -98,16 +98,20 @@
                             </VisualBrush.Visual>
                         </VisualBrush>
                     </StackPanel.Background>-->
-                        <myScrollView:ScrollViewerWithTouch x:Name="MyScrollViewer" 
-                            PanningMode="Both">
-                            <WrapPanel
+                        <ScrollViewer x:Name="MyScrollViewer" 
+                            PanningMode="Both"
+                            Height="980"
+                            MinHeight="980"
+                            MaxHeight="980"
+                            ManipulationBoundaryFeedback="OnManipulationBoundaryFeedBack"
+                            VerticalScrollBarVisibility="Hidden">
+                            <StackPanel
             x:Name="playlistPanel"
-            Height="800" 
-            Width="200"
             Background="Transparent"/>
-                        </myScrollView:ScrollViewerWithTouch>
+                        </ScrollViewer>
                         <StackPanel
             Width="200"
+            Height="100"
         Orientation="Horizontal">
                             <StackPanel.Resources>
                                 <Style TargetType="{x:Type Button}">

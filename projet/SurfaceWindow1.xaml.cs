@@ -817,6 +817,11 @@ namespace ProjetSurface
             return null;
         }
 
+        private void OnManipulationBoundaryFeedBack(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            e.Handled = true;
+        }
+
         // This event occurs when a TagVisualization object is added to the visual tree.
         private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {
