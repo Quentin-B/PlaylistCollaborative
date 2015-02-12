@@ -74,6 +74,8 @@ namespace ProjetSurface
 
         private Song songDragged;
 
+        private List<Song.Category> filters;
+
         bool captured = false;
         double x_shape, x_canvas, y_shape, y_canvas;
         UIElement source = null;
@@ -103,6 +105,7 @@ namespace ProjetSurface
             this._sm = new SocketManager("http://localhost:" + this._serverPort.ToString());
             */
             this.m_Random = new Random();
+            this.filters = new List<Song.Category>();
 
             bubblesList = new Dictionary<string, Bubble>();
             playList = PlayList.Instance;
@@ -267,7 +270,7 @@ namespace ProjetSurface
             if (fileLecture.isEmpty())
                 return;
 
-            player.PlaySong(false);
+            player.PlaySong(false, player.CurrentSong);
 
             SongPointer sp = new SongPointer(fileLecture.getCurrentSong().Id, player.getCurrentSongLength(), player.getCurrentSongPos());
             this._sm.sendmusicstarting(sp);
@@ -505,7 +508,7 @@ namespace ProjetSurface
 
                 if (fileLecture.isEmpty())
                 {
-                    //player.LoadSong(song);
+                    player.LoadSong(song);
                 }
 
                 fileLecture.Add(song); 
@@ -862,59 +865,19 @@ namespace ProjetSurface
             switch (tv.VisualizedTag.Value)
             {
                 case 0x6E:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.ANNEES_70)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    removeFilter(Song.Category.ANNEES_70);
                     break;
                 case 0x6F:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.ANNEES_80)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    removeFilter(Song.Category.ANNEES_80);
                     break;
                 case 0xD8:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.POP_ROCK)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    removeFilter(Song.Category.POP_ROCK);
                     break;
                 case 0xDB:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.REGGAE)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    removeFilter(Song.Category.REGGAE);
                     break;
                 case 0xD9:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.TECHNO)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    removeFilter(Song.Category.TECHNO);
                     break;
                 defaut:
                     break;
@@ -937,62 +900,49 @@ namespace ProjetSurface
             switch (tv.VisualizedTag.Value)
             {
                 case 0x6E:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.ANNEES_70)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    songFilter(Song.Category.ANNEES_70);
                     break;
                 case 0x6F:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.ANNEES_80)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    songFilter(Song.Category.ANNEES_80);
                     break;
                 case 0xD8:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.POP_ROCK)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    songFilter(Song.Category.POP_ROCK);
                     break;
                 case 0xDB:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.REGGAE)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    songFilter(Song.Category.REGGAE);
                     break;
                 case 0xD9:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.TECHNO)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    songFilter(Song.Category.TECHNO);
                     break;
                 defaut:
                     break;
+            }
+        }
+
+        private void songFilter(Song.Category c){
+            filters.Add(c);
+            foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+            {
+                // do something with entry.Value or entry.Key
+                Bubble b = entry.Value;
+                if (!filters.Contains(b.S._Category))
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
+                }
+            }
+        }
+
+        private void removeFilter(Song.Category c)
+        {
+            filters.Remove(c);
+            foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+            {
+                // do something with entry.Value or entry.Key
+                Bubble b = entry.Value;
+                if (b.S._Category == c)
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                }
             }
         }
     }

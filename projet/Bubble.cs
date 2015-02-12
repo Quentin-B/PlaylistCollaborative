@@ -100,6 +100,7 @@ namespace ProjetSurface
             text.Foreground = Brushes.White;
             text.TextAlignment = TextAlignment.Center;
             text.Width = canvas.Width;
+            text.IsEnabled = false;
 
             Canvas.SetLeft(text, 0);
             Canvas.SetTop(text, 100);

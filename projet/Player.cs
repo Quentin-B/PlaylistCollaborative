@@ -48,7 +48,6 @@ namespace ProjetSurface
 
         public void LoadSong(Song s)
         {
-            currentSong = s;
             stream = Bass.BASS_StreamCreateFile(s.Location, 0, 0,
                 BASSStream.BASS_SAMPLE_FLOAT);
         }
@@ -67,8 +66,9 @@ namespace ProjetSurface
             Bass.BASS_SetVolume(--volume);
         }
 
-        public void PlaySong(bool loop)
+        public void PlaySong(bool loop, Song s)
         {
+            currentSong = s;
             _mySync = new SYNCPROC(EndSync);
             Bass.BASS_ChannelSetSync(stream, BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME,
                          0, _mySync, 0);
@@ -82,7 +82,6 @@ namespace ProjetSurface
             byteduration = Bass.BASS_ChannelGetLength(stream);
             float seconds = Bass.BASS_ChannelBytes2Seconds(stream, byteduration);
             return seconds;
-            
         }
 
         public float getCurrentSongPos()
@@ -101,7 +100,7 @@ namespace ProjetSurface
                 StopSong();
             }
             LoadSong(s);
-            PlaySong(loop);
+            PlaySong(loop, s);
 
         }
 
