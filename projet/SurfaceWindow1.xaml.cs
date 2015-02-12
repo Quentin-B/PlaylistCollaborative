@@ -482,16 +482,16 @@ namespace ProjetSurface
             stb.Begin(this, true);
 
 
-            image.MouseDown += (sender, eventArgs) =>
-            //image.TouchDown += (sender, eventArgs) =>
+            //image.MouseDown += (sender, eventArgs) =>
+            image.TouchDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;           
             };
 
-            //image.TouchUp += (sender, eventArgs) =>
-            image.MouseUp += (sender, eventArgs) =>
+            image.TouchUp += (sender, eventArgs) =>
+            //image.MouseUp += (sender, eventArgs) =>
             {
                 image.IsEnabled = false;
                 target.Center = target.ActualCenter;

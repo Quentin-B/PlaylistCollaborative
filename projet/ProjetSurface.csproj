@@ -115,10 +115,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bubble.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="FileDeLecture.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayList.cs" />
     <Compile Include="RemoveChildHelper.cs" />
+    <Compile Include="ScrollViewerWithTouch.cs" />
     <Compile Include="SocketManager.cs" />
     <Compile Include="Song.cs" />
     <Compile Include="SongPointer.cs" />
