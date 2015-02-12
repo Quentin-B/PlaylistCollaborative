@@ -187,7 +187,8 @@ namespace ProjetSurface
             //wheelCanvas.TouchMove += (sender, eventArgs) =>
             wheelCanvas.MouseMove += (sender, eventArgs) =>
             {
-                if (wheelDragged == true) {
+                if (wheelDragged == true)
+                {
 
                     actualMouse = Mouse.GetPosition(wheelCanvas);
 
@@ -208,7 +209,7 @@ namespace ProjetSurface
                         }
                     }
                 }
-                
+
             };
         }
 
@@ -629,6 +630,7 @@ namespace ProjetSurface
                     int index;
                     index = playlistPanel.Children.Add(canvas);
 
+                    //image.TouchUp += (sender2, eventArgs) =>
                     image.MouseUp += (sender2, eventArgs) =>
                     {
                         if (!song.Equals(player.CurrentSong))
@@ -651,6 +653,7 @@ namespace ProjetSurface
                             canvasInterface.Visibility = Visibility.Visible;
                             image.Effect = myBlurEffect;
 
+                            //imagePlay.TouchUp += (sender3, eventArgs3) =>
                             imagePlay.MouseUp += (sender3, eventArgs3) =>
                             {
                                 canvasInterface.Visibility = Visibility.Hidden;
@@ -668,12 +671,14 @@ namespace ProjetSurface
                                 updateBubble();
                             };
 
+                            //imageDelete.TouchUp += (sender3, eventArgs3) =>
                             imageDelete.MouseUp += (sender3, eventArgs3) =>
                             {
                                 deleteBubble(song);
                                 fileLecture.FileLecture.Remove(song);
                             };
 
+                            //imageDown.TouchUp += (sender3, eventArgs3) =>
                             imageDown.MouseUp += (sender3, eventArgs3) =>
                             {
                                 if (index == fileLecture.FileLecture.Count - 1)
@@ -686,6 +691,7 @@ namespace ProjetSurface
                                 fileLecture.FileLecture.Insert(index, song);
                             };
 
+                            //imageUp.TouchUp += (sender3, eventArgs3) =>
                             imageUp.MouseUp += (sender3, eventArgs3) =>
                             {
                                 if (index == 0)

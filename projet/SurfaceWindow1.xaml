@@ -98,8 +98,7 @@
                         </VisualBrush>
                     </StackPanel.Background>-->
                         <ScrollViewer x:Name="MyScrollViewer" 
-                                  PanningMode="Both"
-                                  HorizontalScrollBarVisibility="Disabled" 
+                                  HorizontalScrollBarVisibility="Hidden" 
                                   VerticalScrollBarVisibility="Hidden">
                             <WrapPanel
             x:Name="playlistPanel"
