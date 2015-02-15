@@ -74,15 +74,17 @@ namespace ProjetSurface
 
         private Song songDragged;
 
-        bool captured = false;
-        double x_shape, x_canvas, y_shape, y_canvas;
-        UIElement source = null;
-        UIElement sourceSelected = null;
-        Image imageVinyl;
-        bool wheelDragged = false;
-        RotateTransform transformWheel;
-        Point origin;
-        Point actualMouse;
+        private List<Song.Category> filters;
+
+        private bool captured = false;
+        private double x_shape, x_canvas, y_shape, y_canvas;
+        private UIElement source = null;
+        private UIElement sourceSelected = null;
+        private Image imageVinyl;
+        private bool wheelDragged = false;
+        private RotateTransform transformWheel;
+        private Point origin;
+        private  Point actualMouse;
 
         /// <summary>
         /// Default constructor.
@@ -103,6 +105,7 @@ namespace ProjetSurface
             this._sm = new SocketManager("http://localhost:" + this._serverPort.ToString());
             */
             this.m_Random = new Random();
+            this.filters = new List<Song.Category>();
 
             bubblesList = new Dictionary<string, Bubble>();
             playList = PlayList.Instance;
@@ -267,7 +270,7 @@ namespace ProjetSurface
             if (fileLecture.isEmpty())
                 return;
 
-            player.PlaySong(false);
+            player.PlaySong(false, player.CurrentSong);
 
             SongPointer sp = new SongPointer(fileLecture.getCurrentSong().Id, player.getCurrentSongLength(), player.getCurrentSongPos());
             this._sm.sendmusicstarting(sp);
@@ -324,6 +327,7 @@ namespace ProjetSurface
             _newBubble(s6);
             _newBubble(s7);
             _newBubble(s8);
+            _newBubble(s12);
         }
 
         public void _newBubble(Song s)
@@ -482,16 +486,16 @@ namespace ProjetSurface
             stb.Begin(this, true);
 
 
-            image.MouseDown += (sender, eventArgs) =>
-            //image.TouchDown += (sender, eventArgs) =>
+            //image.MouseDown += (sender, eventArgs) =>
+            image.TouchDown += (sender, eventArgs) =>
             {
                 stb.Stop(this);
                 target.Center = target.ActualCenter;
                 eventArgs.Handled = true;           
             };
 
-            //image.TouchUp += (sender, eventArgs) =>
-            image.MouseUp += (sender, eventArgs) =>
+            image.TouchUp += (sender, eventArgs) =>
+            //image.MouseUp += (sender, eventArgs) =>
             {
                 image.IsEnabled = false;
                 target.Center = target.ActualCenter;
@@ -505,7 +509,7 @@ namespace ProjetSurface
 
                 if (fileLecture.isEmpty())
                 {
-                    //player.LoadSong(song);
+                    player.LoadSong(song);
                 }
 
                 fileLecture.Add(song); 
@@ -518,10 +522,12 @@ namespace ProjetSurface
         {
             #region Fade in
             // Create a storyboard to contain the animations.
-            Storyboard storyboard = new Storyboard();
+            //Storyboard storyboardFade = new Storyboard();
 
             // Create a DoubleAnimation to fade the not selected option control
             DoubleAnimation animation = new DoubleAnimation();
+
+            Storyboard storyboardFade = new Storyboard();
 
             animation.From = from;
             animation.To = to;
@@ -531,11 +537,11 @@ namespace ProjetSurface
             Storyboard.SetTarget(animation, target);
             Storyboard.SetTargetProperty(animation, new PropertyPath(ScatterViewItem.OpacityProperty));
             // Add the animation to the storyboard
-            storyboard.Children.Add(animation);
+            storyboardFade.Children.Add(animation);
 
             if (suppress)
             {
-                storyboard.Completed += delegate(object sender, EventArgs e)
+                storyboardFade.Completed += delegate(object sender, EventArgs e)
                 {
                     // call UIElementManager to finally hide the element
                     //this.UIElementManager.GetInstance().Hide(target);
@@ -707,9 +713,10 @@ namespace ProjetSurface
                     };
                 };
             }
+           
 
             // Begin the storyboard
-            storyboard.Begin(this, true);
+            storyboardFade.Begin(this, true);
 
             #endregion
 
@@ -817,6 +824,11 @@ namespace ProjetSurface
             return null;
         }
 
+        private void OnManipulationBoundaryFeedBack(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            e.Handled = true;
+        }
+
         // This event occurs when a TagVisualization object is added to the visual tree.
         private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {
@@ -857,59 +869,19 @@ namespace ProjetSurface
             switch (tv.VisualizedTag.Value)
             {
                 case 0x6E:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.ANNEES_70)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    removeFilter(Song.Category.ANNEES_70);
                     break;
-                case 0x6F:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.ANNEES_80)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                case 0xB4:
+                    removeFilter(Song.Category.ANNEES_80);
                     break;
                 case 0xD8:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.POP_ROCK)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                    removeFilter(Song.Category.POP_ROCK);
                     break;
-                case 0xDB:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.REGGAE)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                case 0xC9:
+                    removeFilter(Song.Category.REGGAE);
                     break;
-                case 0xD9:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.TECHNO)
-                        {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                case 0xB3:
+                    removeFilter(Song.Category.TECHNO);
                     break;
                 defaut:
                     break;
@@ -931,18 +903,58 @@ namespace ProjetSurface
 
             switch (tv.VisualizedTag.Value)
             {
-                case 0x38:
-                    foreach (KeyValuePair<string, Bubble> entry in bubblesList)
-                    {
-                        // do something with entry.Value or entry.Key
-                        Bubble b = entry.Value;
-                        if (b.S._Category != Song.Category.ANNEES_70) {
-                            Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
-                        }
-                    }
+                case 0x6E:
+                    songFilter(Song.Category.ANNEES_70);
+                    break;
+                case 0xB4:
+                    songFilter(Song.Category.ANNEES_80);
+                    break;
+                case 0xD8:
+                    songFilter(Song.Category.POP_ROCK);
+                    break;
+                case 0xC9:
+                    songFilter(Song.Category.REGGAE);
+                    break;
+                case 0xB3:
+                    songFilter(Song.Category.TECHNO);
                     break;
                 defaut:
                     break;
+            }
+        }
+
+        private void songFilter(Song.Category c){
+            filters.Add(c);
+            foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+            {
+                // do something with entry.Value or entry.Key
+                Bubble b = entry.Value;
+                if (!filters.Contains(b.S._Category))
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                }
+            }
+        }
+
+        private void removeFilter(Song.Category c)
+        {
+            filters.Remove(c);
+            foreach (KeyValuePair<string, Bubble> entry in bubblesList)
+            {
+                // do something with entry.Value or entry.Key
+                Bubble b = entry.Value;
+                if ((filters.Count == 0)&&(b.S._Category!=c))
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(0.0f, 1.0f, 1.0f, b.ScatterItem, false)));
+                }
+                if ((filters.Count > 0) && b.S._Category == c)
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => fadeAnimation(1.0f, 0.0f, 1.0f, b.ScatterItem, false)));
+                }
             }
         }
     }
